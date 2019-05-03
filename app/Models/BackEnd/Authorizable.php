@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Models\BackEnd;
-/*
- * A trait to handle authorization based on users permissions for given controller
- */
 use Config;
 trait Authorizable
 {

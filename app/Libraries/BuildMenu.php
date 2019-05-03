@@ -37,7 +37,7 @@ class BuildMenu {
             $name = trim(trans('menu.' . $row->name));
 
             if ($url_selected == $row->id) {
-                $active_open = 'm-menu__item--open m-menu__item--expanded';
+                $active_open = ' m-menu__item--open m-menu__item--expanded';
 
             } elseif($url_selected != $row->id) {
                 $active_open = '';
@@ -50,7 +50,7 @@ class BuildMenu {
                 if ($parent == 0) {
                     $sub = self::build_menu($tree, $row->id, $id, $url_selected);
                     if ($sub === "" && in_array($row->id, $id)) {
-                        $str .= '<li class="m-menu__item ' . (($url == $uri_string) ? 'm-menu__item--active' : '') . '">' . ' <a href="' . $link . '" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon  ' . $row->class_name . '"></i> <span class="m-menu__link-text">' . @$name . '</span> </a>' . '';
+                        $str .= '<li class="m-menu__item ' . (($url == $uri_string) ? ' m-menu__item--active' : '') . '">' . ' <a href="' . $link . '" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon  ' . $row->class_name . '"></i> <span class="m-menu__link-text">' . @$name . '</span> </a>' . '';
                     } else if ($sub !== "" && $sub !== false) {
 
 
@@ -60,9 +60,9 @@ class BuildMenu {
                     if (in_array($row->id, $id)) {
                         $sub = self::build_menu($tree, $row->id, $id, $url_selected);
                         if ($sub === "") {
-                            $str .= '<li class="m-menu__item ' . (($url === $uri_string) ? 'm-menu__item--active' : '') . '" aria-haspopup="true">' . '<a href="' . $link . '" class="m-menu__link "> <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">' . @$name . '</span></a>' . '</li>';
+                            $str .= '<li class="m-menu__item ' . (($url === $uri_string) ? ' m-menu__item--active' : '') . '" aria-haspopup="true">' . '<a href="' . $link . '" class="m-menu__link "> <i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">' . @$name . '</span></a>' . '</li>';
                         } else if ($sub !== "" && $sub !== false) {
-                            $str .= '<li class="m-menu__item ' . (($url === $uri_string) ? 'm-menu__item--active' : '') . '" aria-haspopup="true" m-menu-submenu-toggle="hover">' . '<a href="' . $link . '" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">' . @$name . '</span></a>' . $sub . '</li>';
+                            $str .= '<li class="m-menu__item ' . (($url === $uri_string) ? ' m-menu__item--active' : '') . '" aria-haspopup="true" m-menu-submenu-toggle="hover">' . '<a href="' . $link . '" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">' . @$name . '</span></a>' . $sub . '</li>';
                         }
                     }
                 }

@@ -23,9 +23,9 @@ Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), f
 
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
-    
-  
-    $ArrMenu = ['dashboard' => 'DashBoardController'];
+      $ArrMenu = ['dashboard' => 'DashBoardController',
+                'useraccount' => 'UserController',
+                'rolegroup' => 'RoleController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
        

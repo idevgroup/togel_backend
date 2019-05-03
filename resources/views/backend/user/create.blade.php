@@ -6,7 +6,3 @@
  * and open the template in the editor.
  */
 
-return [
-    'prefix' => _ADMIN_PREFIX_URL,
-    'lengthMenu' => [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
-    ];

@@ -24,6 +24,11 @@ return [
     'messagetemplate' => 'Message Template',
     'ipbloacklist' => 'IP Black List',
     'ipfiter' => 'IP Filter',
-    'dynamicpassword' => 'Dynamic Password'
+    'dynamicpassword' => 'Dynamic Password',
+    'useraccount' => 'User Account',
+    'rolepermission' => 'Role Permission',
+    'rolegroup' => 'Role Group',
+    'user' => 'User',
+    'userlog' => 'User Log'
     
 ];

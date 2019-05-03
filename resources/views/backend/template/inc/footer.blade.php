@@ -65,8 +65,6 @@
 
 <!--end::Page Vendors -->
 
-<!--begin::Page Scripts -->
-<script src="{{asset('backend/assets/app/js/dashboard.js')}}" type="text/javascript"></script>
 
 <!--end::Page Scripts -->
 @stack('javascript') 
