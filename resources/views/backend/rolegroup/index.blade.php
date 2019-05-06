@@ -1,33 +1,22 @@
 @extends('backend.template.main')
-@push('title',trans('trans.Role Group'))
+@push('title',trans('menu.rolegroup'))
 @section('content')
 <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    {{trans('trans.Role Group')}}
+                    {{trans('menu.rolegroup')}}
                 </h3>
             </div>
         </div>
         <div class="m-portlet__head-tools">
-            <ul class="m-portlet__nav">
-                <li class="m-portlet__nav-item">
-                    <a href="#" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air">
-                        <span>
-                            <i class="la la-plus"></i>
-                            <span>New Record</span>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-
+            @include('backend.shared._actionbtn')
         </div>
 
     </div>
     <div class="m-portlet__body">
-      
-          {!! $html->table(['class' => 'table table-striped- table-bordered table-hover table-checkable']) !!}
+          {!! $html->table(['class' => 'table table-striped- table-bordered table-hover table-checkable','id'=>'admin-tbl-zen']) !!}
     </div>
 </div>
 @endsection
@@ -39,12 +28,13 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
    {!! $html->scripts() !!} 
-@include('backend.shared._deleteconfirm', [
-    'entity' => 'usergroup',
-    'vid' => '$(this).data("id")'
-])
-<script>
 
+<script>
+var tbladmin = 'admin-tbl-zen';
 
 </script>
+@include('backend.shared._deleteconfirm', [
+    'entity' => 'rolegroup',
+    'vid' => '$(this).data("id")'
+])
 @endpush

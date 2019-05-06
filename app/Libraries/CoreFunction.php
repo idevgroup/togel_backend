@@ -1,10 +1,10 @@
 <?php
-function _CheckStatus($status){
+function _CheckStatus($status,$id){
     $html = '';
     if($status == 1){
-        $html = '<a href="#" class="btn btn-info m-btn m-btn--icon m-btn--icon-only published"><i class="fa fa-eye"></i></a>';
+        $html = '<a href="javascript:void(0);" class="btn btn-info m-btn m-btn--icon m-btn--icon-only published" data-status="1" data-id="'.$id.'" id="status_'.$id.'"><i class="fa fa-eye"></i></a>';
     }else{
-        $html = '<a href="#" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only published"><i class="fa fa-eye-slash"></i></a>';
+        $html = '<a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only published" data-status="0" data-id="'.$id.'" id="status_'.$id.'" ><i class="fa fa-eye-slash"></i></a>';
     }
     return $html;
 }

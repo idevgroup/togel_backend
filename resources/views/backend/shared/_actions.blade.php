@@ -6,11 +6,12 @@
     <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="{{ url(_ADMIN_PREFIX_URL)}}/{{ $entity }}/{{ $id }}/edit">
             <i class="la la-edit"></i> Edit</a>
-        <a class="dropdown-item delete_confirm" data-id="{{ $id }}" href="#">
+        <a class="dropdown-item delete_action" data-id="{{ $id }}" href="javascript:void(0);">
             <i class="la la-times-circle"></i>Delete
         </a>
-        <a class="dropdown-item" href="#">
-            <i class="la la-trash-o"></i>Trash</a>
+        <a class="dropdown-item move-action" href="javascript:void(0);">
+            <i class="la la-trash-o"></i>Trash
+        </a>
     </div>
 </span>
 

@@ -21,6 +21,7 @@ Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), f
     });
 });
 
+Auth::routes(['register' => true]);
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
       $ArrMenu = ['dashboard' => 'DashBoardController',
@@ -28,11 +29,9 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
                 'rolegroup' => 'RoleController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
-       
+       Route::post("{$key}/status","{$value}@checkStatus")->name($key.".status");
+       Route::post("{$key}/multstatus","{$value}@checkMultiple")->name($key.".multstatus");
     }
     
 });
-
-Auth::routes(['register' => true]);
-
 Route::get('/home', 'HomeController@index')->name('home');

@@ -10,3 +10,8 @@
 .m-brand__logo-wrapper h3{
     color: #fff;
 }
+.required:after {
+    color: #e32;
+    content: ' *';
+    display: inline;
+}

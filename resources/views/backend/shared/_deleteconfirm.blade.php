@@ -1,135 +1,141 @@
-<script src="{{asset('backend/assets/js/jquery.gritter.js')}}"></script>
+<script type="text/javascript">
+    $(document).on('click', '.delete_action', function (e) {
 
-<script>
-$(document).on('click', '.delete_confirm', function (e) {
-
-    var Id = {!! $vid !!} ;
-    var parent = $(this).parent("td").parent("tr");
-    swal({
-        title: 'Are you sure?',
-        html: "Are yous sure wanted to delete it?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        showLoaderOnConfirm: true,
-
-        preConfirm: function () {
-            return new Promise(function (resolve) {
-                $.ajax({
-                    url: '{{ url(Config::get("sysconfig.prefix")."/".$entity) }}/' + Id,
-                    type: 'POST',
-
-                    data: {
-                        "id": Id,
-                        "_method": 'DELETE',
-                        "_token": '{{ csrf_token() }}',
-                    },
-                    dataType: 'json'
-                }).done(function (response) {
-                    if (response.status === 'success' || response.status === 'info') {
-                        parent.fadeOut('slow');
-                    }
-                    swal({
-                        title: response.title,
-                        html: response.message,
-                        type: response.status,
-                        allowOutsideClick: false
-                    });
-
-                })
-                        .fail(function () {
-                            swal('Oops...', 'Something went wrong with ajax !', 'error');
+        var Id = {!! $vid !!}
+        ;
+        // var parent = $(this).parent("td").parent("tr");
+        swal({
+            title: 'Are you sure?',
+            html: "Are yous sure wanted to delete it?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    $.ajax({
+                        url: '{{ url(Config::get("sysconfig.prefix")."/".$entity) }}/' + Id,
+                        type: 'POST',
+                        data: {
+                            "id": Id,
+                            "_method": 'DELETE',
+                            "_token": $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        dataType: 'json'
+                    }).done(function (response) {
+                        if (response.status === 'success' || response.status === 'info') {
+                            //parent.fadeOut('slow');
+                            $('#' + response.id).fadeOut('slow');
+                        }
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false
                         });
-            });
-        },
-        allowOutsideClick: false
-    });
-    e.preventDefault();
-});
 
-
-function changestatus(id) {
-    value = parseInt($('#status_' + id).val());
-    if (value === 1) {
-        status = 0;
-    } else {
-        status = 1;
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: "{{url(Config::get('sysconfig.prefix').'/'.$entity)}}/status",
-        data: {
-            '_token': '{{ csrf_token() }}',
-            'status': status,
-            'id': id
-        },
-        success: function (data) {
-            if (data.status) {
-                $('#status_' + id).val(data.status);
-                if (data.status === '1') {
-                    text = "The record has published";
-                    class_name = "gritter-success";
-                } else {
-                    text = "The record hasn't published";
-                    class_name = "gritter-warning";
-                }
-                $.gritter.add({
-                    // (string | mandatory) the heading of the notification
-                    title: 'Notification !!!',
-                    // (string | mandatory) the text inside the notification
-                    text: text,
-                    class_name: class_name
+                    }).fail(function () {
+                        swal('Oops...', 'Something went wrong with ajax !', 'error');
+                    });
                 });
-
-            }
-
-        }
-
+            },
+            allowOutsideClick: false
+        });
+        e.preventDefault();
     });
 
-}
-
-function changefrontend(id){
-     value = parseInt($('#front_' + id).val());
-    if (value === 1) {
-        status = 0;
-    } else {
-        status = 1;
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: "{{url(Config::get('sysconfig.prefix').'/'.$entity)}}/is_featured",
-        data: {
-            '_token': '{{ csrf_token() }}',
-            'isfeatured': status,
-            'id': id
-        },
-        success: function (data) {
-            if (data.status) {
-                $('#status_' + id).val(data.status);
-                if (data.status === '1') {
-                    text = "The record has published to home page";
-                    class_name = "gritter-success"
-                } else {
-                    text = "The record hasn't published to home page";
-                    class_name = "gritter-warning"
+    $("body").delegate('.published', 'click', function (e) {
+        var status = $(this).data('status');
+        var id = $(this).data('id');
+        $.ajax({
+            url: "{{url(Config::get('sysconfig.prefix').'/'.$entity)}}/status",
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'status': status,
+                'id': id
+            },
+            success: function (data) {
+                if (data.status === 0) {
+                    notifytype = 'danger';
+                    notifyicon = 'la la-warning';
+                    notifytitle = "{{trans('trans.unpublishedbtn')}}";
+                } else if (data.status === 1) {
+                    notifytype = 'success';
+                    notifyicon = 'la la-info-circle';
+                    notifytitle = "{{trans('trans.publishedbtn')}}";
                 }
-                $.gritter.add({
-                    // (string | mandatory) the heading of the notification
-                    title: 'Notification !!!',
-                    // (string | mandatory) the text inside the notification
-                    text: text,
-                    class_name: class_name
+                $.notify({
+                    title: notifytitle,
+                    // icon: notifyicon,
+                    message: data.message
+                }, {
+                    type: notifytype
                 });
-
+                $('#action_' + data.id).html(data.html);
             }
-
-        }
-
+        });
     });
-}
+
+    $('#'+tbladmin).on("change", ".m-group-checkable", function () {
+        var e = $(this).closest("table").find("td:first-child .m-checkable"), a = $(this).is(":checked");
+        $(e).each(function () {
+            a ? ($(this).prop("checked", !0), $(this).closest("tr").addClass("active")) : ($(this).prop("checked", !1), $(this).closest("tr").removeClass("active"))
+        }
+        )
+    });
+    $('#'+tbladmin).on("change", "tbody tr .m-checkbox", function () {
+        $(this).parents("tr").toggleClass("active");
+    });
+    $("body").delegate('#active-record,#unactive-record', 'click', function (e) {
+        var status = $(this).data('status');
+        if(status === 1){
+            message = 'Are yous sure wanted to active?';
+        }else{
+            message = 'Are yous sure wanted to unactive?';
+        }
+        swal({
+            title: 'Are you sure?',
+            html: message,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, active it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    var checked = [];
+                    $.each($("input[name='cbo_selected']:checked"), function () {
+                        checked.push($(this).val());
+                    });
+                    var strId = checked.join(',');
+                    $.ajax({
+                        url: "{{url(Config::get('sysconfig.prefix').'/'.$entity)}}/multstatus",
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            'checkedid': strId,
+                            'status': status
+                        }
+
+                    }).done(function (response) {
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false
+                        });
+                      window.LaravelDataTables[tbladmin].ajax.reload();
+                    }).fail(function () {
+                        swal('Oops...', 'Something went wrong with ajax !', 'error');
+                    });
+                });
+            }
+        });
+    });
 </script>

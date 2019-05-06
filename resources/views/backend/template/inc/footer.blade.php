@@ -64,9 +64,18 @@
 <script src="{{asset('backend/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}" type="text/javascript"></script>
 
 <!--end::Page Vendors -->
+      
+        <script type="text/javascript">
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        </script>
 
 
 <!--end::Page Scripts -->
+@include('sweet::alert')
 @stack('javascript') 
 </body>
 

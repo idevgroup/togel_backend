@@ -9,10 +9,8 @@ use Auth;
 class BuildMenu {
 
     static function admin_menu() {
-        $permissionMenu = Auth::user()->roles->pluck('menu_access')->first();
-
+        $permissionMenu = Auth::user()->roles()->pluck('menu_access')->first();
         $list_menu = UserMenu::where('state', '1')->orderBy('ordering','ASC')->get();
-        //dd($list_menu);
         $uri_string = '/'.Request::segment(2);
         $arr_menu_id = array();
         $getIdMenu = '';

@@ -26,6 +26,9 @@
         </div>
          <!-- END: Subheader -->
         <div class="m-content">
+            <div id="zen-alert-sms">
+                
+            </div>
             @yield('content')
         </div>
 <!-- end:: Body -->

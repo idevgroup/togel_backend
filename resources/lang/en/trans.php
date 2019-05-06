@@ -2,5 +2,10 @@
 
 return[
     'Dashboard'=> 'Dashboard',
-    'Role Group' => 'Role Group'
+    'newbtn' => 'New',
+    'removebtn' => 'Remove',
+    'unpublishedbtn' => 'Unactive',
+    'publishedbtn' => 'Active',
+    'create'=> 'Create',
+    'edit' => 'Edit'
 ];

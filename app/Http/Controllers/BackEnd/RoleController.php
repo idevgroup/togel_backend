@@ -29,8 +29,8 @@ class RoleController extends Controller {
                         $entity = 'rolegroup';
                         return view('backend.shared._actions', compact("id", "entity"));
                     })->editColumn('name', '<a href="' . url(Config::get('sysconfig.prefix') . '/rolegroup') . '/{{ $id }}/edit" >{{ $name }}</a>')->rawColumns(['name', 'action', 'check','status'])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
-                    <input type="checkbox" name="cbo_selected[]" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->editColumn('status','{!!_CheckStatus($status)!!}')->addIndexColumn();
+                    <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
+                    </label>')->editColumn('status','<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowId('id_{{$id}}')->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
@@ -38,7 +38,7 @@ class RoleController extends Controller {
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
                     ['data' =>'status', 'name' => 'status', 'title' => 'Status',"orderable" => false, "searchable" => false, 'width' => '40'],
-                    ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
+                    ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '40'],
                 ])->parameters([
             'order' => [
                 1,
@@ -64,7 +64,7 @@ class RoleController extends Controller {
             }
         }
 
-        return view('backend.rolegroup.add', compact('arrMenu'));
+        return view('backend.rolegroup.create')->with('arrMenu',$arrMenu);
     }
 
     /**
@@ -75,15 +75,16 @@ class RoleController extends Controller {
      */
     public function store(Request $request) {
         $this->validate($request, [
-            'txtname' => 'bail|required|min:2',
+            'rolename' => 'bail|required|min:2',
             'menu' => 'required|min:1',
         ]);
         $role = new Role;
-        $role->name = $request->txtname;
+        $role->name = $request->rolename;
         $role->guard_name = 'web';
-        $role->menu_access = implode(',', $request->menu);
+        $role->menu_access = '1,'.implode(',', $request->menu);
+        $role->status = ($request->has('status')==true)?1:0;
         $role->save();
-        \Alert::success('User group has been added successfully !!!', 'Success');
+        \Alert::success('Role group has been added successfully !!!', 'Success');
 
         return redirect(Config::get('sysconfig.prefix') . '/rolegroup');
     }
@@ -115,7 +116,10 @@ class RoleController extends Controller {
                 $arrMenu[trans("menu.$row->name")][$rowchild->id] = trans("menu.$rowchild->name");
             }
         }
-        return view('backend.rolegroup.edit', compact('qSelect', 'menuaccess', 'arrMenu'));
+        return view('backend.rolegroup.edit')
+                ->with('qSelect',$qSelect)
+                ->with('menuaccess',$menuaccess)
+                ->with('arrMenu',$arrMenu);
     }
 
     /**
@@ -127,15 +131,16 @@ class RoleController extends Controller {
      */
     public function update(Request $request, $id) {
         $this->validate($request, [
-            'txtname' => 'bail|required|min:2',
+            'rolename' => 'bail|required|min:2',
             'menu' => 'required|min:1',
         ]);
         $role = Role::find($id);
-        $role->name = $request->txtname;
+        $role->name = $request->rolename;
         $role->guard_name = 'web';
         $role->menu_access = '1,' . implode(',', $request->menu);
+        $role->status = ($request->has('status')==true)?1:0;
         $role->save();
-        \Alert::success('User group has been updated successfully !!!', 'Success');
+        \Alert::success('Role group has been updated successfully !!!', 'Success');
         return redirect(Config::get('sysconfig.prefix') . '/rolegroup');
     }
 
@@ -147,7 +152,32 @@ class RoleController extends Controller {
      */
     public function destroy($id) {
         Role::find($id)->delete();
-        return response()->json(['title' => 'Success', 'message' => 'User group has been deleted ', 'status' => 'success']);
+        return response()->json(['title' => 'Success', 'message' => 'User group has been deleted ', 'status' => 'success','id' => 'id_'.$id]);
+    }
+    public function checkStatus(Request $request){
+        $status = $request->status;
+        $id = $request->id;
+        if($status =='1'){
+            $status = 0;
+        }elseif($status =='0'){
+            $status = 1;
+        }
+        $update = Role::find($id);
+        $update->status = $status;
+        $update->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => 'Role group has been updated', 'status' => $status,'id' => $id,'html' => $html]);
+    }
+    public function checkMultiple(Request $request){
+         $id = explode(',', $request->input('checkedid'));
+         $status = $request->input('status');
+         $update = Role::whereIn('id', $id)->update(['status' => $status]);
+         if($status == 1){
+              return response()->json(['title' => 'Success', 'message' => 'Role group has been actived ', 'status' => 'success']);
+         }else{
+              return response()->json(['title' => 'Success', 'message' => 'Role group has been unactive ', 'status' => 'warning']);
+         }
+        
     }
 
 }
