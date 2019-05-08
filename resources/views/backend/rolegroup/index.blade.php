@@ -1,7 +1,7 @@
 @extends('backend.template.main')
 @push('title',trans('menu.rolegroup'))
 @section('content')
-<div class="m-portlet m-portlet--mobile">
+<div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
@@ -34,7 +34,7 @@ var tbladmin = 'admin-tbl-zen';
 
 </script>
 @include('backend.shared._deleteconfirm', [
-    'entity' => 'rolegroup',
+    'entity' => 'rolegroups',
     'vid' => '$(this).data("id")'
 ])
 @endpush

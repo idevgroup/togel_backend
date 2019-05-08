@@ -188,10 +188,7 @@
                                 <div class="m-dropdown__wrapper">
                                     <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
                                     <div class="m-dropdown__inner">
-                                        <div class="m-dropdown__header m--align-center" style="background: url(misc/quick_actions_bg.jpg); background-size: cover;">
-                                            <span class="m-dropdown__header-title">Quick Actions</span>
-                                            <span class="m-dropdown__header-subtitle">Shortcuts</span>
-                                        </div>
+                                     
                                         <div class="m-dropdown__body m-dropdown__body--paddingless">
                                             <div class="m-dropdown__content">
                                                 <div class="data" data="false" data-height="380" data-mobile-height="200">

@@ -27,7 +27,9 @@
                     }).done(function (response) {
                         if (response.status === 'success' || response.status === 'info') {
                             //parent.fadeOut('slow');
-                            $('#' + response.id).fadeOut('slow');
+                           // $('#' + response.id).fadeOut('slow');
+                           // window.LaravelDataTables[tbladmin].ajax.reload();
+                            window.LaravelDataTables[tbladmin].draw();
                         }
                         swal({
                             title: response.title,
@@ -130,7 +132,8 @@
                             type: response.status,
                             allowOutsideClick: false
                         });
-                      window.LaravelDataTables[tbladmin].ajax.reload();
+                     // window.LaravelDataTables[tbladmin].ajax.reload();
+                      window.LaravelDataTables[tbladmin].draw();
                     }).fail(function () {
                         swal('Oops...', 'Something went wrong with ajax !', 'error');
                     });

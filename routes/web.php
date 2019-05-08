@@ -17,16 +17,17 @@ Route::get('/', function () {
 
 Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
     Route::get(_ADMIN_PREFIX_URL, function() {
-        return redirect(_ADMIN_PREFIX_URL . '/dashboard');
+        return redirect(_ADMIN_PREFIX_URL . '/dashboards');
     });
 });
 
 Auth::routes(['register' => true]);
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
-      $ArrMenu = ['dashboard' => 'DashBoardController',
-                'useraccount' => 'UserController',
-                'rolegroup' => 'RoleController'];
+      $ArrMenu = ['dashboards' => 'DashBoardController',
+                'useraccounts' => 'UserController',
+                'rolegroups' => 'RoleController',
+                'rolepermissions' => 'RolePermissionController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
        Route::post("{$key}/status","{$value}@checkStatus")->name($key.".status");

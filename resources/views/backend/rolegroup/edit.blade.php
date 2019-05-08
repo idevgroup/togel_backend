@@ -2,7 +2,7 @@
 @push('title',trans('menu.rolegroup').'-'.trans('trans.create'))
 @section('content')
 <div class="m-portlet m-portlet--mobile">
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/rolegroup/'.$qSelect->id),'class' =>'m-form m-form--fit m-form--label-align-right','method' => 'PATCH'])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/rolegroups/'.$qSelect->id),'class' =>'m-form m-form--fit m-form--label-align-right','method' => 'PATCH'])!!}
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">

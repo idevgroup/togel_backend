@@ -22,13 +22,13 @@ return [
     'transactionlimitation' => 'Transaction Limitation',
     'setting' => 'Home Setting',
     'messagetemplate' => 'Message Template',
-    'ipbloacklist' => 'IP Black List',
+    'ipblacklist' => 'IP Black List',
     'ipfiter' => 'IP Filter',
     'dynamicpassword' => 'Dynamic Password',
     'useraccount' => 'User Account',
     'rolepermission' => 'Role Permission',
     'rolegroup' => 'Role Group',
-    'user' => 'User',
+    'user' => 'User Account',
     'userlog' => 'User Log'
     
 ];

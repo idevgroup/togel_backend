@@ -15,3 +15,6 @@
     content: ' *';
     display: inline;
 }
+.m-form label{
+    font-weight: 600;
+}

@@ -7,5 +7,8 @@ return[
     'unpublishedbtn' => 'Unactive',
     'publishedbtn' => 'Active',
     'create'=> 'Create',
-    'edit' => 'Edit'
+    'edit' => 'Edit',
+    'btnsave' => 'Save',
+    'btnrefresh' => 'Clear',
+    'btnapply' => 'Apply'
 ];
