@@ -9,18 +9,17 @@ use App\Models\BackEnd\Role;
 use App\Models\BackEnd\UserMenu;
 use App\Models\BackEnd\Permission;
 use App\Models\BackEnd\Authorizable;
-class RolePermissionController extends Controller
-{
-    use Authorizable;
+class RolePermissionController extends Controller {
+     use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-       $roles = Role::where('status',1)->pluck('name', 'id')->prepend('Select Role','');
-        return view('backend.rolepermission.index')->with('roles',$roles);
+    public function index() {
+        $roles = Role::where('status', 1)->pluck('name', 'id')->prepend('Select Role', '');
+        return view('backend.rolepermission.index')->with('roles', $roles);
     }
 
     /**
@@ -28,8 +27,7 @@ class RolePermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -39,8 +37,7 @@ class RolePermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
@@ -50,21 +47,20 @@ class RolePermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $getRole = Role::findOrFail($id);
         $arrRoleId = explode(',', $getRole->menu_access);
-        $getMenuAccess = UserMenu::whereIn('id',$arrRoleId)->where('state',1)->get();
-        $getAllPermission =new Permission;
+        $getMenuAccess = UserMenu::whereIn('id', $arrRoleId)->where('state', 1)->get();
+        $getAllPermission = new Permission;
         $arrPermission = [];
-        foreach($getMenuAccess as $list){
+        foreach ($getMenuAccess as $list) {
             $getUrl = trim($list->url);
-            $ltrim = ltrim($getUrl,'/');
-            $getPermission = $getAllPermission->where('name','LIKE','%'.$ltrim)->pluck('name','id');
-            $arrPermission[trans('menu.'.$list->name)] = $getPermission;
+            $ltrim = ltrim($getUrl, '/');
+            $getPermission = $getAllPermission->where('name', 'LIKE', '%' . $ltrim)->pluck('name', 'id');
+            $arrPermission[trans('menu.' . $list->name)] = $getPermission;
         }
-        $viewRender = view('backend.rolepermission.permissionlist', compact('arrPermission','getRole'))->render();
-         return response()->json(['permisionHtml' => $viewRender]);
+        $viewRender = view('backend.rolepermission.permissionlist', compact('arrPermission', 'getRole'))->render();
+        return response()->json(['permisionHtml' => $viewRender]);
     }
 
     /**
@@ -73,8 +69,7 @@ class RolePermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -85,13 +80,12 @@ class RolePermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-       if($role = Role::findOrFail($id)) {
+    public function update(Request $request, $id) {
+        if ($role = Role::findOrFail($id)) {
             $permissions = $request->get('permissions', []);
-            $role->syncPermissions($permissions); 
-           return response()->json(['title' => 'Success', 'message' => 'Role permission has been updated ', 'status' => 'success']);
-       }
+            $role->syncPermissions($permissions);
+            return response()->json(['title' => 'Success', 'message' => 'Role permission has been updated ', 'status' => 'success']);
+        }
     }
 
     /**
@@ -100,8 +94,8 @@ class RolePermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

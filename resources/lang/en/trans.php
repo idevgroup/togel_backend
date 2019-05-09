@@ -10,5 +10,8 @@ return[
     'edit' => 'Edit',
     'btnsave' => 'Save',
     'btnrefresh' => 'Clear',
-    'btnapply' => 'Apply'
+    'btnapply' => 'Apply',
+    'btnsave&close' => 'Save & Close',
+    'btnsave&new' => 'Save & New',
+    'btnback'   => 'Back'
 ];

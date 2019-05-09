@@ -29,6 +29,8 @@ return [
     'rolepermission' => 'Role Permission',
     'rolegroup' => 'Role Group',
     'user' => 'User Account',
-    'userlog' => 'User Log'
+    'userlog' => 'User Log',
+    'membermanage' => 'Member Management',
+    'members' => 'Members'
     
 ];

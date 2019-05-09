@@ -1,12 +1,12 @@
 @extends('backend.template.main')
-@push('title',trans('menu.rolegroup'))
+@push('title',trans('menu.category'))
 @section('content')
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    {{trans('menu.rolegroup')}}
+                    {{trans('menu.category')}}
                 </h3>
             </div>
         </div>
@@ -19,8 +19,8 @@
           {!! $html->table(['class' => 'table table-striped- table-bordered table-hover table-checkable','id'=>'admin-tbl-zen']) !!}
     </div>
 </div>
-
 @endsection
+
 @push('style')
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
@@ -35,7 +35,7 @@ var tbladmin = 'admin-tbl-zen';
 
 </script>
 @include('backend.shared._deleteconfirm', [
-    'entity' => 'rolegroups',
+    'entity' => 'categories',
     'vid' => '$(this).data("id")'
 ])
 @endpush

@@ -21,7 +21,7 @@
             {!!Form::label('rolename','Role Name',['class' => 'col-2 col-form-label required'])!!}
             <div class="col-5">
                 {!!Form::text('rolename',old('rolename'),['class' => 'form-control m-input'])!!}
-                @if ($errors->has('rolename')) <p class="help-block">{{ $errors->first('rolename') }}</p> @endif
+                @if ($errors->has('rolename')) <p class="form-control-feedback">{{ $errors->first('rolename') }}</p> @endif
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('rolename')) has-danger @endif">

@@ -1,0 +1,7 @@
+Database Connection 
+
+server host: 192.168.1.185
+database name: zentogel_newedtion
+username : idevtogel
+password: Idev@123
+
