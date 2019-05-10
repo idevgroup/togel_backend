@@ -1,7 +1,7 @@
 @extends('backend.template.main')
 @push('title',trans('menu.category').'-'.trans('trans.create'))
 @section('content')
-{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/categories'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form'])!!}
+{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/categories'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
     <div class="m-portlet__head" style="">
@@ -35,9 +35,9 @@
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('parent','Is Parent',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('isparent','Is Parent',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::select('parent',$get_parent,old('parent'),['class'=>'form-control m-input'])!!}
+                {!!Form::select('isparent',$get_parent,old('isparent'),['class'=>'form-control m-input'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
@@ -58,18 +58,20 @@
         <div class="form-group m-form__group row">
             {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                <span class="m-switch m-switch--icon m-switch--accent">
+               <!-- <span class="m-switch m-switch--icon m-switch--accent">
                     <label>
                         <input type="checkbox" value="0" name="status">
                         <span></span>
                     </label>
-                </span>
+                </span>-->
+                <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
+
             </div>
         </div>
         <div class="form-group m-form__group row">
             {!!Form::label('metakey','Meta Key',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::text('txtmetakey',old('txtmetakey'),['class' => 'form-control m-input','id' => 'metakeyword'])!!}
+                {!!Form::text('txtmetakey',old('txtmetakey'),['class' => 'form-control m-input','id' => 'metakeyword','data-role'=> 'tagsinput'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row">
@@ -85,15 +87,42 @@
 @endsection
 @push('style')
 <link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}" />
+<link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}" />
+<style>
+    .bootstrap-tagsinput .badge {
+        margin: 2px 2px;
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+    .bootstrap-tagsinput .badge [data-role="remove"] {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #99334a;
+}
+    .bootstrap-tagsinput .badge [data-role="remove"]:after {
+        content: "×";
+        padding: 0px 4px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        font-size: 14px;
+    }
+</style>
 @endpush
 @push('javascript')
 
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
+<script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
 {!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}
 @include('backend.shared._selectimg',['selectElement' => '#banner'])
 @include('backend.shared._tinymce',['elements' => '.cms-editor'])
 <script type="text/javascript">
 $('#name').furl({id: 'slug', seperate: '-'});
+var BootstrapSwitch = {init: function () {
+        $("[data-switch=true]").bootstrapSwitch()
+    }};
+jQuery(document).ready(function () {
+    BootstrapSwitch.init()
+});
 </script>
 @endpush

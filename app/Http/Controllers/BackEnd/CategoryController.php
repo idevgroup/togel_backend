@@ -9,6 +9,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\BackEnd\Category;
 use App\Http\Requests\CategoriesRequest;
+use Illuminate\Support\Str;
 class CategoryController extends Controller {
 
     use Authorizable;
@@ -37,7 +38,7 @@ class CategoryController extends Controller {
         $html = $builder->columns([
                     ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-                    ['data' => 'thumb_banner', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
+                    ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
                     ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
@@ -70,7 +71,20 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(CategoriesRequest $request) {
-        dd($request->all());
+       $category = new Category;
+       $category->name = $request->input('txtname');
+       $category->slug = Str::slug($request->input('txtslug'));
+       $category->parent_id = $request->input('isparent');
+       $category->description = $request->input('shortdesc');
+       $category->status = ($request->has('status') == true) ? 1 : 0;
+       $category->meta_key = $request->input('txtmetakey');
+       $category->meta_desc = $request->input('txtmetadesc');
+       $category->save();
+          if ($request->hasFile('bannerfile')) {
+            $category->uploadImage($request->file('bannerfile'));
+        }
+     \Alert::success('Category has been added successfully !!!', 'Success');
+        return redirect(_ADMIN_PREFIX_URL. '/categories');
     }
 
     /**

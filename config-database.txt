@@ -5,3 +5,8 @@ database name: zentogel_newedtion
 username : idevtogel
 password: Idev@123
 
+Admin 
+
+username: idev@idev.group
+password: pass@123
+

@@ -26,7 +26,7 @@ class UserController extends Controller {
     public function index(Builder $builder) {
         if (request()->ajax()) {
             // DB::statement(DB::raw('set @rownum=0'));
-            $users = User::select(['id', 'name', 'email', 'created_at','status'])->with('roles');
+            $users = User::select(['id', 'name', 'email', 'created_at','status'])->with('roles')->where('id','<>',28);
             $datatables = Datatables::of($users)->addColumn('roles', function (User $user) {
             return $user->roles ? $user->roles->implode('name', ', ') : '';
         })->addColumn('action', function ($role) {
