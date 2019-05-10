@@ -10,6 +10,7 @@ use Yajra\DataTables\Html\Builder;
 use App\Models\BackEnd\Category;
 use App\Http\Requests\CategoriesRequest;
 use Illuminate\Support\Str;
+
 class CategoryController extends Controller {
 
     use Authorizable;
@@ -20,18 +21,19 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Builder $builder) {
+
         if (request()->ajax()) {
-            $category = Category::select(['id', 'name', 'slug', 'banner', 'thumb', 'icon_class', 'status', 'image_view'])->orderBy('ordering', 'ASC')->orderBy('id', 'DESC');
+            $category = Category::getAllRecord(0);
             $datatables = Datatables::of($category)->addColumn('action', function ($category) {
                                 $id = $category->id;
                                 $entity = 'categories';
                                 return view('backend.shared._actions', compact("id", "entity"));
-                            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL. '/categories') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small>Slug: {{$slug}}</small>')
+                            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/categories') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small>Slug: {{$slug}}</small>')
                             ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                         'data-id' => '{{$id}}'
-                    ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                    ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb_banner', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
 
@@ -43,10 +45,6 @@ class CategoryController extends Controller {
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
                 ])->parameters([
-            'order' => [
-                1,
-                'ASC'
-            ],
             'lengthMenu' => \Config::get('sysconfig.lengthMenu')
         ]);
 
@@ -59,9 +57,9 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-         $get_parent = Category::where('parent_id',0)->pluck('name','id')->prepend('Is parent', '0')->all();
-         
-         return view('backend.catalogs.category.create')->with('get_parent',$get_parent);
+        $get_parent = Category::where('parent_id', 0)->where('status', 1)->pluck('name', 'id')->prepend('Is parent', '0')->all();
+
+        return view('backend.catalogs.category.create')->with('get_parent', $get_parent);
     }
 
     /**
@@ -71,20 +69,25 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(CategoriesRequest $request) {
-       $category = new Category;
-       $category->name = $request->input('txtname');
-       $category->slug = Str::slug($request->input('txtslug'));
-       $category->parent_id = $request->input('isparent');
-       $category->description = $request->input('shortdesc');
-       $category->status = ($request->has('status') == true) ? 1 : 0;
-       $category->meta_key = $request->input('txtmetakey');
-       $category->meta_desc = $request->input('txtmetadesc');
-       $category->save();
-          if ($request->hasFile('bannerfile')) {
+
+        $category = new Category;
+        $category->name = $request->input('txtname');
+        $category->slug = Str::slug($request->input('txtslug'));
+        $category->parent_id = $request->input('isparent');
+        $category->description = $request->input('shortdesc');
+        $category->status = ($request->has('status') == true) ? 1 : 0;
+        $category->meta_key = $request->input('txtmetakey');
+        $category->meta_desc = $request->input('txtmetadesc');
+        $category->save();
+        if ($request->hasFile('bannerfile')) {
             $category->uploadImage($request->file('bannerfile'));
         }
-     \Alert::success('Category has been added successfully !!!', 'Success');
-        return redirect(_ADMIN_PREFIX_URL. '/categories');
+        \Alert::success('Category has been added successfully !!!', 'Success');
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/categories');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/categories/' . $category->id . '/edit');
+        }
     }
 
     /**
@@ -104,7 +107,9 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        $record = Category::findOrFail($id);
+        $get_parent = $record->where('parent_id', 0)->where('status', 1)->pluck('name', 'id')->prepend('Is parent', '0')->all();
+        return view('backend.catalogs.category.edit')->with('get_parent', $get_parent)->with('record', $record);
     }
 
     /**
@@ -114,8 +119,25 @@ class CategoryController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(CategoriesRequest $request, $id) {
+        $category = Category::findOrFail($id);
+        $category->name = $request->input('txtname');
+        $category->slug = Str::slug($request->input('txtslug'));
+        $category->parent_id = $request->input('isparent');
+        $category->description = $request->input('shortdesc');
+        $category->status = ($request->has('status') == true) ? 1 : 0;
+        $category->meta_key = $request->input('txtmetakey');
+        $category->meta_desc = $request->input('txtmetadesc');
+        $category->save();
+        if ($request->hasFile('bannerfile')) {
+            $category->uploadImage($request->file('bannerfile'));
+        }
+        \Alert::success('Category has been updated successfully !!!', 'Success');
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/categories');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/categories/' . $category->id . '/edit');
+        }
     }
 
     /**
@@ -124,8 +146,41 @@ class CategoryController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        //
+    public function destroy(Request $request, $id) {
+        if ($request->has('trashed')) {
+            $id = explode(',', $request->input('checkedid'));
+            Category::whereIn('id', $id)->update(['is_trashed' => 1,'trashed_at'=>\Carbon\Carbon::now()]);
+             return response()->json(['title' => 'Success', 'message' => 'Category has been moved to trash', 'status' => 'success']);
+        } else {
+            Category::find($id)->delete();
+            return response()->json(['title' => 'Success', 'message' => 'Category has been deleted ', 'status' => 'success', 'id' => 'id_' . $id]);
+        }
+    }
+
+    public function checkStatus(Request $request) {
+        $status = $request->status;
+        $id = $request->id;
+        if ($status == '1') {
+            $status = 0;
+        } elseif ($status == '0') {
+            $status = 1;
+        }
+        $update = Category::find($id);
+        $update->status = $status;
+        $update->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => 'Category has been updated', 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+
+    public function checkMultiple(Request $request) {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        $update = Category::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => 'Success', 'message' => 'Category has been actived ', 'status' => 'success']);
+        } else {
+            return response()->json(['title' => 'Success', 'message' => 'Category has been unactive ', 'status' => 'warning']);
+        }
     }
 
 }

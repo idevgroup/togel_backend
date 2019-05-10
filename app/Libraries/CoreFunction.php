@@ -9,18 +9,20 @@ function _CheckStatus($status,$id){
     return $html;
 }
 
-function _CheckImage($filepath, $optional = []) {
+function _CheckImage($filepath,$defaultimage='', $optional = []) {
     $attridute = '';
     if (is_array($optional) || count($optional) > 0) {
         foreach ($optional as $key => $value) {
             $attridute .= "$key='$value' ";
         }
     }
-    $default_image = _IMG_MISSING_FRONTEND;
-    $storagelink = '/storage/';
+    $default_image = '';
+    if($defaultimage !=''){
+         $default_image = _IMG_DEFAULT;
+    }
     if ($filepath != null || $filepath != '') {
-        if (file_exists(public_path() . $storagelink . $filepath)) {
-            return '<img src="' . asset($storagelink . $filepath) . '" ' . $attridute . '/>';
+        if (file_exists(public_path().'/'.$filepath)) {
+            return '<img src="' . asset($filepath) . '" ' . $attridute . ' class=""/>';
         } else {
             return '<img src="' . asset($default_image) . '" ' . $attridute . '/>';
         }

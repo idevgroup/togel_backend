@@ -9,9 +9,6 @@
         <a class="dropdown-item delete_action" data-id="{{ $id }}" href="javascript:void(0);">
             <i class="la la-times-circle"></i>Delete
         </a>
-        <a class="dropdown-item move-action" href="javascript:void(0);">
-            <i class="la la-trash-o"></i>Trash
-        </a>
     </div>
 </span>
 

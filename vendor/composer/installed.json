@@ -1771,6 +1771,73 @@
         ]
     },
     {
+        "name": "maximumadvertising/laravel-image-resize",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MaximumAdvertising/laravel-image-resize.git",
+            "reference": "fbcdb43942d0da29e7c95117a1af8b836369ea3c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MaximumAdvertising/laravel-image-resize/zipball/fbcdb43942d0da29e7c95117a1af8b836369ea3c",
+            "reference": "fbcdb43942d0da29e7c95117a1af8b836369ea3c",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/cache": "^5.4",
+            "illuminate/config": "~5.4",
+            "illuminate/support": "^5.4",
+            "intervention/image": "^2.4",
+            "league/flysystem": "~1.0",
+            "php": "^7.1"
+        },
+        "require-dev": {
+            "orchestra/testbench": "^3.5",
+            "phpunit/phpunit": "^7.5"
+        },
+        "time": "2019-04-22T09:52:24+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Mxmm\\ImageResize\\ImageResizeServiceProvider"
+                ],
+                "aliases": {
+                    "ImageResize": "Mxmm\\ImageResize\\Facade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Mxmm\\ImageResize\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mark Padilla",
+                "email": "mark.padilla@maximum.com"
+            },
+            {
+                "name": "Jonas Van Assche",
+                "email": "jonas.van.assche@maximum.com"
+            }
+        ],
+        "description": "Dynamically resize an image and returns the URL using Intervention and Storage",
+        "homepage": "https://github.com/MaximumAdvertising/laravel-image-resize",
+        "keywords": [
+            "image",
+            "laravel",
+            "resize"
+        ]
+    },
+    {
         "name": "mockery/mockery",
         "version": "1.2.2",
         "version_normalized": "1.2.2.0",

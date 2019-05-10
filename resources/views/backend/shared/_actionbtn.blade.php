@@ -24,7 +24,7 @@
         </a>
     </li>
     <li class="m-portlet__nav-item">
-        <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air">
+        <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="remove-record">
             <span>
                 <i class="la la-trash-o"></i>
                 <span>{{trans('trans.removebtn')}}</span>

@@ -8,7 +8,6 @@ use QCod\ImageUp\HasImageUploads;
 class Category extends Model {
 
     use HasImageUploads;
-
     protected $table = 'category';
     
     protected static $imageFields = [
@@ -16,14 +15,14 @@ class Category extends Model {
             'width' => _IMG_CATE_W,
             'resize_image_quality' => 90,
             'crop' => false,
-            'path' => 'uploads/category',
+            'path' => _UPLOAD_DIRE.'category/'._DIRE_IS_MONTH,
             'file_input' => 'bannerfile'
         ],
         'thumb' => [
             'width' => _IMG_CATE_THUM_W,
             'resize_image_quality' => 90,
             'crop' => true,
-            'path' => 'uploads/category/thumb',
+            'path' => _UPLOAD_DIRE.'category/'._DIRE_IS_MONTH.'/thumb',
             'file_input' => 'bannerfile'
         ],
     ];
@@ -33,6 +32,9 @@ class Category extends Model {
     }
     protected function thumbUploadFilePath($file) {
         return $this->slug.'-'.$this->id. '.' . $file->getClientOriginalExtension();
+    }
+    static function getAllRecord($is_trashed){
+        return self::where('is_trashed',$is_trashed)->orderBy('ordering', 'ASC')->orderBy('id', 'DESC');
     }
 
 }

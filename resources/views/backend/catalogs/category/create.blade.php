@@ -85,6 +85,7 @@
 </div>
 {!!Form::close()!!}
 @endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}" />
 <link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}" />
@@ -110,10 +111,12 @@
 @endpush
 @push('javascript')
 
-<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
+
+{{--<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
+
 <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
 <script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
-{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}
+{{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}}
 @include('backend.shared._selectimg',['selectElement' => '#banner'])
 @include('backend.shared._tinymce',['elements' => '.cms-editor'])
 <script type="text/javascript">

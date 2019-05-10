@@ -15,6 +15,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
         "maatwebsite/excel": "^3.1",
+        "maximumadvertising/laravel-image-resize": "^1.0",
         "proengsoft/laravel-jsvalidation": "^2.4",
         "qcod/laravel-imageup": "^1.0",
         "spatie/laravel-permission": "^2.36",

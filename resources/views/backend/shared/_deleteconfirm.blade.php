@@ -96,8 +96,10 @@
         var status = $(this).data('status');
         if(status === 1){
             message = 'Are yous sure wanted to active?';
+            btntext = 'Yes, Active it!';
         }else{
             message = 'Are yous sure wanted to unactive?';
+             btntext = 'Yes, Unctive it!';
         }
         swal({
             title: 'Are you sure?',
@@ -106,11 +108,11 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, active it!',
+            confirmButtonText: btntext,
             showLoaderOnConfirm: true,
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                    var checked = [];
+                        var checked = [];
                     $.each($("input[name='cbo_selected']:checked"), function () {
                         checked.push($(this).val());
                     });
@@ -123,6 +125,52 @@
                             '_token': $('meta[name="csrf-token"]').attr('content'),
                             'checkedid': strId,
                             'status': status
+                        }
+
+                    }).done(function (response) {
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false
+                        });
+                     // window.LaravelDataTables[tbladmin].ajax.reload();
+                      window.LaravelDataTables[tbladmin].draw();
+                    }).fail(function () {
+                        swal('Oops...', 'Something went wrong with ajax !', 'error');
+                    });
+                });
+            }
+        });
+    });
+    
+     $("body").delegate('#remove-record', 'click', function (e) {
+            message = 'Are yous sure wanted to delete?';
+        swal({
+            title: 'Are you sure?',
+            html: message,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                        var checked = [];
+                    $.each($("input[name='cbo_selected']:checked"), function () {
+                        checked.push($(this).val());
+                    });
+                    var strId = checked.join(',');
+                    $.ajax({
+                        url: "{{url(Config::get('sysconfig.prefix').'/'.$entity)}}/0",
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            "_method": 'DELETE',
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                            'checkedid': strId,
+                            'trashed': 'trashed'
                         }
 
                     }).done(function (response) {

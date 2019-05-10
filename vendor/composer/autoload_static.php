@@ -167,6 +167,7 @@ class ComposerStaticInit77826d38de4fe2e6f00821718bd4355c
         ),
         'M' => 
         array (
+            'Mxmm\\ImageResize\\' => 17,
             'Monolog\\' => 8,
             'Matrix\\' => 7,
             'Maatwebsite\\Excel\\' => 18,
@@ -390,6 +391,10 @@ class ComposerStaticInit77826d38de4fe2e6f00821718bd4355c
         'NunoMaduro\\Collision\\' => 
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
+        ),
+        'Mxmm\\ImageResize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maximumadvertising/laravel-image-resize/src',
         ),
         'Monolog\\' => 
         array (
@@ -2692,6 +2697,9 @@ class ComposerStaticInit77826d38de4fe2e6f00821718bd4355c
         'Monolog\\ResettableInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/ResettableInterface.php',
         'Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'Mxmm\\ImageResize\\Facade' => __DIR__ . '/..' . '/maximumadvertising/laravel-image-resize/src/Facade.php',
+        'Mxmm\\ImageResize\\ImageResize' => __DIR__ . '/..' . '/maximumadvertising/laravel-image-resize/src/ImageResize.php',
+        'Mxmm\\ImageResize\\ImageResizeServiceProvider' => __DIR__ . '/..' . '/maximumadvertising/laravel-image-resize/src/ImageResizeServiceProvider.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/CollisionServiceProvider.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/ExceptionHandler.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\Inspector' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Inspector.php',
