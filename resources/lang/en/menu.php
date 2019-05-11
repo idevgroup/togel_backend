@@ -30,7 +30,15 @@ return [
     'rolegroup' => 'Role Group',
     'user' => 'User Account',
     'userlog' => 'User Log',
-    'membermanage' => 'Member Management',
-    'members' => 'Members'
+    'membermanage' => 'Members',
+    'members' => 'Player List',
+    'reports' => 'Reports',
+    'playerreport' => 'Player Report',
+    'transaction' => 'Transaction',
+    'deposit'   => 'Deposit',
+    'withdraw' => 'Withdraw',
+    'onhold' => 'On Hold',
+    'historytransaction' => 'History Transaction',
+    'manualbalance' => 'Manual Balance'
     
 ];

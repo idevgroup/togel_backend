@@ -3,7 +3,8 @@
 return[
     'Dashboard'=> 'Dashboard',
     'newbtn' => 'New',
-    'removebtn' => 'Remove',
+    'removebtn' => 'Remove to Trashed',
+    'deleterecord' => 'Delete',
     'unpublishedbtn' => 'Unactive',
     'publishedbtn' => 'Active',
     'create'=> 'Create',
@@ -13,5 +14,13 @@ return[
     'btnapply' => 'Apply',
     'btnsave&close' => 'Save & Close',
     'btnsave&new' => 'Save & New',
-    'btnback'   => 'Back'
+    'btnback'   => 'Back',
+    'success' => 'Success',
+    'messageaddsuccess' => ' has been added successfully !!!',
+    'messageupdatesuccess' => ' has been updated successfully !!!',
+    'messagemovedtrashed' => ' has been moved to trashed !!!',
+    'messagedeleted' => ' has been deleted !!!',
+    'messageactive' => ' has been activeed !!!',
+    'messageunactive' => ' has been unactiveed !!!',
+    
 ];

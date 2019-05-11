@@ -144,8 +144,14 @@
         });
     });
     
-     $("body").delegate('#remove-record', 'click', function (e) {
-            message = 'Are yous sure wanted to delete?';
+     $("body").delegate('#remove-record,#delete-record', 'click', function (e) {
+         var type = $(this).data('type');
+         if(type ==='delete'){
+              message = 'Are yous sure wanted to delete?';
+         }else if(type ==='remove'){
+              message = 'Are yous sure wanted to remove to trash?';
+         }
+           
         swal({
             title: 'Are you sure?',
             html: message,
@@ -153,7 +159,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: 'Yes, do it!',
             showLoaderOnConfirm: true,
             preConfirm: function () {
                 return new Promise(function (resolve) {
@@ -170,7 +176,7 @@
                             "_method": 'DELETE',
                             '_token': $('meta[name="csrf-token"]').attr('content'),
                             'checkedid': strId,
-                            'trashed': 'trashed'
+                            'type': type
                         }
 
                     }).done(function (response) {

@@ -24,10 +24,18 @@
         </a>
     </li>
     <li class="m-portlet__nav-item">
-        <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="remove-record">
+        <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="remove-record" data-type="remove">
             <span>
                 <i class="la la-trash-o"></i>
                 <span>{{trans('trans.removebtn')}}</span>
+            </span>
+        </a>
+    </li>
+    <li class="m-portlet__nav-item">
+        <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="delete-record" data-type="delete">
+            <span>
+                <i class="la la-times-circle"></i>
+                <span>{{trans('trans.deleterecord')}}</span>
             </span>
         </a>
     </li>

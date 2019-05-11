@@ -21,7 +21,6 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Builder $builder) {
-
         if (request()->ajax()) {
             $category = Category::getAllRecord(0);
             $datatables = Datatables::of($category)->addColumn('action', function ($category) {
@@ -36,7 +35,6 @@ class CategoryController extends Controller {
                     </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
-
         $html = $builder->columns([
                     ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
@@ -82,7 +80,7 @@ class CategoryController extends Controller {
         if ($request->hasFile('bannerfile')) {
             $category->uploadImage($request->file('bannerfile'));
         }
-        \Alert::success('Category has been added successfully !!!', 'Success');
+        \Alert::success(trans('menu.category') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/categories');
         } else {
@@ -132,7 +130,7 @@ class CategoryController extends Controller {
         if ($request->hasFile('bannerfile')) {
             $category->uploadImage($request->file('bannerfile'));
         }
-        \Alert::success('Category has been updated successfully !!!', 'Success');
+        \Alert::success(trans('menu.category') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/categories');
         } else {
@@ -147,13 +145,21 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id) {
-        if ($request->has('trashed')) {
+        if ($request->has('type')) {
+            $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
-            Category::whereIn('id', $id)->update(['is_trashed' => 1,'trashed_at'=>\Carbon\Carbon::now()]);
-             return response()->json(['title' => 'Success', 'message' => 'Category has been moved to trash', 'status' => 'success']);
+            if ($type == 'delete') {
+                Category::whereIn('id', $id)->delete();
+                $message = trans('menu.category') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                Category::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.category') . trans('trans.messagemovedtrashed');
+            }
+
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
         } else {
             Category::find($id)->delete();
-            return response()->json(['title' => 'Success', 'message' => 'Category has been deleted ', 'status' => 'success', 'id' => 'id_' . $id]);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
         }
     }
 
@@ -169,7 +175,7 @@ class CategoryController extends Controller {
         $update->status = $status;
         $update->save();
         $html = _CheckStatus($status, $id);
-        return response()->json(['message' => 'Category has been updated', 'status' => $status, 'id' => $id, 'html' => $html]);
+        return response()->json(['message' => trans('menu.category') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
     }
 
     public function checkMultiple(Request $request) {
@@ -177,9 +183,9 @@ class CategoryController extends Controller {
         $status = $request->input('status');
         $update = Category::whereIn('id', $id)->update(['status' => $status]);
         if ($status == 1) {
-            return response()->json(['title' => 'Success', 'message' => 'Category has been actived ', 'status' => 'success']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messageactive'), 'status' => 'success']);
         } else {
-            return response()->json(['title' => 'Success', 'message' => 'Category has been unactive ', 'status' => 'warning']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messageunactive'), 'status' => 'warning']);
         }
     }
 

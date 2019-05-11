@@ -21,7 +21,7 @@ Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), f
     });
 });
 
-Auth::routes(['register' => true]);
+Auth::routes(['register' => false]);
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
       $ArrMenu = ['dashboards' => 'DashBoardController',
