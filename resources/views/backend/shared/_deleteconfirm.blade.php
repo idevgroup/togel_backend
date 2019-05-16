@@ -27,8 +27,8 @@
                     }).done(function (response) {
                         if (response.status === 'success' || response.status === 'info') {
                             //parent.fadeOut('slow');
-                           // $('#' + response.id).fadeOut('slow');
-                           // window.LaravelDataTables[tbladmin].ajax.reload();
+                            // $('#' + response.id).fadeOut('slow');
+                            // window.LaravelDataTables[tbladmin].ajax.reload();
                             window.LaravelDataTables[tbladmin].draw();
                         }
                         swal({
@@ -82,24 +82,24 @@
         });
     });
 
-    $('#'+tbladmin).on("change", ".m-group-checkable", function () {
+    $('#' + tbladmin).on("change", ".m-group-checkable", function () {
         var e = $(this).closest("table").find("td:first-child .m-checkable"), a = $(this).is(":checked");
         $(e).each(function () {
             a ? ($(this).prop("checked", !0), $(this).closest("tr").addClass("active")) : ($(this).prop("checked", !1), $(this).closest("tr").removeClass("active"))
         }
         )
     });
-    $('#'+tbladmin).on("change", "tbody tr .m-checkbox", function () {
+    $('#' + tbladmin).on("change", "tbody tr .m-checkbox", function () {
         $(this).parents("tr").toggleClass("active");
     });
     $("body").delegate('#active-record,#unactive-record', 'click', function (e) {
         var status = $(this).data('status');
-        if(status === 1){
+        if (status === 1) {
             message = 'Are yous sure wanted to active?';
             btntext = 'Yes, Active it!';
-        }else{
+        } else {
             message = 'Are yous sure wanted to unactive?';
-             btntext = 'Yes, Unctive it!';
+            btntext = 'Yes, Unctive it!';
         }
         swal({
             title: 'Are you sure?',
@@ -112,7 +112,7 @@
             showLoaderOnConfirm: true,
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                        var checked = [];
+                    var checked = [];
                     $.each($("input[name='cbo_selected']:checked"), function () {
                         checked.push($(this).val());
                     });
@@ -134,8 +134,8 @@
                             type: response.status,
                             allowOutsideClick: false
                         });
-                     // window.LaravelDataTables[tbladmin].ajax.reload();
-                      window.LaravelDataTables[tbladmin].draw();
+                        // window.LaravelDataTables[tbladmin].ajax.reload();
+                        window.LaravelDataTables[tbladmin].draw();
                     }).fail(function () {
                         swal('Oops...', 'Something went wrong with ajax !', 'error');
                     });
@@ -143,15 +143,15 @@
             }
         });
     });
-    
-     $("body").delegate('#remove-record,#delete-record', 'click', function (e) {
-         var type = $(this).data('type');
-         if(type ==='delete'){
-              message = 'Are yous sure wanted to delete?';
-         }else if(type ==='remove'){
-              message = 'Are yous sure wanted to remove to trash?';
-         }
-           
+
+    $("body").delegate('#remove-record,#delete-record', 'click', function (e) {
+        var type = $(this).data('type');
+        if (type === 'delete') {
+            message = 'Are yous sure wanted to delete?';
+        } else if (type === 'remove') {
+            message = 'Are yous sure wanted to remove to trash?';
+        }
+
         swal({
             title: 'Are you sure?',
             html: message,
@@ -163,7 +163,7 @@
             showLoaderOnConfirm: true,
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                        var checked = [];
+                    var checked = [];
                     $.each($("input[name='cbo_selected']:checked"), function () {
                         checked.push($(this).val());
                     });
@@ -186,8 +186,8 @@
                             type: response.status,
                             allowOutsideClick: false
                         });
-                     // window.LaravelDataTables[tbladmin].ajax.reload();
-                      window.LaravelDataTables[tbladmin].draw();
+                        // window.LaravelDataTables[tbladmin].ajax.reload();
+                        window.LaravelDataTables[tbladmin].draw();
                     }).fail(function () {
                         swal('Oops...', 'Something went wrong with ajax !', 'error');
                     });
@@ -195,4 +195,5 @@
             }
         });
     });
+
 </script>

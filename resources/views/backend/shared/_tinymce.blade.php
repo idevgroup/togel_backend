@@ -14,6 +14,7 @@
     relative_urls: false,
     paste_as_text: true,
     paste_text_sticky: true,
+    branding: false,
     paste_word_valid_elements: "b,strong,i,em,h1,h2",
     file_browser_callback : function(field_name, url, type, win) {
       var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;

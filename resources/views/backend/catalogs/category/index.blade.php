@@ -32,10 +32,10 @@
 
 <script>
 var tbladmin = 'admin-tbl-zen';
-
 </script>
 @include('backend.shared._deleteconfirm', [
     'entity' => 'categories',
     'vid' => '$(this).data("id")'
 ])
+
 @endpush

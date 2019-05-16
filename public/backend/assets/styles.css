@@ -18,3 +18,9 @@
 .m-form label{
     font-weight: 600;
 }
+td.showDragHandle {
+    background-image: url("ico_updown.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    cursor: move;
+}
