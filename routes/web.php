@@ -28,12 +28,13 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
                 'useraccounts' => 'UserController',
                 'rolegroups' => 'RoleController',
                 'rolepermissions' => 'RolePermissionController',
-                'categories' => 'CategoryController'];
+                'categories' => 'CategoryController',
+                'products' => 'ProductController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
        Route::post("{$key}/status","{$value}@checkStatus")->name($key.".status");
        Route::post("{$key}/multstatus","{$value}@checkMultiple")->name($key.".multstatus");
     }
-    
+
 });
 Route::get('/home', 'HomeController@index')->name('home');
