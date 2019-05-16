@@ -34,7 +34,7 @@ class Category extends Model {
         return $this->slug.'-'.$this->id. '.' . $file->getClientOriginalExtension();
     }
     static function getAllRecord($is_trashed){
-        return self::where('is_trashed',$is_trashed)->orderBy('ordering', 'ASC')->orderBy('id', 'DESC');
+        return self::where('is_trashed',$is_trashed)->orderBy('name', 'ASC');
     }
 
 }

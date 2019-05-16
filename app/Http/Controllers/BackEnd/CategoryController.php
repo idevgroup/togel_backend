@@ -43,7 +43,17 @@ class CategoryController extends Controller {
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
                 ])->parameters([
-            'lengthMenu' => \Config::get('sysconfig.lengthMenu')
+            'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
+            'pagingType' => 'full_numbers',
+            'bFilter' => true,
+            'bSort' => true,
+            'order' => [
+                3,
+                'ASC'
+            ],
+            'rowGroup' => [
+                'dataSrc' => ['parent_id'],
+            ]
         ]);
 
         return view('backend.catalogs.category.index', compact('html'));
