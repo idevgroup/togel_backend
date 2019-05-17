@@ -9,4 +9,9 @@ Admin
 
 username: idev@idev.group
 password: pass@123
+*************
 
+update tables 
+
+tbl_register1 => tbl_players
+tbl_register1_bank => tbl_player_banks
