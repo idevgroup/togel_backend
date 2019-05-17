@@ -23,8 +23,27 @@ class ProductController extends Controller
     public function index(Builder $builder)
     {
         if(request()->ajax()) {
-            
+            $product = Product::getAllRecord(0);
+            $datatables = Datatables::of($product)->addColumn('action', function($product){
+                                $product_id = $product->product_id;
+                                $entity = 'products';
+                                return view('backed.shared._actions', compact("id", "entity"));
+            });
         }
+
+        $html = $builder->columns([
+                    ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span></label>', 'orderable' => false, "searchable" => false, 'width' => '40'],
+                    // ['data' => 'ProductImage', 'name' => 'ProductImage', 'title' => 'ProductImage', 'orderable' => false, 'searchable' => false, 'width' => '80'],
+                    // ['data' => 'ProductName', 'name' => 'ProductName', 'title' => 'ProductName', 'orderable' => false, 'searchable' => false, 'width' => '40'],
+                    // ['data' => 'ProductLink', 'name' => 'ProductLink', 'title' => 'ProductLink', 'orderable' => false, 'searchable' => false, 'width' => '40'],
+                    // ['data' => 'ProductCategory', 'name' => 'ProductCategory', 'title' => 'ProductCategory',, 'orderable' => false, 'searchable' => false, 'width' => '40'],
+                    // ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
+                    // ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
+                ])->parameters([
+                    'lengthMenu' => \Config::get('sysconfig.lengthMenu')
+                ]);
+
+        return view('backend.catalogs.product.index', compact('html'));
     }
 
     /**
