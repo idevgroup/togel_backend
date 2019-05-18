@@ -29,7 +29,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
                 'rolegroups' => 'RoleController',
                 'rolepermissions' => 'RolePermissionController',
                 'categories' => 'CategoryController',
-                'products' => 'ProductController'];
+                'products' => 'ProductController',
+                'players' => 'PlayersController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
        Route::post("{$key}/status","{$value}@checkStatus")->name($key.".status");
