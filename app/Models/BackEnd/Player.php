@@ -9,7 +9,7 @@ class Player extends Model
       static function getRecord(){
           return self::with(['getPlayerBank'=>function($query){
               return $query->with('getBank');
-          },'getReferral'])->orderBy('id','DESC');
+          },'getReferral']);
       }
       
       public function getPlayerBank(){

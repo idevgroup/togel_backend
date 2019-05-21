@@ -414,6 +414,74 @@
         ]
     },
     {
+        "name": "dompdf/dompdf",
+        "version": "v0.8.3",
+        "version_normalized": "0.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dompdf/dompdf.git",
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-mbstring": "*",
+            "phenx/php-font-lib": "0.5.*",
+            "phenx/php-svg-lib": "0.3.*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8|^5.5|^6.5",
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "suggest": {
+            "ext-gd": "Needed to process images",
+            "ext-gmagick": "Improves image processing performance",
+            "ext-imagick": "Improves image processing performance"
+        },
+        "time": "2018-12-14T02:40:31+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Dompdf\\": "src/"
+            },
+            "classmap": [
+                "lib/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            },
+            {
+                "name": "Brian Sweeney",
+                "email": "eclecticgeek@gmail.com"
+            },
+            {
+                "name": "Gabriel Bull",
+                "email": "me@gabrielbull.com"
+            }
+        ],
+        "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+        "homepage": "https://github.com/dompdf/dompdf"
+    },
+    {
         "name": "dragonmantank/cron-expression",
         "version": "v2.3.0",
         "version_normalized": "2.3.0.0",
@@ -817,6 +885,95 @@
         ]
     },
     {
+        "name": "h4cc/wkhtmltoimage-amd64",
+        "version": "0.12.4",
+        "version_normalized": "0.12.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/h4cc/wkhtmltoimage-amd64.git",
+            "reference": "c4e33f635207af89a704205b8902fb5715ca88be"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/h4cc/wkhtmltoimage-amd64/zipball/c4e33f635207af89a704205b8902fb5715ca88be",
+            "reference": "c4e33f635207af89a704205b8902fb5715ca88be",
+            "shasum": ""
+        },
+        "time": "2018-01-15T07:23:40+00:00",
+        "bin": [
+            "bin/wkhtmltoimage-amd64"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL Version 3"
+        ],
+        "authors": [
+            {
+                "name": "Julius Beckmann",
+                "email": "github@h4cc.de"
+            }
+        ],
+        "description": "Convert html to image using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
+        "homepage": "http://wkhtmltopdf.org/",
+        "keywords": [
+            "binary",
+            "convert",
+            "image",
+            "snapshot",
+            "thumbnail",
+            "wkhtmltoimage"
+        ]
+    },
+    {
+        "name": "h4cc/wkhtmltopdf-amd64",
+        "version": "0.12.4",
+        "version_normalized": "0.12.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
+            "reference": "4e2ab2d032a5d7fbe2a741de8b10b8989523c95b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/4e2ab2d032a5d7fbe2a741de8b10b8989523c95b",
+            "reference": "4e2ab2d032a5d7fbe2a741de8b10b8989523c95b",
+            "shasum": ""
+        },
+        "time": "2018-01-15T06:57:33+00:00",
+        "bin": [
+            "bin/wkhtmltopdf-amd64"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "h4cc\\WKHTMLToPDF\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL Version 3"
+        ],
+        "authors": [
+            {
+                "name": "Julius Beckmann",
+                "email": "github@h4cc.de"
+            }
+        ],
+        "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
+        "homepage": "http://wkhtmltopdf.org/",
+        "keywords": [
+            "binary",
+            "convert",
+            "pdf",
+            "snapshot",
+            "thumbnail",
+            "wkhtmltopdf"
+        ]
+    },
+    {
         "name": "hamcrest/hamcrest-php",
         "version": "v2.0.0",
         "version_normalized": "2.0.0.0",
@@ -1100,17 +1257,17 @@
     },
     {
         "name": "laravel/framework",
-        "version": "v5.8.16",
-        "version_normalized": "5.8.16.0",
+        "version": "v5.8.17",
+        "version_normalized": "5.8.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/framework.git",
-            "reference": "83d57f9f9162ab476c43b9ec00d463ff12c578fd"
+            "reference": "33c04dd2a431adeeb49926a4f2b20590cc033ca2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/83d57f9f9162ab476c43b9ec00d463ff12c578fd",
-            "reference": "83d57f9f9162ab476c43b9ec00d463ff12c578fd",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/33c04dd2a431adeeb49926a4f2b20590cc033ca2",
+            "reference": "33c04dd2a431adeeb49926a4f2b20590cc033ca2",
             "shasum": ""
         },
         "require": {
@@ -1213,7 +1370,7 @@
             "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.1).",
             "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
         },
-        "time": "2019-05-07T14:37:11+00:00",
+        "time": "2019-05-14T16:02:41+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1384,17 +1541,17 @@
     },
     {
         "name": "league/flysystem",
-        "version": "1.0.51",
-        "version_normalized": "1.0.51.0",
+        "version": "1.0.52",
+        "version_normalized": "1.0.52.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/flysystem.git",
-            "reference": "755ba7bf3fb9031e6581d091db84d78275874396"
+            "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/755ba7bf3fb9031e6581d091db84d78275874396",
-            "reference": "755ba7bf3fb9031e6581d091db84d78275874396",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c5a5097156387970e6f0ccfcdf03f752856f3391",
+            "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391",
             "shasum": ""
         },
         "require": {
@@ -1424,7 +1581,7 @@
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
             "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
         },
-        "time": "2019-03-30T13:22:34+00:00",
+        "time": "2019-05-20T20:21:14+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2036,17 +2193,17 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "2.17.1",
-        "version_normalized": "2.17.1.0",
+        "version": "2.18.0",
+        "version_normalized": "2.18.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "96acbc0c03782e8115156dd4dd8b736267155066"
+            "reference": "8322b7bd1805be31867c13bf3cdaab948a0dd406"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/96acbc0c03782e8115156dd4dd8b736267155066",
-            "reference": "96acbc0c03782e8115156dd4dd8b736267155066",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8322b7bd1805be31867c13bf3cdaab948a0dd406",
+            "reference": "8322b7bd1805be31867c13bf3cdaab948a0dd406",
             "shasum": ""
         },
         "require": {
@@ -2062,7 +2219,7 @@
             "phpunit/phpunit": "^7.5 || ^8.0",
             "squizlabs/php_codesniffer": "^3.4"
         },
-        "time": "2019-04-27T18:04:27+00:00",
+        "time": "2019-05-16T18:44:35+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -2430,6 +2587,87 @@
             }
         ],
         "description": "Library for handling version information and constraints"
+    },
+    {
+        "name": "phenx/php-font-lib",
+        "version": "0.5.1",
+        "version_normalized": "0.5.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-font-lib.git",
+            "reference": "760148820110a1ae0936e5cc35851e25a938bc97"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/760148820110a1ae0936e5cc35851e25a938bc97",
+            "reference": "760148820110a1ae0936e5cc35851e25a938bc97",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8"
+        },
+        "time": "2017-09-13T16:14:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FontLib\\": "src/FontLib"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse, export and make subsets of different types of font files.",
+        "homepage": "https://github.com/PhenX/php-font-lib"
+    },
+    {
+        "name": "phenx/php-svg-lib",
+        "version": "v0.3.2",
+        "version_normalized": "0.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-svg-lib.git",
+            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+            "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+            "shasum": ""
+        },
+        "require": {
+            "sabberworm/php-css-parser": "8.1.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~5.0"
+        },
+        "time": "2018-06-03T10:10:03+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Svg\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse and export to PDF SVG files.",
+        "homepage": "https://github.com/PhenX/php-svg-lib"
     },
     {
         "name": "phpdocumentor/reflection-common",
@@ -3066,17 +3304,17 @@
     },
     {
         "name": "phpunit/phpunit",
-        "version": "7.5.10",
-        "version_normalized": "7.5.10.0",
+        "version": "7.5.11",
+        "version_normalized": "7.5.11.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/phpunit.git",
-            "reference": "d7d9cee051d03ed98df6023aad93f7902731a780"
+            "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d7d9cee051d03ed98df6023aad93f7902731a780",
-            "reference": "d7d9cee051d03ed98df6023aad93f7902731a780",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/64cb33f5b520da490a7b13149d39b43cf3c890c6",
+            "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6",
             "shasum": ""
         },
         "require": {
@@ -3115,7 +3353,7 @@
             "ext-xdebug": "*",
             "phpunit/php-invoker": "^2.0"
         },
-        "time": "2019-05-09T05:06:47+00:00",
+        "time": "2019-05-14T04:53:02+00:00",
         "bin": [
             "phpunit"
         ],
@@ -3692,6 +3930,52 @@
             "guid",
             "identifier",
             "uuid"
+        ]
+    },
+    {
+        "name": "sabberworm/php-css-parser",
+        "version": "8.1.0",
+        "version_normalized": "8.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
+            "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2016-07-19T19:14:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Sabberworm\\CSS": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Raphael Schweikert"
+            }
+        ],
+        "description": "Parser for CSS Files written in PHP",
+        "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
+        "keywords": [
+            "css",
+            "parser",
+            "stylesheet"
         ]
     },
     {
