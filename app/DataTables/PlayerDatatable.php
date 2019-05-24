@@ -16,8 +16,9 @@ class PlayerDatatable extends DataTable {
     public function dataTable($query) {
         return datatables($query)->addColumn('action', function ($player) {
                     $id = $player->id;
+                    $pname = $player->reg_name;
                     $entity = 'players';
-                    return view('backend.members.player.inc.actionbtn', compact("id", "entity"));
+                    return view('backend.members.player.inc.actionbtn', compact("id", "entity","pname"));
                 })->addColumn('bank', function($query) {
                     $bankName = $query->getPlayerBank->getBank['bk_name'];
                     $bankAccount = $query->getPlayerBank['reg_account_number'];
@@ -27,7 +28,7 @@ class PlayerDatatable extends DataTable {
                     <input type="checkbox" name="chkplayer" value="{{ $id }}" class="m-checkable"/><span></span>
                     </label>')->editColumn('reg_name', function($query) {
                     $getReferral = $query->getReferral;
-                    return '<span class="p-name">' . $query->reg_name . '</span> <small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
+                    return '<span class="p-name">' . $query->reg_name . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
                 })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged :</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username']);
     }
 
@@ -49,6 +50,7 @@ class PlayerDatatable extends DataTable {
     public function html() {
         return $this->builder()
                         ->columns($this->getColumns())
+                        //->addCheckbox()
                         ->minifiedAjax()
                         ->parameters([
                             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
@@ -60,8 +62,50 @@ class PlayerDatatable extends DataTable {
                                 'DESC'
                             ],
                             'dom' => 'Bfrtlip',
-                            'buttons' => [ 'csv', 'excel', ['extend' => 'pdfHtml5','orientation'=>'landscape','pageSize'=>'A4','exportOptions'=>['columns' => ':visible'],'download' => 'open','filename' => 'Player_' . date('Y-m-d_H:i:s')],'copy', ['extend' => 'print','exportOptions'=>['columns' => ':visible'],'pageSize'=>'A4']]
-                           
+                            'buttons' => [['extend' => 'csvHtml5',
+                            'filename' => 'Player_' . date('Y-m-d_H:i:s'),
+                            'exportOptions' => ['columns' => ':visible','columns' => [2, 3, 4, 5,6,7]],
+                            'text' => '<i class="fa fa-file-alt"></i><span>CSV</span>',
+                            'className' => ' m-btn--icon'
+                                ],
+                                ['extend' => 'excelHtml5',
+                                    'filename' => 'Player_' . date('Y-m-d_H:i:s'),
+                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5,6,7]],
+                                    'text' => '<i class="fa fa-file-excel"></i><span>Excel</span>',
+                                    'className' => ' m-btn--icon'
+                                ],
+                                ['extend' => 'pdfHtml5',
+                                    'orientation' => 'landscape',
+                                    'pageSize' => 'A4',
+                                    'exportOptions' => ['columns' => ':visible', 'stripHtml' => true, 'columns' => [2, 3, 4, 5,6,7]],
+                                    'download' => 'open',
+                                    'filename' => 'Player_' . date('Y-m-d_H:i:s'),
+                                    'text' => '<i class="fa fa-file-pdf"></i><span>PDF</span>',
+                                    'className' => ' m-btn--icon',
+                                    'customize' => "function(doc) {
+                                        var rowCount = doc.content[1].table.body.length;
+                                       
+                                        for (i = 1; i < rowCount; i++) {
+                                          var test= doc.content[1].table.body[i][0];
+                                          doc.content[1].table.body[i][0].alignment = 'left';
+                                        }}"
+                                ],
+                                ['extend' => 'copyHtml5',
+                                    'exportOptions' => ['columns' => ':visible'],
+                                    'text' => '<i class="fa fa-copy"></i><span>Copy</span>',
+                                    'className' => ' m-btn--icon'],
+                                ['extend' => 'print',
+                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5,6,7]],
+                                    'pageSize' => 'A4',
+                                    'text' => '<i class="fa fa-print"></i><span>Print</span>',
+                                    'className' => ' m-btn--icon']
+                            ],
+                            'select' => ['style' => 'multi+shift', ' blurable' => true, 'selector'=> 'td:not(:last-child)'],
+                            'retrieve' => true,
+                            'columnDefs' => [
+                                'targets' => 0,
+                                'className' => 'select-checkbox'
+                            ]
         ]);
     }
 
@@ -72,9 +116,9 @@ class PlayerDatatable extends DataTable {
      */
     protected function getColumns() {
         return [
-            ['data' => 'id', 'name' => 'id','visible' => false, 'printable' => false, 'exportable' => true],
+            ['data' => 'id', 'name' => 'id', 'visible' => false, 'printable' => false, 'exportable' => true],
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
-                    </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
+                    </label>', "orderable" => false, "searchable" => false, 'width' => '40', 'class' => 'select-checkbox'],
             ['data' => 'reg_name', 'name' => 'reg_name', 'title' => 'Player Name'],
             ['data' => 'reg_username', 'name' => 'reg_username', 'title' => 'Username'],
             ['data' => 'reg_phone', 'name' => 'reg_phone', 'title' => 'Phone'],

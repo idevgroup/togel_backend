@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Player;
 use App\DataTables\PlayerDatatable;
+use App\Models\BackEnd\PlayerTransaction;
+use Datatables;
 class PlayersController extends Controller {
 
     use Authorizable;
@@ -46,7 +48,7 @@ class PlayersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+         return Datatables::of(PlayerTransaction::where('playerid',$id))->make(true);
     }
 
     /**

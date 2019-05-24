@@ -224,5 +224,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'ImageResize' => Mxmm\ImageResize\Facade::class,
+        'Datatables' => yajra\Datatables\Datatables::class,
     ],
 ];
