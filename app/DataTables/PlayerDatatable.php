@@ -4,7 +4,7 @@ namespace App\DataTables;
 
 use App\Models\BackEnd\Player;
 use Yajra\DataTables\Services\DataTable;
-
+use Illuminate\Http\Request;
 class PlayerDatatable extends DataTable {
 
     /**
@@ -18,18 +18,26 @@ class PlayerDatatable extends DataTable {
                     $id = $player->id;
                     $pname = $player->reg_name;
                     $entity = 'players';
-                    return view('backend.members.player.inc.actionbtn', compact("id", "entity","pname"));
+                    $status = $player->status;
+                    return view('backend.members.player.inc.actionbtn', compact("id", "entity", "pname", "status"));
                 })->addColumn('bank', function($query) {
-                    $bankName = $query->getPlayerBank->getBank['bk_name'];
+                    if(isset($query->getPlayerBank->getBank)){
+                         $bankName = $query->getPlayerBank->getBank['bk_name'];
                     $bankAccount = $query->getPlayerBank['reg_account_number'];
                     $bankAccountName = $query->getPlayerBank['reg_account_name'];
                     return '<ul class="m-nav"><li><strong>Bank Name: </strong> ' . $bankName . '</li><li><li><strong>Account Name: </strong>' . $bankAccountName . '</li><li><li><strong>Account ID: </strong>' . $bankAccount . '</li></ul>';
-                })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
-                    <input type="checkbox" name="chkplayer" value="{{ $id }}" class="m-checkable"/><span></span>
+       
+                    }else{
+                        return '';
+                    }
+                            })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                    <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
                     </label>')->editColumn('reg_name', function($query) {
                     $getReferral = $query->getReferral;
                     return '<span class="p-name">' . $query->reg_name . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
-                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged :</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username']);
+                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged :</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username'])->setRowClass(function($player) {
+                    return $player->status == 1 ? '' : 'text-danger';
+                });
     }
 
     /**
@@ -38,8 +46,13 @@ class PlayerDatatable extends DataTable {
      * @param \App\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Player $model) {
-        return $model->getRecord();
+    public function query(Player $model, Request $request) {
+        $status = $request->input('status');
+        if ($status === 'all') {
+            return $model->getRecord();
+        } else {
+            return $model->getRecord()->where('status', $status);
+        }
     }
 
     /**
@@ -51,7 +64,12 @@ class PlayerDatatable extends DataTable {
         return $this->builder()
                         ->columns($this->getColumns())
                         //->addCheckbox()
-                        ->minifiedAjax()
+                        ->ajax([
+                            'data' => "function(d){
+                                  d.status = $('select[name=status]').val();
+                            }"
+                                ]
+                        )
                         ->parameters([
                             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
                             //'pagingType' => 'full_numbers',
@@ -61,23 +79,29 @@ class PlayerDatatable extends DataTable {
                                 0,
                                 'DESC'
                             ],
+                            'language' => [
+                                'paginate' => [
+                                    'next' => '<i class="la la-angle-right"></i>', // or '→'
+                                    'previous' => '<i class="la la-angle-left"></i>'
+                                ]
+                            ],
                             'dom' => 'Bfrtlip',
                             'buttons' => [['extend' => 'csvHtml5',
                             'filename' => 'Player_' . date('Y-m-d_H:i:s'),
-                            'exportOptions' => ['columns' => ':visible','columns' => [2, 3, 4, 5,6,7]],
+                            'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5, 6, 7]],
                             'text' => '<i class="fa fa-file-alt"></i><span>CSV</span>',
                             'className' => ' m-btn--icon'
                                 ],
                                 ['extend' => 'excelHtml5',
                                     'filename' => 'Player_' . date('Y-m-d_H:i:s'),
-                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5,6,7]],
+                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5, 6, 7]],
                                     'text' => '<i class="fa fa-file-excel"></i><span>Excel</span>',
                                     'className' => ' m-btn--icon'
                                 ],
                                 ['extend' => 'pdfHtml5',
                                     'orientation' => 'landscape',
                                     'pageSize' => 'A4',
-                                    'exportOptions' => ['columns' => ':visible', 'stripHtml' => true, 'columns' => [2, 3, 4, 5,6,7]],
+                                    'exportOptions' => ['columns' => ':visible', 'stripHtml' => false, 'columns' => [2, 3, 4, 5, 6, 7]],
                                     'download' => 'open',
                                     'filename' => 'Player_' . date('Y-m-d_H:i:s'),
                                     'text' => '<i class="fa fa-file-pdf"></i><span>PDF</span>',
@@ -95,12 +119,12 @@ class PlayerDatatable extends DataTable {
                                     'text' => '<i class="fa fa-copy"></i><span>Copy</span>',
                                     'className' => ' m-btn--icon'],
                                 ['extend' => 'print',
-                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5,6,7]],
+                                    'exportOptions' => ['columns' => ':visible', 'columns' => [2, 3, 4, 5, 6, 7]],
                                     'pageSize' => 'A4',
                                     'text' => '<i class="fa fa-print"></i><span>Print</span>',
                                     'className' => ' m-btn--icon']
                             ],
-                            'select' => ['style' => 'multi+shift', ' blurable' => true, 'selector'=> 'td:not(:last-child)'],
+                            'select' => ['style' => 'multi+shift', ' blurable' => true, 'selector' => 'td:not(:last-child)'],
                             'retrieve' => true,
                             'columnDefs' => [
                                 'targets' => 0,

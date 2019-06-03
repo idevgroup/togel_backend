@@ -23,6 +23,11 @@
 @push('style')
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
+<style>
+    .user-name{
+        display: block;
+    }
+</style>
 @endpush
 @push('javascript')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>

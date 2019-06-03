@@ -9,6 +9,9 @@ use App\Models\BackEnd\Player;
 use App\DataTables\PlayerDatatable;
 use App\Models\BackEnd\PlayerTransaction;
 use Datatables;
+use App\Http\Requests\PlayerRequest;
+use Carbon;
+
 class PlayersController extends Controller {
 
     use Authorizable;
@@ -18,17 +21,17 @@ class PlayersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-      public function index(PlayerDatatable $dataTable) {
-           return $dataTable->render('backend.members.player.index');
-      }
-    
+    public function index(PlayerDatatable $dataTable) {
+        return $dataTable->render('backend.members.player.index');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return view('backend.members.player.create');
     }
 
     /**
@@ -37,8 +40,27 @@ class PlayersController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        //
+    public function store(PlayerRequest $request) {
+        //dd($request->all());
+        $player = new Player;
+        $player->reg_name = $request->input('txtname');
+        $player->reg_username = $request->input('txtusername');
+        $player->reg_password = _EncryptPwd($request->input('txtpassword'));
+        $player->reg_dob = $request->input('txtdob');
+        $player->reg_phone = $request->input('txtphone');
+        $player->reg_email = $request->input('txtemail');
+        $player->reg_address = $request->input('txtaddress');
+        $player->reg_ip = \Request::getClientIp();
+        $player->lastip = \Request::getClientIp();
+        $player->status = ($request->has('status') == true) ? 1 : 0;
+        $player->reg_date = \Carbon\Carbon::now();
+        $player->save();
+        \Alert::success(trans('trans.player') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/players');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/players/' . $player->id . '/edit');
+        }
     }
 
     /**
@@ -48,7 +70,11 @@ class PlayersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-         return Datatables::of(PlayerTransaction::where('playerid',$id))->make(true);
+        $start = request()->get('searchByStart');
+        $end = request()->get('searchByEnd');
+        $start = $start . " 00:00:00";
+        $end = $end . " 23:59:59";
+        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end]))->make(true);
     }
 
     /**
@@ -58,7 +84,8 @@ class PlayersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        $record = Player::findOrFail($id);
+        return view('backend.members.player.edit')->with('record', $record);
     }
 
     /**
@@ -68,8 +95,29 @@ class PlayersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(PlayerRequest $request, $id) {
+        //dd($request->all());
+        $player = Player::findOrFail($id);
+        $player->reg_name = $request->input('txtname');
+        $player->reg_username = $request->input('txtusername');
+        if ($request->input('txtpassword') != null) {
+            $player->reg_password = _EncryptPwd($request->input('txtpassword'));
+        }
+        $player->reg_dob = $request->input('txtdob');
+        $player->reg_phone = $request->input('txtphone');
+        $player->reg_email = $request->input('txtemail');
+        $player->reg_address = $request->input('txtaddress');
+        $player->reg_ip = \Request::getClientIp();
+        $player->lastip = \Request::getClientIp();
+        $player->status = ($request->has('status') == true) ? 1 : 0;
+        $player->reg_date = \Carbon\Carbon::now();
+        $player->save();
+        \Alert::success(trans('trans.player') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/players');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/players/' . $id . '/edit');
+        }
     }
 
     /**
@@ -79,7 +127,35 @@ class PlayersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        
+    }
+
+    public function checkStatus(Request $request) {
+        if (request()->ajax()) {
+            $id = $request->input('pId');
+            $status = $request->input('status');
+            if ($status == 1) {
+                $vStatus = 0;
+            } else {
+                $vStatus = 1;
+            }
+            $player = Player::findOrFail($id);
+            $player->status = $vStatus;
+            $player->save();
+            $message = ($vStatus == 0) ? trans('trans.blockplayer') : trans('trans.unblockplayer') . trans('trans.messageupdatesuccess');
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success', 'vStatus' => $vStatus]);
+        }
+    }
+
+    public function checkMultiple(Request $request) {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        $update = Player::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.player') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.player') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 
 }

@@ -15,6 +15,11 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
+
 Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
     Route::get(_ADMIN_PREFIX_URL, function() {
         return redirect(_ADMIN_PREFIX_URL . '/dashboards');

@@ -22,5 +22,8 @@ return[
     'messagedeleted' => ' has been deleted !!!',
     'messageactive' => ' has been activeed !!!',
     'messageunactive' => ' has been inactiveed !!!',
+    'blockplayer' => 'Active Player ',
+    'unblockplayer' => 'Inactive Player ',
+    'player' => 'Player'
     
 ];

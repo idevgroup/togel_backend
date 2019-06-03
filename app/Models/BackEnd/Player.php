@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
       protected $table = 'players';
+      protected $hidden = ['reg_password'];
       static function getRecord(){
           return self::with(['getPlayerBank'=>function($query){
               return $query->with('getBank');

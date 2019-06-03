@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8" />
         <title>   @stack('title','Management System')&nbsp;| ZENTOGEL.NET</title>
