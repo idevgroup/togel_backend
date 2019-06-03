@@ -36,6 +36,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Requests\\CategoriesRequest' => $baseDir . '/app/Http/Requests/CategoriesRequest.php',
+    'App\\Http\\Requests\\PlayerRequest' => $baseDir . '/app/Http/Requests/PlayerRequest.php',
     'App\\Http\\Requests\\ProductsRequest' => $baseDir . '/app/Http/Requests/ProductsRequest.php',
     'App\\Libraries\\BuildMenu' => $baseDir . '/app/Libraries/BuildMenu.php',
     'App\\Models\\BackEnd\\Authorizable' => $baseDir . '/app/Models/BackEnd/Authorizable.php',

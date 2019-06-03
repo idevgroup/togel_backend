@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.category').'-'.trans('trans.create'))
+@push('title',trans('menu.product').'-'.trans('trans.create'))
 @section('content')
-{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/categories'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
+{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/products'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
     <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.category').' / '.trans('trans.create')}}
+                        {{trans('menu.product').' / '.trans('trans.create')}}
                     </h3>
                 </div>
             </div>
@@ -19,8 +19,9 @@
         </div>
     </div>
     <div class="m-portlet__body">
+        <input type="hidden" value="{{Auth::user()->id }}" name="user_id">
         <div class="form-group m-form__group row @if ($errors->has('txtname')) has-danger @endif">
-            {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('name','Product Name',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 {!!Form::text('txtname',old('txtname'),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('txtname')) <p class="form-control-feedback">{{ $errors->first('txtname') }}</p> @endif
@@ -35,9 +36,9 @@
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('isparent','Is Parent',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('category_id','Category',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::select('isparent',$get_parent,old('isparent'),['class'=>'form-control m-input'])!!}
+                {!!Form::select('category_id',$get_parent,old('category_id'),['class'=>'form-control m-input'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
