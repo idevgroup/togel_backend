@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostsRequest extends FormRequest
+class dreambooksRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,16 @@ class PostsRequest extends FormRequest
     {
         return [
             'txtname' => 'required|min:4',
-            'txtslug' => 'required|min:1|unique:category,slug,',
+            'txtslug' => 'required|min:1|unique:category,slug,'.$this->segment(3).',id',
         ];
     }
 
-    public function messages(){
-         return [
-             'txtname.required' => 'Please input Post Name',
-             'txtname.unique' => 'The Post name as already been taken',
-             'txtslug.required' => 'Please input slug'
-         ];
+    public function messages()
+    {
+        return [
+            'txtname.required' => 'Please input Dream Book Name',
+            'txtname.unique' => 'The Dream Book name as already been taken',
+            'txtslug.required' => 'Please input slug'
+        ];
     }
 }

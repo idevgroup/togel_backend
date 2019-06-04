@@ -40,7 +40,9 @@ class ProductController extends Controller
         }
 
         $html = $builder->columns([
-            ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
+            ['data' => 'check', 'name' => 'check', 'title' => '
+            <label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> 
+            <input type="checkbox" value="" class="m-group-checkable"> <span></span>
             </label>', 'orderable' => false, "searchable" => false, 'width' => '40'],
             ['data' => 'thumb', 'name' => 'thumb', 'title' => 'ProductImage', 'orderable' => false, 'searchable' => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
@@ -98,7 +100,7 @@ class ProductController extends Controller
         $product->status = ($request->has('status') == true) ? 1 : 0;
         $product->meta_key = $request->txtmetakey;
         $product->meta_desc = $request->txtmetadesc;
-
+//        $product->is_trashed = 0;
         if ($request->hasFile('bannerfile')) {
             $product->uploadImage($request->file('bannerfile'));
         }
@@ -131,9 +133,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-//        $get_parent = $product::where('status', 1)->pluck('name', 'id')->all();
         $get_parent = Category::where('status', 1)->where('parent_id',273)->pluck('name', 'id')->all();
-//        dd($get_parent);
         return view('backend.catalogs.product.edit')->with('product', $product)->with('get_parent', $get_parent);
     }
 
@@ -146,8 +146,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'txtname' => 'required|min:4',
+            'txtslug' => 'required|min:1'
+        ], ['txtname.required' => 'Please input Product Name',
+            'txtname.unique' => 'The Product name as already been taken',
+            'txtslug.required' => 'Please input slug']);
         $product = Product::findOrfail($id);
+        $product->name = $request->txtname;
+        $product->created_by = $request->user_id;
+        $product->updated_by = $request->user_id;
+        $product->category_id = $request->category_id;
+        $product->slug = str::slug($request->txtslug);
+        $product->description = $request->shortdesc;
+        $product->status = ($request->has('status') == true) ? 1 : 0;
+        $product->meta_key = $request->txtmetakey;
+        $product->meta_desc = $request->txtmetadesc;
 
+        $product->save();
+        if ($request->hasFile('bannerfile')) {
+            $product->uploadImage($request->file('bannerfile'));
+        }
+        \Alert::success(trans('menu.category') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/products');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/products' . $product->id . '/edit');
+        }
     }
 
     /**
@@ -156,9 +181,24 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if ($type == 'delete') {
+                Product::whereIn('id', $id)->delete();
+                $message = trans('menu.product') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                Product::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.product') . trans('trans.messagemovedtrashed');
+            }
+
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        } else {
+            Product::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
     }
 
     public function checkStatus(Request $request)
@@ -175,5 +215,16 @@ class ProductController extends Controller
         $update->save();
         $html = _CheckStatus($status, $id);
         return response()->json(['message' => trans('menu.category') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+
+    public function checkMultiple(Request $request) {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        $update = Product::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.product') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.product') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 }
