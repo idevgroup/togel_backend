@@ -135,7 +135,7 @@
                             allowOutsideClick: false
                         });
                         // window.LaravelDataTables[tbladmin].ajax.reload();
-                        window.LaravelDataTables[tbladmin].draw();
+                        window.LaravelDataTables[tbladmin].draw(false);
                     }).fail(function () {
                         swal('Oops...', 'Something went wrong with ajax !', 'error');
                     });
@@ -187,7 +187,7 @@
                             allowOutsideClick: false
                         });
                         // window.LaravelDataTables[tbladmin].ajax.reload();
-                        window.LaravelDataTables[tbladmin].draw();
+                        window.LaravelDataTables[tbladmin].draw(false);
                     }).fail(function () {
                         swal('Oops...', 'Something went wrong with ajax !', 'error');
                     });

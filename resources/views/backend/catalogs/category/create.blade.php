@@ -58,12 +58,6 @@
         <div class="form-group m-form__group row">
             {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-               <!-- <span class="m-switch m-switch--icon m-switch--accent">
-                    <label>
-                        <input type="checkbox" value="0" name="status">
-                        <span></span>
-                    </label>
-                </span>-->
                 <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 
             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+
 class LoginController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -38,6 +39,12 @@ use AuthenticatesUsers;
     public $decayMinutes = 10;
 
     /**
+     * Login username to be used by the controller.
+     *
+     * @var string
+     */
+   // protected $username;
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -50,6 +57,7 @@ use AuthenticatesUsers;
      */
     public function __construct() {
         $this->middleware('guest')->except('logout');
+        //$this->username = $this->findUsername();
     }
 
     protected function hasTooManyLoginAttempts(Request $request) {
@@ -59,7 +67,39 @@ use AuthenticatesUsers;
     }
 
     protected function credentials(Request $request) {
-        return array_merge($request->only($this->username(), 'password'), ['status' => 1]);
+       // return array_merge($request->only($this->username(), 'password'), ['status' => 1]);
+         $field = filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)
+            ? $this->username()
+            : 'username';
+        return [
+            $field => $request->get($this->username()),
+            'password' => $request->password,
+            'status' => 1
+        ];
     }
 
+     /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     *
+    public function findUsername()
+    {
+        $login = request()->input('login');
+ 
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+ 
+        request()->merge([$fieldType => $login]);
+ 
+        return $fieldType;
+    }
+    /**
+     * Get username property.
+     *
+     * @return string
+     *
+    public function username()
+    {
+        return $this->username;
+    }*/
 }

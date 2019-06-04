@@ -233,35 +233,18 @@
                                             <div class="m-dropdown__content">
                                                 <ul class="m-nav m-nav--skin-light">
                                                     <li class="m-nav__item m-nav__item--active">
-                                                        <a href="#" class="m-nav__link m-nav__link--active">
-                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{ asset('images/flags/020-flag.svg') }}"></span>
-                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">USA</span>
+                                                        <a href="{{ url('locale/en') }}" class="m-nav__link @if(app()->getLocale() == 'en') m-nav__link--active @endif">
+                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{ asset('images/flags/4x3/us.svg') }}"></span>
+                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">English</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="#" class="m-nav__link">
-                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{asset('images/flags/015-china.svg')}}"></span>
-                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">China</span>
+                                                        <a href="{{ url('locale/km') }}" class="m-nav__link @if(app()->getLocale() == 'km') m-nav__link--active @endif">
+                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{asset('images/flags/4x3/kh.svg')}}"></span>
+                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">Khmer</span>
                                                         </a>
                                                     </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="#" class="m-nav__link">
-                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{asset('images/flags/016-spain.svg')}}"></span>
-                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">Spain</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="#" class="m-nav__link">
-                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{asset('images/flags/014-japan.svg')}}"></span>
-                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">Japan</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="#" class="m-nav__link">
-                                                            <span class="m-nav__link-icon"><img class="m-topbar__language-img" src="{{asset('images/flags/017-germany.svg')}}"></span>
-                                                            <span class="m-nav__link-title m-topbar__language-text m-nav__link-text">Germany</span>
-                                                        </a>
-                                                    </li>
+                                                   
                                                 </ul>
                                             </div>
                                         </div>

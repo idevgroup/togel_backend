@@ -51,7 +51,7 @@
                             </div>
                             <form class="m-login__form m-form" action="{{ route('login') }}" method="POST">
                                    @csrf
-                                <div class="form-group m-form__group">
+                               <div class="form-group m-form__group">
                                     <input class="form-control m-input @error('email') is-invalid @enderror" type="text" placeholder="{{ __('E-Mail Address') }}" value="{{ old('email') }}" id="email" name="email" required autocomplete="email" autofocus>
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">

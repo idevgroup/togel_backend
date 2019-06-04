@@ -5,7 +5,7 @@ return[
     'newbtn' => 'New',
     'removebtn' => 'Remove to Trashed',
     'deleterecord' => 'Delete',
-    'unpublishedbtn' => 'Unactive',
+    'unpublishedbtn' => 'Inactive',
     'publishedbtn' => 'Active',
     'create'=> 'Create',
     'edit' => 'Edit',
@@ -21,6 +21,9 @@ return[
     'messagemovedtrashed' => ' has been moved to trashed !!!',
     'messagedeleted' => ' has been deleted !!!',
     'messageactive' => ' has been activeed !!!',
-    'messageunactive' => ' has been unactiveed !!!',
+    'messageunactive' => ' has been inactiveed !!!',
+    'blockplayer' => 'Active Player ',
+    'unblockplayer' => 'Inactive Player ',
+    'player' => 'Player'
     
 ];

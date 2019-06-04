@@ -25,7 +25,13 @@
                 @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
             </div>
         </div>
-
+          <div class="form-group m-form__group row @if ($errors->has('username')) has-danger @endif">
+            {!! Form::label('username', 'User Name',['class' => 'col-2 col-form-label required']) !!}
+            <div class="col-5">
+                {!! Form::text('username',old('username',$user->username), ['class' => 'form-control m-input', 'placeholder' => 'User Name']) !!}
+                @if ($errors->has('username')) <p class="form-control-feedback">{{ $errors->first('username') }}</p> @endif
+            </div>
+        </div>
         <!-- email Form Input -->
         <div class="form-group m-form__group row @if ($errors->has('email')) has-danger @endif">
             {!! Form::label('email', 'Email',['class' => 'col-2 col-form-label required']) !!}

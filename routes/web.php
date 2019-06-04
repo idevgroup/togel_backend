@@ -15,6 +15,11 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
+
 Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
     Route::get(_ADMIN_PREFIX_URL, function() {
         return redirect(_ADMIN_PREFIX_URL . '/dashboards');
@@ -29,7 +34,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
                 'rolegroups' => 'RoleController',
                 'rolepermissions' => 'RolePermissionController',
                 'categories' => 'CategoryController',
-                'products' => 'ProductController'];
+                'products' => 'ProductController',
+                'players' => 'PlayersController'];
      foreach ($ArrMenu as $key => $value) {
        Route::resource("{$key}", "{$value}");
        Route::post("{$key}/status","{$value}@checkStatus")->name($key.".status");

@@ -30,3 +30,18 @@ function _CheckImage($filepath,$defaultimage='', $optional = []) {
         return '<img src="' . asset($default_image) . '" ' . $attridute . '/>';
     }
 }
+  function _EncryptPwd($pwd)
+    {
+        $pwd = md5(trim($pwd));
+        $cnt = strlen($pwd);
+        $result = "";
+        for ($i = 0; $i < $cnt; $i++) {
+            $a = ((ord($pwd[$i]) * 2 + 100) / 3) + 5;
+            if ($a > 254) {
+                $a = ($a / 2) - 50;
+            }
+
+            $result .= chr($a);
+        }
+        return $result;
+    }

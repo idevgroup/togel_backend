@@ -25,18 +25,23 @@ class UserController extends Controller {
      */
     public function index(Builder $builder) {
         if (request()->ajax()) {
-            // DB::statement(DB::raw('set @rownum=0'));
-            $users = User::select(['id', 'name', 'email', 'created_at','status'])->with('roles')->where('id','<>',28);
+            $users = User::select(['id', 'name', 'email', 'created_at', 'status', 'username'])->with('roles')->where('id', '<>', 28);
             $datatables = Datatables::of($users)->addColumn('roles', function (User $user) {
-            return $user->roles ? $user->roles->implode('name', ', ') : '';
-        })->addColumn('action', function ($role) {
-                        $id = $role->id;
-                        $entity = 'useraccounts';
-                        return view('backend.shared._actions', compact("id", "entity"));
-                    })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                                return $user->roles ? $user->roles->implode('name', ', ') : '';
+                            })->addColumn('action', function ($role) {
+                                $id = $role->id;
+                                $entity = 'useraccounts';
+                                return view('backend.shared._actions', compact("id", "entity"));
+                            })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                      @if(Auth::user()->id != $id) <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span> @endif
-                    </label>')->editColumn('status','<div id="action_{{$id}}" @if(Auth::user()->id == $id) class="d-none"  @endif>{!!_CheckStatus($status,$id)!!}</div>')->rawColumns(['name', 'check','status','action'])
-                            ->setRowId('id_{{$id}}');
+                    </label>')->editColumn('status', '<div id="action_{{$id}}" @if(Auth::user()->id == $id) class="d-none"  @endif>{!!_CheckStatus($status,$id)!!}</div>')->rawColumns(['name', 'check', 'status', 'action', 'email'])
+                            ->setRowId('id_{{$id}}')->editColumn('name', function($query) {
+                        if ($query->isOnline()) {
+                            return $query->name . ' <span class=" m-badge m-badge--dot m-badge--success"></span>';
+                        } else {
+                            return $query->name;
+                        }
+                    })->editColumn('email', '<span class="user-name">{{$username}}</span><span class="user-name">{{$email}}</span>');
 
             return $datatables->make(true);
         }
@@ -44,8 +49,8 @@ class UserController extends Controller {
                     ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-                    ['data' => 'email' ,'name' => 'email','title' => 'User Name'],
-                    ['data' => 'roles','name' => 'roles','title' => 'Role'],
+                    ['data' => 'email', 'name' => 'email', 'title' => 'User Name/Email'],
+                    ['data' => 'roles', 'name' => 'roles', 'title' => 'Role'],
                     ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
                     ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '40'],
                 ])->parameters([
@@ -64,7 +69,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $roles = Role::where('status',1)->pluck('name', 'id');
+        $roles = Role::where('status', 1)->pluck('name', 'id');
         return view('backend.user.create', compact('roles'));
     }
 
@@ -77,17 +82,15 @@ class UserController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [
             'name' => 'bail|required|min:2',
-            'email' => 'required|email|unique:users',
+            'username' => 'required|string|max:255|min:3|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:6',
             'roles' => 'required|min:1',
         ]);
-
         // hash password
         $request->merge(['password' => bcrypt($request->get('password'))]);
-
         // Create the user
         if ($user = User::create($request->except('roles', 'permissions'))) {
-
             $this->syncPermissions($request, $user);
             Alert::success('User has been added successfully !!!', 'Success')->persistent("OK");
         } else {
@@ -131,7 +134,8 @@ class UserController extends Controller {
     public function update(Request $request, $id) {
         $this->validate($request, [
             'name' => 'bail|required|min:2',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'username' => 'required|string|max:255|min:3|unique:users,username,' . $id,
+            'email' => 'required|string|email|unique:users,email,' . $id,
             'roles' => 'required|min:1',
         ]);
 
@@ -139,7 +143,7 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
 
         // Update user
-        $user->fill($request->except('roles', 'permissions', 'password','status'));
+        $user->fill($request->except('roles', 'permissions', 'password', 'status'));
 
         // check for password change
         //  if ($request->get('password')) {
@@ -172,9 +176,9 @@ class UserController extends Controller {
 
         if (User::findOrFail($id)->delete()) {
             //flash()->success('User has been deleted');
-            return response()->json(['title' => 'Success', 'message' => 'User has been deleted ', 'status' => 'success','id' => 'id_'.$id]);
+            return response()->json(['title' => 'Success', 'message' => 'User has been deleted ', 'status' => 'success', 'id' => 'id_' . $id]);
         } else {
-            return response()->json(['title' => 'Not Completed', 'message' => 'User has no deleted ', 'status' => 'warning','id' => 'id_'.$id]);
+            return response()->json(['title' => 'Not Completed', 'message' => 'User has no deleted ', 'status' => 'warning', 'id' => 'id_' . $id]);
         }
 
         //return redirect()->back();
@@ -209,30 +213,30 @@ class UserController extends Controller {
         return $user;
     }
 
-    public function checkStatus(Request $request){
+    public function checkStatus(Request $request) {
         $status = $request->status;
         $id = $request->id;
-        if($status =='1'){
+        if ($status == '1') {
             $status = 0;
-        }elseif($status =='0'){
+        } elseif ($status == '0') {
             $status = 1;
         }
         $update = User::find($id);
         $update->status = $status;
         $update->save();
         $html = _CheckStatus($status, $id);
-        return response()->json(['message' => 'User Account has been updated', 'status' => $status,'id' => $id,'html' => $html]);
+        return response()->json(['message' => 'User Account has been updated', 'status' => $status, 'id' => $id, 'html' => $html]);
     }
-    public function checkMultiple(Request $request){
-         $id = explode(',', $request->input('checkedid'));
-         $status = $request->input('status');
-         $update = User::whereIn('id', $id)->update(['status' => $status]);
-         if($status == 1){
-              return response()->json(['title' => 'Success', 'message' => 'User Account has been actived ', 'status' => 'success']);
-         }else{
-              return response()->json(['title' => 'Success', 'message' => 'User Account has been unactive ', 'status' => 'warning']);
-         }
-        
+
+    public function checkMultiple(Request $request) {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        $update = User::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => 'Success', 'message' => 'User Account has been actived ', 'status' => 'success']);
+        } else {
+            return response()->json(['title' => 'Success', 'message' => 'User Account has been unactive ', 'status' => 'warning']);
+        }
     }
 
 }

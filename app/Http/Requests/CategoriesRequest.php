@@ -24,7 +24,7 @@ class CategoriesRequest extends FormRequest
     public function rules()
     {
         return [
-           'txtname'=> 'bail|required|min:2',
+           'txtname'=> 'required|min:2',
            'txtslug' => 'required|min:1|unique:category,slug,'.$this->segment(3).',id',
         ];
     }

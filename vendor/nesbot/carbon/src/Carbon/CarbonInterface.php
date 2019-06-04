@@ -35,8 +35,8 @@ use ReflectionException;
  * @property      int            $timestamp                                                                          seconds since the Unix Epoch
  * @property      string         $englishDayOfWeek                                                                   the day of week in English
  * @property      string         $shortEnglishDayOfWeek                                                              the abbreviated day of week in English
- * @property      string         $englishMonth                                                                       the day of week in English
- * @property      string         $shortEnglishMonth                                                                  the abbreviated day of week in English
+ * @property      string         $englishMonth                                                                       the month in English
+ * @property      string         $shortEnglishMonth                                                                  the abbreviated month in English
  * @property      string         $localeDayOfWeek                                                                    the day of week in current locale LC_TIME
  * @property      string         $shortLocaleDayOfWeek                                                               the abbreviated day of week in current locale LC_TIME
  * @property      string         $localeMonth                                                                        the month in current locale LC_TIME
@@ -496,12 +496,13 @@ use ReflectionException;
 interface CarbonInterface extends DateTimeInterface, JsonSerializable
 {
     /**
-     * Diff wording options.
+     * Diff wording options(expressed in octal).
      */
     public const NO_ZERO_DIFF = 01;
     public const JUST_NOW = 02;
     public const ONE_DAY_WORDS = 04;
     public const TWO_DAY_WORDS = 010;
+    public const SEQUENTIAL_PARTS_ONLY = 020;
 
     /**
      * Diff syntax options.
