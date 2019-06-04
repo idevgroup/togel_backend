@@ -38,6 +38,7 @@ return array(
     'App\\Http\\Requests\\CategoriesRequest' => $baseDir . '/app/Http/Requests/CategoriesRequest.php',
     'App\\Http\\Requests\\PlayerRequest' => $baseDir . '/app/Http/Requests/PlayerRequest.php',
     'App\\Http\\Requests\\ProductsRequest' => $baseDir . '/app/Http/Requests/ProductsRequest.php',
+    'App\\Http\\Requests\\ProductsRequest22' => $baseDir . '/app/Http/Requests/ProductsRequest22.php',
     'App\\Libraries\\BuildMenu' => $baseDir . '/app/Libraries/BuildMenu.php',
     'App\\Models\\BackEnd\\Authorizable' => $baseDir . '/app/Models/BackEnd/Authorizable.php',
     'App\\Models\\BackEnd\\Banks' => $baseDir . '/app/Models/BackEnd/Banks.php',

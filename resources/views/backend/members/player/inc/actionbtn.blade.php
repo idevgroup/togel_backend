@@ -1,4 +1,6 @@
-
+@php 
+$currentUrl = Request::segment(2);
+@endphp
 <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="click" aria-expanded="true">
     <a href="#" class="m-portlet__nav-link m-dropdown__toggle btn btn-secondary m-btn m-btn--icon m-btn--pill">
         <i class="la la-ellipsis-v"></i>
@@ -13,28 +15,35 @@
                                 <i class="m-nav__link-icon flaticon-list-2"></i><span class="m-nav__link-text">Transaction</span>
                             </a>
                         </li>
-                       <li class="m-nav__item">
-                            <a class="m-nav__link" href="{{ url(_ADMIN_PREFIX_URL)}}/{{ $entity }}/{{ $id }}/banking">
-                                <i class="m-nav__link-icon fa fa-money-bill-alt"></i><span class="m-nav__link-text"> Bank</span></a>
+                        <li class="m-nav__item">
+                            <a class="m-nav__link player-banking" href="javascript:void(0);" data-pname="{{$pname}}" data-id="{{ $id }}">
+                                <i class="m-nav__link-icon fa fa-money-bill-alt"></i><span class="m-nav__link-text"> Balance</span>
+                            </a>
                         </li>
+                        @can('edit_'.$currentUrl)
                         <li class="m-nav__item">
                             <a class="m-nav__link" href="{{ url(_ADMIN_PREFIX_URL)}}/{{ $entity }}/{{ $id }}/edit">
                                 <i class="m-nav__link-icon flaticon-edit-1"></i><span class="m-nav__link-text"> Edit</span></a>
                         </li>
+                        @endcan
+                        @can('delete_'.$currentUrl)
                         <li class="m-nav__item">
                             <a class="m-nav__link delete_action" data-id="{{ $id }}" href="javascript:void(0);">
                                 <i class="m-nav__link-icon flaticon-circle"></i><span class="m-nav__link-text">Delete</span>
                             </a>
                         </li>
-                         <li class="m-nav__item">
+                        @endcan
+                        @can('edit_'.$currentUrl)
+                        <li class="m-nav__item">
                             <a class="m-nav__link player_block" data-id="{{ $id }}" data-status="{{$status}}" href="javascript:void(0);">
                                 @if($status === 1)
                                 <i class="m-nav__link-icon fa fa-lock-open"></i><span class="m-nav__link-text">{{trans('trans.unblockplayer')}}</span>
                                 @else
-                                  <i class="m-nav__link-icon flaticon-lock"></i><span class="m-nav__link-text">{{trans('trans.blockplayer')}}</span>
+                                <i class="m-nav__link-icon flaticon-lock"></i><span class="m-nav__link-text">{{trans('trans.blockplayer')}}</span>
                                 @endif
                             </a>
                         </li>
+                        @endcan
                     </ul>
 
                 </div>
