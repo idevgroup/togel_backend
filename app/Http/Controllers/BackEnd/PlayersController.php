@@ -10,6 +10,7 @@ use App\DataTables\PlayerDatatable;
 use App\Models\BackEnd\PlayerTransaction;
 use Datatables;
 use App\Http\Requests\PlayerRequest;
+use App\Models\BackEnd\PlayerBanks;
 use Carbon;
 
 class PlayersController extends Controller {
@@ -44,7 +45,7 @@ class PlayersController extends Controller {
         //dd($request->all());
         $player = new Player;
         $player->reg_name = $request->input('txtname');
-        $player->reg_username = $request->input('txtusername');
+        $player->reg_username = strtolower($request->input('txtusername'));
         $player->reg_password = _EncryptPwd($request->input('txtpassword'));
         $player->reg_dob = $request->input('txtdob');
         $player->reg_phone = $request->input('txtphone');
@@ -126,8 +127,23 @@ class PlayersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        
+    public function destroy(Request $request,$id) {
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if ($type == 'delete') {
+                Player::whereIn('id', $id)->delete();
+                $message = trans('trans.player') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                Player::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('trans.player') . trans('trans.messagemovedtrashed');
+            }
+
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        } else {
+            Player::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        } 
     }
 
     public function checkStatus(Request $request) {
@@ -156,6 +172,13 @@ class PlayersController extends Controller {
         } else {
             return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.player') . trans('trans.messageunactive'), 'status' => 'warning']);
         }
+    }
+    
+    public function playerBank(Request $request){
+        $pId = $request->input('pId');
+        $playerBalance = Player::findOrFail($pId)->reg_remain_balance;
+        $playerBank = PlayerBanks::where('reg_id',$pId)->with('getBank')->get();
+        return response()->json(['record' => $playerBank,'balance' =>$playerBalance ]);
     }
 
 }
