@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductsRequest extends FormRequest
+class ProductsRequest22 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class ProductsRequest extends FormRequest
             'txtslug' => 'required|min:1|unique:product,slug,'.$this->segment(3).',id'
         ];
     }
-
     public function messages()
     {
         return [

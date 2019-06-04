@@ -11,11 +11,11 @@ class Product extends Model
     protected $table = 'product';
 
     protected static $imageFields = [
-        'banner' => [
+        'image' => [
             'width' => _IMG_CATE_W,
             'resize_image_quality' => 90,
             'crop' => false,
-            'path' => _UPLOAD_DIRE.'category/'._DIRE_IS_MONTH,
+            'path' => _UPLOAD_DIRE.'product/'._DIRE_IS_MONTH,
             'file_input' => 'bannerfile'
         ],
         'thumb' => [
