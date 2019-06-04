@@ -30,6 +30,7 @@ Auth::routes(['register' => false]);
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth'], 'namespace' => 'BackEnd'), function() {
     Route::post('players/banking','PlayersController@playerBank');
+    Route::post('players/updatebalance','PlayersController@updatebalance');
       $ArrMenu = ['dashboards' => 'DashBoardController',
                 'useraccounts' => 'UserController',
                 'rolegroups' => 'RoleController',

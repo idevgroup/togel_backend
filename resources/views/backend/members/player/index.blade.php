@@ -48,7 +48,7 @@
     #edit-balance{
         margin-left: 15px;
         cursor: pointer;
-        
+
     }
     #edit-balance:hover{
         color: #003eff !important;
@@ -159,21 +159,47 @@ var tbladmin = 'admin-tbl-zen';
                     data: {'_token': $('meta[name="csrf-token"]').attr('content'), 'pId': getPId},
                     success: function (response) {
                         var balance = response.balance;
-                        var tbl ='<div><h5>Balance: '+balance+'   <i class="fa fa-edit text-danger d-none" id="edit-balance"></i></h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
+                        var htmlForm = '<div class="form-group m-form__group"><label for="bank-balance-player">Edit Balance</label><div class="input-group m-input-group m-input-group--air">' +
+                                '<div class="input-group-prepend"><span class="input-group-text"><i class="la la-money"></i></span></div>' +
+                                '<input type="number" class="form-control m-input" value="" placeholder="0.00" id="input-balance">' +
+                                '<select class="form-control m-input" id="operator"><option value="1">Addition</option><option value="2">Subtract </option></select>' +
+                                '<input type="text" class="form-control m-input" value="" placeholder="Descrition" id="desc-balance">'+
+                                '<input type="hidden" value="'+getPId+'" id="pid-balance">'+
+                                '<div class="input-group-append">' +
+                                '<button class="btn btn-primary" id="update-balance" type="button">Update</button>' +
+                                '</div>' +
+                                '</div>';
+                        var tbl = '<div><h5>Balance: ' + balance + '   <i class="fa fa-edit text-danger d-none" id="edit-balance"></i></h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
                         var tblBody = '<tbody>';
                         var record = response.record;
                         console.log(record);
                         for (i = 0; i < record.length; i++) {
                             tblBody += '<tr>' + '<td>' + record[i]['get_bank']['bk_name'] + '</td>' + '<td>' + record[i]['reg_account_name'] + '</td>' + '<td>' + record[i]['reg_account_number'] + '</td>' + '</tr>';
                         }
-                        var htmlTable = tbl + tblBody + '</tbody></table>';
+                        var htmlTable = tbl + tblBody + '</tbody></table>' + htmlForm;
                         $('#bank-info').html(htmlTable);
                         $('#playerBank').modal('show').on('hidden.bs.modal', function (e) {
-                            $('#bank-info table').remove();
+                            $('#bank-info').html('');
                         });
                     }
                 });
 
+            });
+            $('body').on('click', '#update-balance', function () {
+               var balance = $('#input-balance').val();
+               var operator = $('#operator').val();
+               var descBalance = $('#desc-balance').val();
+               var pId = $('#pid-balance').val();
+               $.ajax({
+                    url: '{{url(_ADMIN_PREFIX_URL."/players/updatebalance")}}',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {'_token': $('meta[name="csrf-token"]').attr('content'),pId,balance,operator,descBalance},
+                    success: function (response) {
+                        
+                    }
+               });
+               
             });
             function getTransaction(pId) {
                 var table = $('#tableTransation').DataTable({

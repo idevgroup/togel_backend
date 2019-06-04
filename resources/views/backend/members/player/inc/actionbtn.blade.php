@@ -17,7 +17,7 @@ $currentUrl = Request::segment(2);
                         </li>
                         <li class="m-nav__item">
                             <a class="m-nav__link player-banking" href="javascript:void(0);" data-pname="{{$pname}}" data-id="{{ $id }}">
-                                <i class="m-nav__link-icon fa fa-money-bill-alt"></i><span class="m-nav__link-text"> Bank</span>
+                                <i class="m-nav__link-icon fa fa-money-bill-alt"></i><span class="m-nav__link-text"> Balance</span>
                             </a>
                         </li>
                         @can('edit_'.$currentUrl)

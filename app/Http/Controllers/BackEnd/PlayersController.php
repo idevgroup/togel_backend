@@ -180,5 +180,8 @@ class PlayersController extends Controller {
         $playerBank = PlayerBanks::where('reg_id',$pId)->with('getBank')->get();
         return response()->json(['record' => $playerBank,'balance' =>$playerBalance ]);
     }
+    public function updateBalance(Request $request){
+    
+    }
 
 }
