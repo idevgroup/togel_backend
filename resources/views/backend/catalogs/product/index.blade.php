@@ -6,7 +6,7 @@
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    {{trans('menu.category')}}
+                    {{trans('menu.product')}}
                 </h3>
             </div>
         </div>

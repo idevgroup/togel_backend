@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\ProductsRequest;
+use App\Http\Requests\PostsRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Category;
+use App\Models\BackEnd\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\BackEnd\Authorizable;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Models\BackEnd\Product;
-use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class PostController extends Controller
 {
     use Authorizable;
 
@@ -24,25 +24,23 @@ class ProductController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $product = Product::getAllRecord(0);
-            $datatables = Datatables::of($product)->addColumn('action', function ($product) {
-                $id = $product->id;
-                $entity = 'products';
+            $post = Post::getAllRecord(0);
+            $datatables = Datatables::of($post)->addColumn('action', function ($post) {
+                $id = $post->id;
+                $entity = 'posts';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/products') . '/{{$id}}/edit">{{ $name }}</a><br/><small>Slug: {{ $slug }}</small>')
+            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/posts') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small>Slug: {{$slug}}</small>')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
                 ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
                     </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
-
         }
-
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
-            </label>', 'orderable' => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'ProductImage', 'orderable' => false, 'searchable' => false, 'width' => '80'],
+                    </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
+            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
@@ -60,7 +58,7 @@ class ProductController extends Controller
             ]
         ]);
 
-        return view('backend.catalogs.product.index', compact('html'));
+        return view('backend.catalogs.post.index', compact('html'));
     }
 
     /**
@@ -70,8 +68,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $get_parent = Category::where('parent_id', 273)->where('status', 1)->pluck('name', 'id')->all();
-        return view('backend.catalogs.product.create')->with('get_parent', $get_parent);
+        $get_parent = Category::where('parent_id', 277)->where('status', 1)->pluck('name', 'id')->all();
+        return view('backend.catalogs.post.create')->with('get_parent', $get_parent);
     }
 
     /**
@@ -80,34 +78,37 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostsRequest $request)
     {
-        $request->validate([
-            'txtname' => 'required|min:4',
-            'txtslug' => 'required|min:1|unique:product,slug,'
-        ], ['txtname.required' => 'Please input Product Name',
-            'txtname.unique' => 'The Product name as already been taken',
-            'txtslug.required' => 'Please input slug']);
-        $product = new Product;
-        $product->name = $request->txtname;
-        $product->created_by = $request->user_id;
-        $product->updated_by = $request->user_id;
-        $product->category_id = $request->category_id;
-        $product->slug = str::slug($request->txtslug);
-        $product->description = $request->shortdesc;
-        $product->status = ($request->has('status') == true) ? 1 : 0;
-        $product->meta_key = $request->txtmetakey;
-        $product->meta_desc = $request->txtmetadesc;
-
+//        $request->validate([
+//            'txtname' => 'required|min:4',
+//            'txtslug' => 'required|min:1|unique:post,slug'
+//        ],
+//            [
+//                'txtname.required' => 'Please input Post Name',
+//                'txtname.unique' => 'The Product name as already been taken',
+//                'txtslug.required' => 'Please input slug'
+//            ]);
+        $post = new Post;
+        $post->created_by = $request->user_id;
+        $post->updated_by = $request->user_id;
+        $post->name = $request->txtname;
+        $post->category_id = $request->category_id;
+        $post->slug = str::slug($request->txtslug);
+        $post->description = $request->shortdesc;
+        $post->status = ($request->has('status') == true) ? 1 : 0;
+        $post->meta_key = $request->txtmetakey;
+        $post->meta_desc = $request->txtmetadesc;
+        $post->save();
         if ($request->hasFile('bannerfile')) {
-            $product->uploadImage($request->file('bannerfile'));
+            $post->uploadImage($request->file('bannerfile'));
         }
-        $product->save();
-        \Alert::success(trans('menu.category') . trans('trans.messageaddsuccess'), trans('trans.success'));
+
+        \Alert::success(trans('menu.post') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/products');
+            return redirect(_ADMIN_PREFIX_URL . '/posts');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/products' . $product->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/posts' . $post->id . '/edit');
         }
     }
 
@@ -130,11 +131,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
-//        $get_parent = $product::where('status', 1)->pluck('name', 'id')->all();
-        $get_parent = Category::where('status', 1)->where('parent_id',273)->pluck('name', 'id')->all();
-//        dd($get_parent);
-        return view('backend.catalogs.product.edit')->with('product', $product)->with('get_parent', $get_parent);
+
     }
 
     /**
@@ -146,8 +143,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrfail($id);
-
+        //
     }
 
     /**
@@ -165,15 +161,19 @@ class ProductController extends Controller
     {
         $status = $request->status;
         $id = $request->id;
-        if ($status == '1') {
+        if($status == '1')
+        {
             $status = 0;
-        } elseif ($status == '0') {
+        }elseif ($status == '0')
+        {
             $status = 1;
         }
-        $update = Product::find($id);
-        $update->status = $status;
-        $update->save();
-        $html = _CheckStatus($status, $id);
-        return response()->json(['message' => trans('menu.category') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+
+        $updateStatus = Post::find($id);
+        $updateStatus->status = $status;
+        $updateStatus->save();
+        $html = _CheckStatus($status,$id);
+        return response()->json(['message' => trans('menu.post') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+
     }
 }

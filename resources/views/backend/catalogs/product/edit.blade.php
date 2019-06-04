@@ -1,7 +1,7 @@
 @extends('backend.template.main')
 @push('title',trans('menu.category').'-'.trans('trans.edit'))
 @section('content')
-{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/categories/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
+{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/categories/'.$product->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
     <div class="m-portlet__head" style="">
@@ -22,7 +22,7 @@
         <div class="form-group m-form__group row @if ($errors->has('txtname')) has-danger @endif">
             {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
-                {!!Form::text('txtname',old('txtname',$record->name),['class' => 'form-control m-input','id'=>'name'])!!}
+                {!!Form::text('txtname',old('txtname',$product->name),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('txtname')) <p class="form-control-feedback">{{ $errors->first('txtname') }}</p> @endif
             </div>
         </div>
@@ -30,7 +30,7 @@
             {!!Form::label('slug','Slug',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 <div class="input-group">
-                {!!Form::text('txtslug',old('txtslug',$record->slug),['class' => 'form-control m-input','id' => 'slug' ,'readOnly'])!!}
+                {!!Form::text('txtslug',old('txtslug',$product->slug),['class' => 'form-control m-input','id' => 'slug' ,'readOnly'])!!}
                 <div class="input-group-append">
                     <button class="btn btn-info" type="button" id="slugupdate">Update Slug</button>
                 </div>
@@ -43,7 +43,7 @@
         <div class="form-group m-form__group row">
             {!!Form::label('isparent','Is Parent',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::select('isparent',$get_parent,old('isparent',$record->parent_id),['class'=>'form-control m-input'])!!}
+                {!!Form::select('isparent',$get_parent,old('isparent',$product->category_id),['class'=>'form-control m-input'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
@@ -57,27 +57,27 @@
         <div class="form-group m-form__group row">
             {!!Form::label('shortdesc','Description',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-7">
-                {!!Form::textarea('shortdesc',old('shortdesc',$record->description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                {!!Form::textarea('shortdesc',old('shortdesc',$product->description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
             </div>
         </div>
 
         <div class="form-group m-form__group row">
             {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                <input data-switch="true" type="checkbox" value="{{$record->status}}" {{($record->status == 1)?'checked':''}} name="status" data-on-color="success" data-off-color="warning">
+                <input data-switch="true" type="checkbox" value="{{$product->status}}" {{($product->status == 1)?'checked':''}} name="status" data-on-color="success" data-off-color="warning">
 
             </div>
         </div>
         <div class="form-group m-form__group row">
             {!!Form::label('metakey','Meta Key',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::text('txtmetakey',old('txtmetakey',$record->meta_key),['class' => 'form-control m-input','id' => 'metakeyword','data-role'=> 'tagsinput'])!!}
+                {!!Form::text('txtmetakey',old('txtmetakey',$product->meta_key),['class' => 'form-control m-input','id' => 'metakeyword','data-role'=> 'tagsinput'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row">
             {!!Form::label('metadesc','Meta Description',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::textarea('txtmetadesc',old('txtmetadesc',$record->meta_desc),['class' => 'form-control m-input'])!!}
+                {!!Form::textarea('txtmetadesc',old('txtmetadesc',$product->meta_desc),['class' => 'form-control m-input'])!!}
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@ var BootstrapSwitch = {init: function () {
 jQuery(document).ready(function () {
     $('#banner').ace_file_input('show_file_list', [{
             type: 'image',
-            name: '{{asset($record->banner)}}'
+            name: '{{asset($product->banner)}}'
         }]);
     BootstrapSwitch.init()
 });
