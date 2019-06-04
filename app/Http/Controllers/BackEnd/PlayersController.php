@@ -11,7 +11,7 @@ use App\Models\BackEnd\PlayerTransaction;
 use Datatables;
 use App\Http\Requests\PlayerRequest;
 use App\Models\BackEnd\PlayerBanks;
-use Carbon;
+use Carbon\Carbon;
 
 class PlayersController extends Controller {
 
@@ -54,7 +54,7 @@ class PlayersController extends Controller {
         $player->reg_ip = \Request::getClientIp();
         $player->lastip = \Request::getClientIp();
         $player->status = ($request->has('status') == true) ? 1 : 0;
-        $player->reg_date = \Carbon\Carbon::now();
+        $player->reg_date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
         $player->save();
         \Alert::success(trans('trans.player') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
@@ -111,7 +111,7 @@ class PlayersController extends Controller {
         $player->reg_ip = \Request::getClientIp();
         $player->lastip = \Request::getClientIp();
         $player->status = ($request->has('status') == true) ? 1 : 0;
-        $player->reg_date = \Carbon\Carbon::now();
+        $player->reg_date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
         $player->save();
         \Alert::success(trans('trans.player') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
@@ -127,7 +127,7 @@ class PlayersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id) {
+    public function destroy(Request $request, $id) {
         if ($request->has('type')) {
             $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
@@ -135,7 +135,7 @@ class PlayersController extends Controller {
                 Player::whereIn('id', $id)->delete();
                 $message = trans('trans.player') . trans('trans.messagedeleted');
             } elseif ($type == 'remove') {
-                Player::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                Player::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => date('Y-m-d H:i:s', strtotime(Carbon::now()))]);
                 $message = trans('trans.player') . trans('trans.messagemovedtrashed');
             }
 
@@ -143,7 +143,7 @@ class PlayersController extends Controller {
         } else {
             Player::find($id)->delete();
             return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.category') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
-        } 
+        }
     }
 
     public function checkStatus(Request $request) {
@@ -173,15 +173,55 @@ class PlayersController extends Controller {
             return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.player') . trans('trans.messageunactive'), 'status' => 'warning']);
         }
     }
-    
-    public function playerBank(Request $request){
+
+    public function playerBank(Request $request) {
         $pId = $request->input('pId');
         $playerBalance = Player::findOrFail($pId)->reg_remain_balance;
-        $playerBank = PlayerBanks::where('reg_id',$pId)->with('getBank')->get();
-        return response()->json(['record' => $playerBank,'balance' =>$playerBalance ]);
+        $playerBank = PlayerBanks::where('reg_id', $pId)->with('getBank')->get();
+        return response()->json(['record' => $playerBank, 'balance' => $playerBalance]);
     }
-    public function updateBalance(Request $request){
-    
+
+    public function updateBalance(Request $request) {
+        $amount = $request->input('amount');
+        $pid = $request->input('pId');
+        $operator = $request->input('operator');
+        $descBalance = $request->input('descBalance');
+        if ($amount > 0) {
+            $player = Player::findOrFail($pid);
+            $remainBalance = $player->reg_remain_balance;
+            if ($operator == 1) {
+                $player->reg_remain_balance = $player->reg_remain_balance + $amount;
+            } elseif ($operator == 2) {
+                $player->reg_remain_balance = $player->reg_remain_balance - $amount;
+            }
+            $player->save();
+            if ($operator == '1') {
+                $transid = 'CR-' . date('YmdHis', strtotime(Carbon::now()));
+            } elseif ($operator == '2') {
+                $transid = 'DE-' . date('YmdHis', strtotime(Carbon::now()));
+            }
+            $playerTransaction = new PlayerTransaction;
+            $playerTransaction->invoiceId = 'Balance Updated by administrator';
+            $playerTransaction->transid = $transid;
+            $playerTransaction->playerid = $pid;
+            $playerTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
+            
+           
+            if ($operator == '1') {
+                $playerTransaction->saldo = $remainBalance + $amount;
+                 $playerTransaction->kredit = $amount;
+                 $playerTransaction->debet = 0;
+            } elseif ($operator == '2') {
+                $playerTransaction->saldo = $remainBalance - $amount;
+                $playerTransaction->kredit = 0;
+                 $playerTransaction->debet = $amount;
+            }
+            $playerTransaction->updated_by = \Auth::user()->id;
+            $playerTransaction->save();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.balanceupdate'), 'status' => 'success', 'balance' => $player->reg_remain_balance]);
+        } else {
+            return response()->json(['title' => trans('trans.warning'), 'message' => trans('trans.invbalance'), 'status' => 'warning']);
+        }
     }
 
 }
