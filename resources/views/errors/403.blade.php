@@ -1,5 +1,3 @@
-@extends('errors::minimal')
-
-@section('title', __('Forbidden'))
-@section('code', '403')
-@section('message', __($exception->getMessage() ?: 'Forbidden'))
+@extends('backend.template.main')
+@push('title', __('Forbidden'))
+@section('content', __($exception->getMessage() ?: 'Forbidden'))

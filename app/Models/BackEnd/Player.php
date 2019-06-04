@@ -10,7 +10,7 @@ class Player extends Model
       static function getRecord(){
           return self::with(['getPlayerBank'=>function($query){
               return $query->with('getBank');
-          },'getReferral']);
+          },'getReferral'])->where('is_trashed',0);
       }
       
       public function getPlayerBank(){

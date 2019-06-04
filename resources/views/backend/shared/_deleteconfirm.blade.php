@@ -29,7 +29,7 @@
                             //parent.fadeOut('slow');
                             // $('#' + response.id).fadeOut('slow');
                             // window.LaravelDataTables[tbladmin].ajax.reload();
-                            window.LaravelDataTables[tbladmin].draw();
+                            window.LaravelDataTables[tbladmin].draw(false);
                         }
                         swal({
                             title: response.title,

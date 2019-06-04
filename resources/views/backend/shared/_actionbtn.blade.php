@@ -1,4 +1,9 @@
+@php 
+$currentUrl = Request::segment(2);
+@endphp
+
 <ul class="m-portlet__nav">
+    @can('add_'.$currentUrl)
     <li class="m-portlet__nav-item">
         <a href="{{url()->current()}}/create" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air">
             <span>
@@ -7,6 +12,8 @@
             </span>
         </a>
     </li>
+    @endcan
+    @can('edit_'.$currentUrl)
     <li class="m-portlet__nav-item">
         <a href="javascript:void(0);" class="btn btn-info m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="active-record" data-status="1">
             <span>
@@ -23,6 +30,8 @@
             </span>
         </a>
     </li>
+    @endcan
+    @can('delete_'.$currentUrl)
     <li class="m-portlet__nav-item">
         <a href="javascript:void(0);" class="btn btn-danger m-btn m-btn--pill m-btn--custom m-btn--icon m-btn--air" id="remove-record" data-type="remove">
             <span>
@@ -39,4 +48,5 @@
             </span>
         </a>
     </li>
+    @endcan
 </ul>
