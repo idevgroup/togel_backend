@@ -159,9 +159,9 @@ var tbladmin = 'admin-tbl-zen';
                     data: {'_token': $('meta[name="csrf-token"]').attr('content'), 'pId': getPId},
                     success: function (response) {
                         var balance = response.balance;
-                        var htmlForm = '<div class="form-group m-form__group"><label for="bank-balance-player">Edit Balance</label><div class="input-group m-input-group m-input-group--air">' +
+                        var htmlForm = '<div class="form-group m-form__group"><label for="bank-balance-player">Update Balance</label><div class="input-group m-input-group m-input-group--air">' +
                                 '<div class="input-group-prepend"><span class="input-group-text"><i class="la la-money"></i></span></div>' +
-                                '<input type="number" class="form-control m-input" value="" placeholder="0.00" id="input-balance">' +
+                                '<input type="number" class="form-control m-input" value="" placeholder="0.00" id="input-amount">' +
                                 '<select class="form-control m-input" id="operator"><option value="1">Addition</option><option value="2">Subtract </option></select>' +
                                 '<input type="text" class="form-control m-input" value="" placeholder="Descrition" id="desc-balance">'+
                                 '<input type="hidden" value="'+getPId+'" id="pid-balance">'+
@@ -169,7 +169,7 @@ var tbladmin = 'admin-tbl-zen';
                                 '<button class="btn btn-primary" id="update-balance" type="button">Update</button>' +
                                 '</div>' +
                                 '</div>';
-                        var tbl = '<div><h5>Balance: ' + balance + '   <i class="fa fa-edit text-danger d-none" id="edit-balance"></i></h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
+                        var tbl = '<div><h5 id="remain-balance">Balance: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
                         var tblBody = '<tbody>';
                         var record = response.record;
                         console.log(record);
@@ -186,7 +186,7 @@ var tbladmin = 'admin-tbl-zen';
 
             });
             $('body').on('click', '#update-balance', function () {
-               var balance = $('#input-balance').val();
+               var amount = $('#input-amount').val();
                var operator = $('#operator').val();
                var descBalance = $('#desc-balance').val();
                var pId = $('#pid-balance').val();
@@ -194,9 +194,19 @@ var tbladmin = 'admin-tbl-zen';
                     url: '{{url(_ADMIN_PREFIX_URL."/players/updatebalance")}}',
                     type: 'POST',
                     dataType: 'JSON',
-                    data: {'_token': $('meta[name="csrf-token"]').attr('content'),pId,balance,operator,descBalance},
+                    data: {'_token': $('meta[name="csrf-token"]').attr('content'),pId,amount,operator,descBalance},
                     success: function (response) {
-                        
+                         swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false
+                        });
+                        $('#remain-balance').text('Balance: '+response.balance);
+                        $('#input-amount').val('');
+                        $('#desc-balance').val('');
+                        $('#operator').prop('selectedIndex',0);
+                        window.LaravelDataTables[tbladmin].draw(false);
                     }
                });
                

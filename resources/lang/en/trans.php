@@ -24,6 +24,9 @@ return[
     'messageunactive' => ' has been inactiveed !!!',
     'blockplayer' => 'Active Player ',
     'unblockplayer' => 'Inactive Player ',
-    'player' => 'Player'
+    'player' => 'Player',
+    'invbalance' => 'Invalid amount, please try again!!!',
+    'warning' => 'Warning',
+    'balanceupdate' => 'Balance update successfully !!!'
     
 ];

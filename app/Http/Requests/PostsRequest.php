@@ -25,7 +25,7 @@ class PostsRequest extends FormRequest
     {
         return [
             'txtname' => 'required|min:4',
-            'txtslug' => 'required|min:1|unique:category,slug,',
+            'txtslug' => 'required|min:1|unique:post,slug,'.$this->segment(3).',id'
         ];
     }
 
