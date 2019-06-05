@@ -21,7 +21,7 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{!! Auth::user()->id !!}" name="user_id">
             <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-                {!!Form::label('banner','Banner',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
 
                     {!!Form::file('bannerfile',['id' =>'banner'])!!}

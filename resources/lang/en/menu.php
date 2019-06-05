@@ -7,6 +7,7 @@ return [
     'product' => 'Product',
     'post' => 'Post',
     'dreambook' => 'Dream Book',
+    'slide' => 'Slide show',
     'slideshow' => 'Slide Show',
     'software' => 'Software',
     'notification' => 'Notification',

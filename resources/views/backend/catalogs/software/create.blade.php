@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.slide').'-'.trans('trans.create'))
+@push('title',trans('menu.software').'-'.trans('trans.create'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/slides'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/software'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.slide').' / '.trans('trans.create')}}
+                            {{trans('menu.software').' / '.trans('trans.create')}}
                         </h3>
                     </div>
                 </div>
@@ -20,28 +20,48 @@
         </div>
         <div class="m-portlet__body">
             <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
+            <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
+                {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                <div class="col-sm-5">
+                    {!!Form::text('name',old('name'),['class' => 'form-control m-input','id' => 'name' ])!!}
+                    @if ($errors->has('name')) <p
+                            class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
+                </div>
+            </div>
+            <div class="form-group m-form__group row @if ($errors->has('slug')) has-danger @endif">
+                {!!Form::label('slug','Slug',['class' => 'col-sm-3 col-form-label required'])!!}
+                <div class="col-sm-5">
+                    {!!Form::text('slug',old('slug'),['class' => 'form-control m-input','id' => 'slug' ])!!}
+                    @if ($errors->has('txtslug')) <p
+                            class="form-control-feedback">{{ $errors->first('slug') }}</p> @endif
+                </div>
+            </div>
+            <div class="form-group m-form__group row @if($errors->has('file')) has-danger @endif">
+                {!!Form::label('file','File',['class' => 'col-sm-3 col-form-label required'])!!}
+                <div class="col-sm-5">
+
+                    {!!Form::file('file',['id' =>'file'])!!}
+                    @if ($errors->has('file')) <p class="form-control-feedback">{{ $errors->first('file') }}</p> @endif
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                {!!Form::label('shortdesc','Brief',['class' => 'col-sm-3 col-form-label'])!!}
+                <div class="col-sm-7">
+                    {!!Form::textarea('shortdesc',old('shortdesc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                </div>
+            </div>
+            <div class="form-group m-form__group row">
+                {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                <div class="col-sm-7">
+                    {!!Form::textarea('desc',old('desc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                </div>
+            </div>
             <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-                {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
 
                     {!!Form::file('bannerfile',['id' =>'banner'])!!}
                     @if ($errors->has('bannerfile')) <p class="form-control-feedback">{{ $errors->first('bannerfile') }}</p> @endif
-                </div>
-            </div>
-            <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-                {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label required'])!!}
-                <div class="col-sm-5">
-                    {!!Form::text('link',old('link'),['class' => 'form-control m-input','id' => 'link' ])!!}
-                    @if ($errors->has('link')) <p
-                            class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
-                </div>
-            </div>
-            <div class="form-group m-form__group row @if ($errors->has('alt')) has-danger @endif">
-                {!!Form::label('alt','Alt',['class' => 'col-sm-3 col-form-label'])!!}
-                <div class="col-sm-5">
-                    {!!Form::text('alt',old('alt'),['class' => 'form-control m-input','id' => 'alt' ])!!}
-                    @if ($errors->has('alt')) <p
-                            class="form-control-feedback">{{ $errors->first('alt') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">

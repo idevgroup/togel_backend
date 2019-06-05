@@ -21,7 +21,7 @@
     <div class="m-portlet__body">
         <input type="hidden" value="{!! Auth::user()->id !!}" name="user_id">
         <div class="form-group m-form__group row @if ($errors->has('txtname')) has-danger @endif">
-            {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('name','Product Name',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 {!!Form::text('txtname',old('txtname',$product->name),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('txtname')) <p class="form-control-feedback">{{ $errors->first('txtname') }}</p> @endif

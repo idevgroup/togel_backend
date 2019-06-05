@@ -42,6 +42,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
                 'products' => 'ProductController',
                 'posts' => 'PostController',
                 'dreambooks' => 'DreambooksController',
+                'software' => 'SoftwareController',
                 'slides'    => 'SlidesController',
                 'players' => 'PlayersController'];
      foreach ($ArrMenu as $key => $value) {
