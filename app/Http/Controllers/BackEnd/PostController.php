@@ -124,7 +124,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Product::find($id);
+        $post = Post::find($id);
         $get_parent = Category::where('status', 1)->where('parent_id', 277)->pluck('name', 'id')->all();
         return view('backend.catalogs.post.edit')->with('post', $post)->with('get_parent', $get_parent);
     }
@@ -138,7 +138,28 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrfail($id);
+        $post->created_by = $request->user_id;
+        $post->updated_by = $request->user_id;
+        $post->name = $request->txtname;
+        $post->category_id = $request->category_id;
+        $post->slug = str::slug($request->txtslug);
+        $post->description = $request->shortdesc;
+        $post->status = ($request->has('status') == true) ? 1 : 0;
+        $post->meta_key = $request->txtmetakey;
+
+        $post->meta_desc = $request->txtmetadesc;
+        $post->save();
+        if ($request->hasFile('bannerfile')) {
+            $post->uploadImage($request->file('bannerfile'));
+        }
+
+        \Alert::success(trans('menu.post') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/posts');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/posts' . $post->id . '/edit');
+        }
     }
 
     /**
@@ -182,6 +203,17 @@ class PostController extends Controller
         $updateStatus->save();
         $html = _CheckStatus($status, $id);
         return response()->json(['message' => trans('menu.post') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
 
+    public function checkMultiple(Request $request)
+    {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        Post::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.post') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.post') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 }

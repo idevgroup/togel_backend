@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class dreambooksRequest extends FormRequest
+class SlideRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,15 @@ class dreambooksRequest extends FormRequest
     public function rules()
     {
         return [
-            'txtname' => 'required|min:4',
-            'txtslug' => 'required|min:1|unique:dreambook,slug,'.$this->segment(3).',id',
+            'bannerfile' => 'required',
+            'link' => 'required|unique:slide'
         ];
     }
-
     public function messages()
     {
         return [
-            'txtname.required' => 'Please input Dream Book Name',
-            'txtname.unique' => 'The Dream Book name as already been taken',
-            'txtslug.required' => 'Please input slug'
+            'bannerfile.required' => 'Please input image',
+            'link.unique' => 'The link is already been taken',
         ];
     }
 }
