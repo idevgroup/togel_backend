@@ -11,16 +11,19 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return redirect('login');
+});*/
+Route::get('/home', 'HomeController@index')->name('home');
+Route::group(array('namespace' => 'FrontEnd'), function() {
+    Route::get('/','HomeController@home')->name('frontend.home');
 });
-
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();
 });
 
-Route::group(array('middleware' => ['auth', 'web'], 'namespace' => 'BackEnd'), function() {
+Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function() {
     Route::get(_ADMIN_PREFIX_URL, function() {
         return redirect(_ADMIN_PREFIX_URL . '/dashboards');
     });
@@ -48,4 +51,4 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     }
 
 });
-Route::get('/home', 'HomeController@index')->name('home');
+

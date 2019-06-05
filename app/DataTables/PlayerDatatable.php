@@ -35,7 +35,7 @@ class PlayerDatatable extends DataTable {
                     </label>')->editColumn('reg_name', function($query) {
                     $getReferral = $query->getReferral;
                     return '<span class="p-name">' . $query->reg_name . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
-                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged :</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username'])->setRowClass(function($player) {
+                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged at:</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username'])->setRowClass(function($player) {
                     return $player->status == 1 ? '' : 'text-danger';
                 });
     }
