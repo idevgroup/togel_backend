@@ -6,6 +6,7 @@ use App\Http\Requests\PostsRequest;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Category;
 use App\Models\BackEnd\Post;
+use App\Models\BackEnd\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -80,15 +81,6 @@ class PostController extends Controller
      */
     public function store(PostsRequest $request)
     {
-//        $request->validate([
-//            'txtname' => 'required|min:4',
-//            'txtslug' => 'required|min:1|unique:post,slug'
-//        ],
-//            [
-//                'txtname.required' => 'Please input Post Name',
-//                'txtname.unique' => 'The Product name as already been taken',
-//                'txtslug.required' => 'Please input slug'
-//            ]);
         $post = new Post;
         $post->created_by = $request->user_id;
         $post->updated_by = $request->user_id;
@@ -98,6 +90,7 @@ class PostController extends Controller
         $post->description = $request->shortdesc;
         $post->status = ($request->has('status') == true) ? 1 : 0;
         $post->meta_key = $request->txtmetakey;
+
         $post->meta_desc = $request->txtmetadesc;
         $post->save();
         if ($request->hasFile('bannerfile')) {
@@ -131,7 +124,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-
+        $post = Product::find($id);
+        $get_parent = Category::where('status', 1)->where('parent_id', 277)->pluck('name', 'id')->all();
+        return view('backend.catalogs.post.edit')->with('post', $post)->with('get_parent', $get_parent);
     }
 
     /**
@@ -152,27 +147,40 @@ class PostController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if ($type == 'delete') {
+                Post::whereIn('id', $id)->delete();
+                $message = trans('menu.post') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                Post::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.post') . trans('trans.messagemovedtrashed');
+            }
+
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        } else {
+            Post::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.post') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
     }
 
     public function checkStatus(Request $request)
     {
         $status = $request->status;
         $id = $request->id;
-        if($status == '1')
-        {
+        if ($status == '1') {
             $status = 0;
-        }elseif ($status == '0')
-        {
+        } elseif ($status == '0') {
             $status = 1;
         }
 
         $updateStatus = Post::find($id);
         $updateStatus->status = $status;
         $updateStatus->save();
-        $html = _CheckStatus($status,$id);
+        $html = _CheckStatus($status, $id);
         return response()->json(['message' => trans('menu.post') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
 
     }
