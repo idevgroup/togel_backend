@@ -46,6 +46,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'dreambooks' => 'DreambooksController',
         'software' => 'SoftwareController',
         'slides' => 'SlidesController',
+        'banks' => 'BanksController',
         'players' => 'PlayersController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

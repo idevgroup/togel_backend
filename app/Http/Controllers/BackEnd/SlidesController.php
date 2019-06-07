@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Requests\SlideRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Category;
 use App\Models\BackEnd\Slide;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Yajra\DataTables\Html\Builder;
 
 class SlidesController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -141,7 +143,7 @@ class SlidesController extends Controller
         {
             $slide->uploadImage($request->file('bannerfile'));
         }
-        \Alert::success(trans('menu.slide') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        \Alert::success(trans('menu.slide') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/slides');
         } else {

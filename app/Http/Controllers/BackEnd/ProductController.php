@@ -167,7 +167,7 @@ class ProductController extends Controller
         if ($request->hasFile('bannerfile')) {
             $product->uploadImage($request->file('bannerfile'));
         }
-        \Alert::success(trans('menu.category') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        \Alert::success(trans('menu.category') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/products');
         } else {

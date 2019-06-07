@@ -29,12 +29,12 @@ class Slide extends Model
 
     protected function imageUploadFilePath($file)
     {
-        return $this->slug . '-' . $this->id . '.' . $file->getClientOriginalExtension();
+        return $this->id . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
 
     protected function thumbUploadFilePath($file)
     {
-        return $this->slug . '-' . $this->id . '.' . $file->getClientOriginalExtension();
+        return $this->id . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
 
     static function getAllRecord($is_trashed)

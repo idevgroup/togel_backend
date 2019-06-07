@@ -154,7 +154,7 @@ class PostController extends Controller
             $post->uploadImage($request->file('bannerfile'));
         }
 
-        \Alert::success(trans('menu.post') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        \Alert::success(trans('menu.post') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/posts');
         } else {

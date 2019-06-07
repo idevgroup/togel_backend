@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Requests\SoftwareRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Software;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 
 class SoftwareController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -151,7 +153,7 @@ class SoftwareController extends Controller
         }
 
 
-        \Alert::success(trans('menu.software') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        \Alert::success(trans('menu.software') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/software');
         } else {
