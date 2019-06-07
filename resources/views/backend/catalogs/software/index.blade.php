@@ -17,7 +17,7 @@
         </div>
         <div class="m-portlet__body">
             {!! $html->table(['class' => 'table table-striped- table-bordered table-hover table-checkable','id'=>'admin-tbl-zen']) !!}
-        </div>s
+        </div>
     </div>
 @endsection
 
@@ -34,7 +34,7 @@
         var tbladmin = 'admin-tbl-zen';
     </script>
     @include('backend.shared._deleteconfirm', [
-        'entity' => 'slides',
+        'entity' => 'software',
         'vid' => '$(this).data("id")'
     ])
 

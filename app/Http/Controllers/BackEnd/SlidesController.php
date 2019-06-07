@@ -5,7 +5,6 @@ namespace App\Http\Controllers\BackEnd;
 use App\Http\Requests\SlideRequest;
 use App\Models\BackEnd\Category;
 use App\Models\BackEnd\Slide;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -166,12 +165,13 @@ class SlidesController extends Controller
                 Slide::whereIn('id', $id)->delete();
                 $message = trans('menu.slide') . trans('trans.messagedeleted');
             }elseif ($type == 'remove'){
-                Slide::whereIn('id', $id)->update(['is-trashed' => 1, 'trashed_ad' => Carbon::now()]);
-                $message = trans('menu.dreambook') . trans('trans.messagemovedtrashed');
+                Slide::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.slide') . trans('trans.messagemovedtrashed');
             }
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
         }else{
             Slide::find($id)->delete();
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.dreambook') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.slide') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
         }
     }
 

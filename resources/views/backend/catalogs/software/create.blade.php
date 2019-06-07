@@ -32,17 +32,29 @@
                 {!!Form::label('slug','Slug',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('slug',old('slug'),['class' => 'form-control m-input','id' => 'slug' ])!!}
-                    @if ($errors->has('txtslug')) <p
+                    @if ($errors->has('slug')) <p
                             class="form-control-feedback">{{ $errors->first('slug') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if($errors->has('file')) has-danger @endif">
-                {!!Form::label('file','File',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if($errors->has('filepath')) has-danger @endif">
+                {!!Form::label('filepath','File',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-
-                    {!!Form::file('file',['id' =>'file'])!!}
-                    @if ($errors->has('file')) <p class="form-control-feedback">{{ $errors->first('file') }}</p> @endif
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <span class="input-group-btn btn-span">
+                                 <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                   <i class="fa fa-picture-o"></i> Choose File
+                                 </a>
+                            </span>
+                        </div>
+                        <div class="col-sm-9">
+                            <input id="thumbnail" class="form-control filepath" type="text" name="filepath">
+                        </div>
+                    </div>
+                    @if ($errors->has('filepath')) <p
+                            class="form-control-feedback">{{ $errors->first('filepath') }}</p> @endif
                 </div>
+                <img id="holder" style="margin-top:15px;max-height:90px;">
             </div>
             <div class="form-group m-form__group row">
                 {!!Form::label('shortdesc','Brief',['class' => 'col-sm-3 col-form-label'])!!}
@@ -61,36 +73,40 @@
                 <div class="col-sm-5">
 
                     {!!Form::file('bannerfile',['id' =>'banner'])!!}
-                    @if ($errors->has('bannerfile')) <p class="form-control-feedback">{{ $errors->first('bannerfile') }}</p> @endif
+                    @if ($errors->has('bannerfile')) <p
+                            class="form-control-feedback">{{ $errors->first('bannerfile') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
                 {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-                    <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
+                    <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success"
+                           data-off-color="warning">
 
                 </div>
             </div>
         </div>
-
+        {{--        <iframe src="/laravel-filemanager" style="width: 100%; height: 500px; overflow: hidden; border: none;"></iframe>--}}
     </div>
     {!!Form::close()!!}
 @endsection
 
 @push('style')
-    <link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}" />
-    <link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}" />
+    <link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}"/>
+    <link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}"/>
     <style>
         .bootstrap-tagsinput .badge {
             margin: 2px 2px;
             padding: 5px 8px;
             font-size: 12px;
         }
+
         .bootstrap-tagsinput .badge [data-role="remove"] {
             margin-left: 10px;
             cursor: pointer;
             color: #99334a;
         }
+
         .bootstrap-tagsinput .badge [data-role="remove"]:after {
             content: "×";
             padding: 0px 4px;
@@ -110,13 +126,27 @@
     {{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}}
     @include('backend.shared._selectimg',['selectElement' => '#banner'])
     @include('backend.shared._tinymce',['elements' => '.cms-editor'])
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script type="text/javascript">
         $('#name').furl({id: 'slug', seperate: '-'});
-        var BootstrapSwitch = {init: function () {
+        var BootstrapSwitch = {
+            init: function () {
                 $("[data-switch=true]").bootstrapSwitch()
-            }};
+            }
+        };
         jQuery(document).ready(function () {
             BootstrapSwitch.init()
         });
+
+
+        var domain = "";
+        $('#lfm').filemanager('file', {prefix: domain});
+        var lfm = function (options, cb) {
+
+            var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+
+            window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600,margin-left: 500px');
+            window.SetUrl = cb;
+        }
     </script>
 @endpush

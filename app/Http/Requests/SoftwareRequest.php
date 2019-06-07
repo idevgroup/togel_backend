@@ -13,7 +13,7 @@ class SoftwareRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class SoftwareRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:4',
+            'slug' => 'required|min:1|unique:software,slug,'.$this->segment(3).',id',
+            'filepath' => 'required'
+        ];
+    }
+    public function messages(){
+
+        return [
+            'name.required' => 'Please input software name',
+            'name.unique' => 'The software name as already been taken',
+            'slug.required' => 'Please input slug',
+            'filepath.required' => 'Please choose file or input file'
         ];
     }
 }
