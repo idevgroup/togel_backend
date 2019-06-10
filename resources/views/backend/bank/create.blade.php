@@ -50,9 +50,9 @@
             </div>
 
             <div class="form-group m-form__group row">
-                {!!Form::label('active','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-2">
-                    <input data-switch="true" type="checkbox" value="0" name="active" data-on-color="success" data-off-color="warning">
+                    <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 
                 </div>
 {{--                {!!Form::label('status','Status',['class' => 'col-sm-1 col-form-label'])!!}--}}
