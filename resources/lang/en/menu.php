@@ -14,6 +14,7 @@ return [
     'customerservice' => 'Customer Service',
     'bank' => 'Bank',
     'bankaccount' => 'Bank Account',
+    'bankaccountgroup' => 'Bank Account Group',
     'games' => 'Games',
     '4D' => '4D',
     'systemsetting' => 'System Setting',

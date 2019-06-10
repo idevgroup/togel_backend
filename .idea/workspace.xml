@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="048c0372-e567-4802-8aca-8c9574ef1b55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/BankAccountRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/BankAccountRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccount/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccount/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccount/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccount/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/menu.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="184" column="43" selection-start-line="184" selection-start-column="43" selection-end-line="184" selection-end-column="43" />
+            <state relative-caret-position="-2109">
+              <caret line="69" column="17" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
               <folding>
                 <element signature="e#48#89#0#PHP" expanded="true" />
               </folding>
@@ -51,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/lang/en/menu.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="15" column="16" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="16" />
+            <state relative-caret-position="352">
+              <caret line="16" column="45" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -149,7 +146,6 @@
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/product/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/post/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/dreambook/edit.blade.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/menu.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/slide/create.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/slide/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/product/create.blade.php" />
@@ -185,6 +181,7 @@
         <option value="$PROJECT_DIR$/resources/views/backend/bankaccount/create.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/bankaccount/edit.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php" />
+        <option value="$PROJECT_DIR$/resources/lang/en/menu.php" />
       </list>
     </option>
   </component>
@@ -301,7 +298,7 @@
       <path value="$PROJECT_DIR$/vendor/unisharp/laravel-filemanager" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-245" />
     <option name="y" value="196" />
     <option name="width" value="1934" />
@@ -519,18 +516,18 @@
       <workItem from="1559882876274" duration="504000" />
       <workItem from="1559888000198" duration="6285000" />
       <workItem from="1560137275221" duration="6280000" />
-      <workItem from="1560147440529" duration="10572000" />
+      <workItem from="1560147440529" duration="11322000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126479000" />
+    <option name="totallyTimeSpent" value="127229000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.1641791" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1641791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -850,13 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/en/menu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/lang/en/trans.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
@@ -893,11 +883,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="184" column="43" selection-start-line="184" selection-start-column="43" selection-end-line="184" selection-end-column="43" />
+        <state relative-caret-position="-2109">
+          <caret line="69" column="17" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
           <folding>
             <element signature="e#48#89#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/en/menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="45" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
         </state>
       </provider>
     </entry>
