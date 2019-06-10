@@ -94,7 +94,7 @@ class BanksController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/banks');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/banks' . $dreambook->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/banks' . $bank->id . '/edit');
         }
     }
 
