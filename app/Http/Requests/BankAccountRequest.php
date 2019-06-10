@@ -24,7 +24,20 @@ class BankAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'number' => 'required|numeric',
+            'phone' => 'required|numeric'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please Input Account Name',
+            'number.required' => 'Please Input Account Number',
+            'number.numeric' => 'Please Input Only number',
+            'phone.required' => 'Please Input Phone Number',
+            'phone.numeric' => 'Please Input Only number',
         ];
     }
 }

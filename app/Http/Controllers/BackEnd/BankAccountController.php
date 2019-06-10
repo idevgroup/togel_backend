@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\BackEnd;
 
+use App\Http\Requests\BankAccountRequest;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\BankAccount;
 use App\Models\BackEnd\Banks;
@@ -21,28 +22,25 @@ class BankAccountController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $bankAccount = BankAccount::getAllRecord(0);
-            $datatables = Datatables::of($bankAccount)->addColumn('action', function ($bankAccount) {
-                $id = $bankAccount->id;
-                $entity = 'banks';
+            $bankaccount = BankAccount::getAllRecord(0);
+            $datatables = Datatables::of($bankaccount)->addColumn('action', function ($bankaccount) {
+                $id = $bankaccount->id;
+                $entity = 'bankaccounts';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })->editColumn('description', '{!! $description !!}')
+            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/bankaccounts') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small>Phone: {{$phone}}</small>')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
                 ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'description', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
-            ['data' => 'check', 'name' => 'check', 'title' => '
-            <label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
-            <input type="checkbox" value="" class="m-group-checkable"> <span></span>
+            ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Image', "orderable" => false, "searchable" => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'link', 'name' => 'link', 'title' => 'Link'],
-            ['data' => 'description', 'name' => 'description', 'title' => 'Description'],
+            ['data' => 'number', 'name' => 'number', 'title' => 'Bank Account Number'],
+            ['data' => 'balance', 'name' => 'balance', 'title' => 'Balance'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
@@ -78,7 +76,7 @@ class BankAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BankAccountRequest $request)
     {
         $bankacc =new BankAccount;
         $bankacc->name = $request->input('name');
@@ -117,7 +115,9 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        //
+        $record = BankAccount::find($id);
+        $bank = Banks::where('status', 1)->pluck('name','id')->all();
+        return view('backend.bankaccount.edit')->with('record',$record)->with('bank',$bank);
     }
 
     /**
@@ -129,7 +129,22 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bankacc = BankAccount::findOrfail($id);
+        $bankacc->name = $request->input('name');
+        $bankacc->bank_id = $request->input('bank_id');
+        $bankacc->number = $request->input('number');
+        $bankacc->phone =$request->input('phone');
+        $bankacc->balance = $request->input('balance');
+        $bankacc->address = $request->input('address');
+        $bankacc->type = $request->input('type');
+        $bankacc->status = ($request->has('status') == true) ? 1 : 0;
+        $bankacc->save();
+        \Alert::success(trans('menu.$bankacc') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts' . $bankacc->id . '/edit');
+        }
     }
 
     /**
@@ -138,8 +153,46 @@ class BankAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if ($type == 'delete') {
+                BankAccount::whereIn('id', $id)->delete();
+                $message = trans('menu.bankaccount') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                BankAccount::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.bankaccount') . trans('trans.messagemovedtrashed');
+            }
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        } else {
+            BankAccount::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
+    }
+    public function checkStatus(Request $request){
+        $id = $request->input('id');
+        $status = $request->input('status');
+        if ($status == 1){
+            $status = 0;
+        }elseif ($status == 0){
+            $status = 1;
+        }
+        $upstatus = BankAccount::find($id);
+        $upstatus->status = $status;
+        $upstatus->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => trans('menu.bankaccount') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+    public function checkMultiple(Request $request){
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        BankAccount::whereIn('id', $id)->update(['status'=>$status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 }

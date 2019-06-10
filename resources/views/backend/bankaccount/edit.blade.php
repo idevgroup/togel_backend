@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.bank').'-'.trans('trans.edit'))
+@push('title',trans('menu.bankaccount').'-'.trans('trans.edit'))
 @section('content')
-{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/banks/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
+{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankaccounts/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
     <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.bank').' / '.trans('trans.edit')}}
+                        {{trans('menu.bankaccount').' / '.trans('trans.edit')}}
                     </h3>
                 </div>
             </div>
@@ -20,36 +20,53 @@
     </div>
     <div class="m-portlet__body">
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-            {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('name','Bank Account Name',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 {!!Form::text('name',old('name',$record->name),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
             </div>
         </div>
-
-        <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-            {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label'])!!}
-            <div class="col-sm-5">
-
-                {!!Form::file('bannerfile',['id' =>'banner'])!!}
-                @if ($errors->has('bannerfile')) <p class="form-control-feedback">{{ $errors->first('bannerfile') }}</p> @endif
-            </div>
-        </div>
-        <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-            {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label'])!!}
-            <div class="col-sm-5">
-                {!!Form::text('link',old('link', $record->link),['class' => 'form-control m-input','id' => 'link' ])!!}
-                @if ($errors->has('link')) <p
-                        class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
-            </div>
-        </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('description','Description',['class' => 'col-sm-3 col-form-label'])!!}
-            <div class="col-sm-7">
-                {!!Form::textarea('description',old('description',$record->description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+            {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="col-sm-5">
+                {!!Form::select('bank_id',$bank,old('bank_id',$record->bank_id),['class'=>'form-control m-input'])!!}
             </div>
         </div>
-
+        <div class="form-group m-form__group row @if ($errors->has('number')) has-danger @endif">
+            {!!Form::label('number','Bank Account number',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="col-sm-5">
+                {!!Form::text('number',old('number',$record->number),['class' => 'form-control m-input','id'=>'number'])!!}
+                @if ($errors->has('number')) <p class="form-control-feedback">{{ $errors->first('number') }}</p> @endif
+            </div>
+        </div>
+        <div class="form-group m-form__group row @if ($errors->has('phone')) has-danger @endif">
+            {!!Form::label('phone','Phone Number',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="col-sm-5">
+                {!!Form::text('phone',old('phone',$record->phone),['class' => 'form-control m-input','id'=>'phone'])!!}
+                @if ($errors->has('phone')) <p class="form-control-feedback">{{ $errors->first('phone') }}</p> @endif
+            </div>
+        </div>
+        <div class="form-group m-form__group row @if ($errors->has('balance')) has-danger @endif">
+            {!!Form::label('balance','Balance',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="col-sm-5">
+                {!!Form::text('balance',old('balance',$record->balance),['class' => 'form-control m-input','id'=>'balance'])!!}
+                @if ($errors->has('balance')) <p class="form-control-feedback">{{ $errors->first('balance') }}</p> @endif
+            </div>
+        </div>
+        <div class="form-group m-form__group row @if ($errors->has('address')) has-danger @endif">
+            {!!Form::label('address','Address',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="col-sm-5">
+                {!!Form::text('address',old('address',$record->address),['class' => 'form-control m-input','id'=>'address'])!!}
+                @if ($errors->has('address')) <p class="form-control-feedback">{{ $errors->first('address') }}</p> @endif
+            </div>
+        </div>
+        <div class="form-group m-form__group row @if ($errors->has('type')) has-danger @endif">
+            {!!Form::label('type','Type',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="col-sm-5">
+                {!!Form::text('type',old('type',$record->type),['class' => 'form-control m-input','id'=>'type'])!!}
+                @if ($errors->has('type')) <p class="form-control-feedback">{{ $errors->first('type') }}</p> @endif
+            </div>
+        </div>
         <div class="form-group m-form__group row">
             {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">

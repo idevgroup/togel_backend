@@ -124,39 +124,44 @@
             }
         };
         jQuery(document).ready(function () {
-            BootstrapSwitch.init()
-        });
-        $("#idev-form").validate({
-            rules: {
-                name: "required",
-                number:{
-                    required: true,
-                    number: true
+            BootstrapSwitch.init();
+
+            $("#name").focus();
+            //validation
+            $("#idev-form").validate({
+
+                rules: {
+                    name: "required",
+                    number:{
+                        required: true,
+                        number: true
+                    },
+                    phone:{
+                        required: true,
+                        number: true
+                    },
+                    balance:{
+                        number: true
+                    }
                 },
-                phone:{
-                    required: true,
-                    number: true
-                },
-                balance:{
-                    number: true
+                // Specify validation error messages
+                messages: {
+                    name: "Please Input Account Name",
+                    number:{
+                        required: "Please Input Account Number",
+                        number: "Input Only Number"
+                    },
+                    phone:{
+                        required: "Please Input Account Number",
+                        number: "Input Only Number"
+                    },
+                    balance:{
+                        number: "Input Only Number"
+                    }
                 }
-            },
-            // Specify validation error messages
-            messages: {
-                name: "Please Input Account Name",
-                number:{
-                    required: "Please Input Account Number",
-                    number: "Input Only Number"
-                },
-                phone:{
-                    required: "Please Input Account Number",
-                    number: "Input Only Number"
-                },
-                balance:{
-                    number: "Input Only Number"
-                }
-            }
+            });
         });
+
         // $(document).ready(function () {
         //     $("#idev-form").submit(function(e) {
         //         e.preventDefault();
