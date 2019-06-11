@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\BankAccountRequest;
+use App\Http\Requests\BankHolderRequest;
 use App\Models\BackEnd\Authorizable;
-use App\Models\BackEnd\BankAccount;
+use App\Models\BackEnd\BankHolder;
 use App\Models\BackEnd\Banks;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
-class BankAccountController extends Controller
+class BankHolderController extends Controller
 {
     use Authorizable;
     /**
@@ -22,7 +22,7 @@ class BankAccountController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $bankaccount = BankAccount::getAllRecord(0);
+            $bankaccount = BankHolder::getAllRecord(0);
             $datatables = Datatables::of($bankaccount)->addColumn('action', function ($bankaccount) {
                 $id = $bankaccount->id;
                 $entity = 'bankaccounts';
@@ -56,7 +56,7 @@ class BankAccountController extends Controller
                 'dataSrc' => ['parent_id'],
             ]
         ]);
-        return view('backend.bankaccount.index', compact('html'));
+        return view('backend.bankholder.index', compact('html'));
     }
 
     /**
@@ -67,7 +67,7 @@ class BankAccountController extends Controller
     public function create()
     {
         $bank = Banks::where('status', 1)->pluck('name','id')->all();
-        return view('backend.bankaccount.create')->with('bank', $bank);
+        return view('backend.bankholder.create')->with('bank', $bank);
     }
 
     /**
@@ -76,9 +76,9 @@ class BankAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BankAccountRequest $request)
+    public function store(BankHolderRequest $request)
     {
-        $bankacc =new BankAccount;
+        $bankacc =new BankHolder;
         $bankacc->name = $request->input('name');
         $bankacc->bank_id = $request->input('bank_id');
         $bankacc->number = $request->input('number');
@@ -115,9 +115,9 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        $record = BankAccount::find($id);
+        $record = BankHolder::find($id);
         $bank = Banks::where('status', 1)->pluck('name','id')->all();
-        return view('backend.bankaccount.edit')->with('record',$record)->with('bank',$bank);
+        return view('backend.bankholder.edit')->with('record',$record)->with('bank',$bank);
     }
 
     /**
@@ -129,7 +129,7 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankacc = BankAccount::findOrfail($id);
+        $bankacc = BankHolder::findOrfail($id);
         $bankacc->name = $request->input('name');
         $bankacc->bank_id = $request->input('bank_id');
         $bankacc->number = $request->input('number');
@@ -159,16 +159,16 @@ class BankAccountController extends Controller
             $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
             if ($type == 'delete') {
-                BankAccount::whereIn('id', $id)->delete();
-                $message = trans('menu.bankaccount') . trans('trans.messagedeleted');
+                BankHolder::whereIn('id', $id)->delete();
+                $message = trans('menu.bankholder') . trans('trans.messagedeleted');
             } elseif ($type == 'remove') {
-                BankAccount::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
-                $message = trans('menu.bankaccount') . trans('trans.messagemovedtrashed');
+                BankHolder::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.bankholder') . trans('trans.messagemovedtrashed');
             }
             return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
         } else {
-            BankAccount::find($id)->delete();
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+            BankHolder::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankholder') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
         }
     }
     public function checkStatus(Request $request){
@@ -179,20 +179,20 @@ class BankAccountController extends Controller
         }elseif ($status == 0){
             $status = 1;
         }
-        $upstatus = BankAccount::find($id);
+        $upstatus = BankHolder::find($id);
         $upstatus->status = $status;
         $upstatus->save();
         $html = _CheckStatus($status, $id);
-        return response()->json(['message' => trans('menu.bankaccount') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+        return response()->json(['message' => trans('menu.bankholder') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
     }
     public function checkMultiple(Request $request){
         $id = explode(',', $request->input('checkedid'));
         $status = $request->input('status');
-        BankAccount::whereIn('id', $id)->update(['status'=>$status]);
+        BankHolder::whereIn('id', $id)->update(['status'=>$status]);
         if ($status == 1) {
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messageactive'), 'status' => 'success']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankholder') . trans('trans.messageactive'), 'status' => 'success']);
         } else {
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccount') . trans('trans.messageunactive'), 'status' => 'warning']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankholder') . trans('trans.messageunactive'), 'status' => 'warning']);
         }
     }
 }
