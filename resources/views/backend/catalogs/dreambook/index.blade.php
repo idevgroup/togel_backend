@@ -1,12 +1,12 @@
 @extends('backend.template.main')
-@push('title',trans('menu.post'))
+@push('title',trans('menu.dreambook'))
 @section('content')
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.post')}}
+                        {{trans('menu.dreambook')}}
                     </h3>
                 </div>
             </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="m-portlet__body">
             {!! $html->table(['class' => 'table table-striped- table-bordered table-hover table-checkable','id'=>'admin-tbl-zen']) !!}
-        </div>s
+        </div>
     </div>
 @endsection
 
@@ -34,7 +34,7 @@
         var tbladmin = 'admin-tbl-zen';
     </script>
     @include('backend.shared._deleteconfirm', [
-        'entity' => 'posts',
+        'entity' => 'dreambooks',
         'vid' => '$(this).data("id")'
     ])
 

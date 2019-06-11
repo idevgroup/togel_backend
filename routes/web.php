@@ -11,32 +11,29 @@
   |
  */
 
-/* Route::get('/', function () {
-  return redirect('login');
-  }); */
-Route::get('/', 'FrontEnd\HomeController@home')->name('home');
-Route::get('member/login', 'FrontEnd\MemberAuthController@loginForm')->name('member.login');
-Route::post('member/login', 'FrontEnd\MemberAuthController@login')->name('member.login');
-
-
-Route::group(array('prefix' => 'member', 'namespace' => 'FrontEnd', 'middleware' => ['member']), function() {
-    Route::get('/dashdoard', 'HomeController@home')->name('member.dashboard');
-    Route::get('/logout', 'MemberAuthController@logout')->name('member.logout');
+/*Route::get('/', function () {
+    return redirect('login');
+});*/
+Route::get('/home', 'HomeController@index')->name('home');
+Route::group(array('namespace' => 'FrontEnd'), function () {
+    Route::get('/', 'HomeController@home')->name('frontend.home');
 });
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();
 });
 
-Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function() {
-    Route::get(_ADMIN_PREFIX_URL, function() {
+Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function () {
+    Route::get(_ADMIN_PREFIX_URL, function () {
         return redirect(_ADMIN_PREFIX_URL . '/dashboards');
     });
 });
-
+Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
+Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController@upload');
 Auth::routes(['register' => false]);
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
-    'middleware' => ['auth'], 'namespace' => 'BackEnd'), function() {
+    'middleware' => ['auth'], 'namespace' => 'BackEnd'), function () {
+
     Route::post('players/banking', 'PlayersController@playerBank');
     Route::post('players/updatebalance', 'PlayersController@updatebalance');
     $ArrMenu = ['dashboards' => 'DashBoardController',
@@ -47,6 +44,10 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'products' => 'ProductController',
         'posts' => 'PostController',
         'dreambooks' => 'DreambooksController',
+        'software' => 'SoftwareController',
+        'slides' => 'SlidesController',
+        'banks' => 'BanksController',
+        'bankaccounts' => 'BankAccountController',
         'players' => 'PlayersController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

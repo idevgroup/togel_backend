@@ -23,7 +23,7 @@
         "proengsoft/laravel-jsvalidation": "^2.4",
         "qcod/laravel-imageup": "^1.0",
         "spatie/laravel-permission": "^2.36",
-        "unisharp/laravel-filemanager": "^1.9",
+        "unisharp/laravel-filemanager": "~1.8",
         "uxweb/sweet-alert": "^2.0",
         "yajra/laravel-datatables-buttons": "^4.6",
         "yajra/laravel-datatables-html": "^4.4",

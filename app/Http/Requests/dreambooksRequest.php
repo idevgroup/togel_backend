@@ -25,7 +25,7 @@ class dreambooksRequest extends FormRequest
     {
         return [
             'txtname' => 'required|min:4',
-            'txtslug' => 'required|min:1|unique:category,slug,'.$this->segment(3).',id',
+            'txtslug' => 'required|min:1|unique:dreambook,slug,'.$this->segment(3).',id',
         ];
     }
 

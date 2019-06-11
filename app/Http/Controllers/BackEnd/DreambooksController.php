@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Requests\dreambooksRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Category;
 use App\Models\BackEnd\DreamBooks;
-use App\Models\BackEnd\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
@@ -14,6 +14,7 @@ use Yajra\DataTables\Html\Builder;
 
 class DreambooksController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -98,11 +99,11 @@ class DreambooksController extends Controller
             $dreambook->uploadImage($request->file('bannerfile'));
         }
 
-        \Alert::success(trans('menu.post') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        \Alert::success(trans('menu.dreambook') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/posts');
+            return redirect(_ADMIN_PREFIX_URL . '/dreambooks');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/posts' . $dreambook->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/dreambooks' . $dreambook->id . '/edit');
         }
     }
 
@@ -126,7 +127,7 @@ class DreambooksController extends Controller
     public function edit($id)
     {
         $dreambook = DreamBooks::find($id);
-        $get_parent = Category::where('status', 1)->where('parent_id',277)->pluck('name', 'id')->all();
+        $get_parent = Category::where('status', 1)->where('parent_id',280)->pluck('name', 'id')->all();
         return view('backend.catalogs.dreambook.edit')->with('dreambook', $dreambook)->with('get_parent', $get_parent);
     }
 
@@ -139,28 +140,28 @@ class DreambooksController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        $dreambook = new DreamBooks;
-//        $dreambook->name = $request->txtname;
-//        $dreambook->created_by = $request->user_id;
-//        $dreambook->updated_by = $request->user_id;
-//        $dreambook->category_id = $request->category_id;
-//        $dreambook->slug = str::slug($request->txtslug);
-//        $dreambook->description = $request->shortdesc;
-//        $dreambook->status = ($request->has('status') == true) ? 1 : 0;
-//        $dreambook->meta_key = $request->txtmetakey;
-//
-//        $dreambook->meta_desc = $request->txtmetadesc;
-//        $dreambook->save();
-//        if ($request->hasFile('bannerfile')) {
-//            $dreambook->uploadImage($request->file('bannerfile'));
-//        }
-//
-//        \Alert::success(trans('menu.post') . trans('trans.messageaddsuccess'), trans('trans.success'));
-//        if ($request->has('btnsaveclose')) {
-//            return redirect(_ADMIN_PREFIX_URL . '/posts');
-//        } else {
-//            return redirect(_ADMIN_PREFIX_URL . '/posts' . $dreambook->id . '/edit');
-//        }
+        $dreambook = DreamBooks::findOrfail($id);
+        $dreambook->name = $request->txtname;
+        $dreambook->created_by = $request->user_id;
+        $dreambook->updated_by = $request->user_id;
+        $dreambook->category_id = $request->category_id;
+        $dreambook->slug = str::slug($request->txtslug);
+        $dreambook->description = $request->shortdesc;
+        $dreambook->status = ($request->has('status') == true) ? 1 : 0;
+        $dreambook->meta_key = $request->txtmetakey;
+
+        $dreambook->meta_desc = $request->txtmetadesc;
+        $dreambook->save();
+        if ($request->hasFile('bannerfile')) {
+            $dreambook->uploadImage($request->file('bannerfile'));
+        }
+
+        \Alert::success(trans('menu.post') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/dreambooks');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/dreambooks' . $dreambook->id . '/edit');
+        }
     }
 
     /**
@@ -169,8 +170,47 @@ class DreambooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if($request->has('type')){
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if($type == 'delete'){
+                DreamBooks::whereIn('id', $id)->delete();
+                $message = trans('menu.dreambook') . trans('trans.messagedeleted');
+            }elseif ($type == 'remove'){
+                DreamBooks::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.dreambook') . trans('trans.messagemovedtrashed');
+            }
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        }else{
+            DreamBooks::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.dreambook') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
+    }
+    public function checkStatus(Request $request) {
+        $status = $request->status;
+        $id = $request->id;
+        if ($status == '1') {
+            $status = 0;
+        } elseif ($status == '0') {
+            $status = 1;
+        }
+        $update = DreamBooks::find($id);
+        $update->status = $status;
+        $update->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => trans('menu.dreambook') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+
+    public function checkMultiple(Request $request) {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        $update = DreamBooks::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.dreambook') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.dreambook') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 }
