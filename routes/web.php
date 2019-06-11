@@ -11,9 +11,9 @@
   |
  */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return redirect('login');
-});*/
+});
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(array('namespace' => 'FrontEnd'), function () {
     Route::get('/', 'HomeController@home')->name('frontend.home');
