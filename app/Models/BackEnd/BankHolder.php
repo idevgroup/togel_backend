@@ -4,9 +4,9 @@ namespace App\Models\BackEnd;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BankAccount extends Model
+class BankHolder extends Model
 {
-    protected $table = 'bank_account';
+    protected $table = 'bank_holder';
 
 
     static function getAllRecord($is_trashed)

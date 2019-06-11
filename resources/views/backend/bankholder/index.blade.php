@@ -1,5 +1,5 @@
 @extends('backend.template.main')
-@push('title',trans('menu.bankaccount'))
+@push('title',trans('bankholder'))
 @section('content')
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
         <div class="m-portlet__head">
