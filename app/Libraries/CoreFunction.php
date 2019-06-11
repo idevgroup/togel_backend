@@ -22,7 +22,7 @@ function _CheckImage($filepath,$defaultimage='', $optional = []) {
     }
     if ($filepath != null || $filepath != '') {
         if (file_exists(public_path().'/'.$filepath)) {
-            return '<img src="' . asset($filepath) . '" ' . $attridute . ' class=""/>';
+            return '<img src="' . asset($filepath) . '" ' . $attridute . ' />';
         } else {
             return '<img src="' . asset($default_image) . '" ' . $attridute . '/>';
         }
@@ -40,8 +40,7 @@ function _CheckImage($filepath,$defaultimage='', $optional = []) {
             if ($a > 254) {
                 $a = ($a / 2) - 50;
             }
-
-            $result .= chr($a);
+        $result .= chr($a);
         }
         return $result;
     }

@@ -54,10 +54,22 @@ class Handler extends ExceptionHandler {
         if ($request->expectsJson()) {
             return response()->json(['error' => $exception->getMessage()], 403);
         }
+        $guard = array_get($exception->guards(), 0);
+        switch ($guard) {
+            case 'member':
+                $login = 'member.login';
+                break;
+            default:
+                $login = 'login';
+                break;
+        }
+        return redirect()->guest(route($login));
+        /*if ($request->expectsJson()) {
+            return response()->json(['error' => $exception->getMessage()], 403);
+        }
 
-       // flash()->warning($exception->getMessage());
-         \Alert::warning($exception->getMessage(), 'Notification')->persistent("OK");
-        return redirect()->route(_ADMIN_PREFIX_URL.'dashboards.index');
+        // flash()->warning($exception->getMessage());
+        \Alert::warning($exception->getMessage(), 'Notification')->persistent("OK");
+        return redirect()->route(_ADMIN_PREFIX_URL . 'dashboards.index');*/
     }
-
 }

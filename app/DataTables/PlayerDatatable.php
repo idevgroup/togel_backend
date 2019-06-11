@@ -21,23 +21,28 @@ class PlayerDatatable extends DataTable {
                     $status = $player->status;
                     return view('backend.members.player.inc.actionbtn', compact("id", "entity", "pname", "status"));
                 })->addColumn('bank', function($query) {
-                    if(isset($query->getPlayerBank->getBank)){
-                         $bankName = $query->getPlayerBank->getBank['bk_name'];
-                    $bankAccount = $query->getPlayerBank['reg_account_number'];
-                    $bankAccountName = $query->getPlayerBank['reg_account_name'];
-                    return '<ul class="m-nav"><li><strong>Bank Name: </strong> ' . $bankName . '</li><li><li><strong>Account Name: </strong>' . $bankAccountName . '</li><li><li><strong>Account ID: </strong>' . $bankAccount . '</li></ul>';
-       
-                    }else{
+                    if (isset($query->getPlayerBank->getBank)) {
+                        $bankName = $query->getPlayerBank->getBank['bk_name'];
+                        $bankAccount = $query->getPlayerBank['reg_account_number'];
+                        $bankAccountName = $query->getPlayerBank['reg_account_name'];
+                        return '<ul class="m-nav"><li><strong>Bank Name: </strong> ' . $bankName . '</li><li><li><strong>Account Name: </strong>' . $bankAccountName . '</li><li><li><strong>Account ID: </strong>' . $bankAccount . '</li></ul>';
+                    } else {
                         return '';
                     }
-                            })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                })->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
                     </label>')->editColumn('reg_name', function($query) {
+                    if ($query->isOnline()) {
+                        $getname = $query->reg_name . ' <i class=" m-badge m-badge--dot m-badge--success"></i>';
+                    } else {
+                        $getname = $query->reg_name;
+                    }
+
                     $getReferral = $query->getReferral;
-                    return '<span class="p-name">' . $query->reg_name . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
-                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged at:</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username'])->setRowClass(function($player) {
+                    return '<span class="p-name">' . $getname . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
+                })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged at:</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username', 'reg_remain_balance'])->setRowClass(function($player) {
                     return $player->status == 1 ? '' : 'text-danger';
-                });
+                })->editColumn('reg_remain_balance', '<span @if($reg_remain_balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($reg_remain_balance)}}</span>');
     }
 
     /**
@@ -127,8 +132,12 @@ class PlayerDatatable extends DataTable {
                             'select' => ['style' => 'multi+shift', ' blurable' => true, 'selector' => 'td:not(:last-child)'],
                             'retrieve' => true,
                             'columnDefs' => [
-                                'targets' => 0,
-                                'className' => 'select-checkbox'
+                                ['targets' => 0,
+                                    'className' => 'select-checkbox'],
+                                [
+                                    'targets' => 7,
+                                    'className' => 'dt-right'
+                                ]
                             ]
         ]);
     }

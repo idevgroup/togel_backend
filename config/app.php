@@ -225,5 +225,6 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'ImageResize' => Mxmm\ImageResize\Facade::class,
         'Datatables' => yajra\Datatables\Datatables::class,
+        'CommonFunction' => App\Libraries\CommonFunction::class,
     ],
 ];

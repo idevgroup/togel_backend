@@ -53,11 +53,15 @@
     #edit-balance:hover{
         color: #003eff !important;
     }
+    .modal-full {
+    min-width: 90%;
+   
+}
 </style>
 @endpush
 @push('javascript')
 <div class="modal fade" id="playerTransaction" tabindex="-1" role="dialog" aria-labelledby="playerTransationTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="playerTransationTitle">Modal title</h5>
@@ -67,8 +71,8 @@
             </div>
             <div class="modal-body" >
                 <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-1 col-sm-12">Date :</label>
-                    <div class="col-lg-8 col-sm-12">
+                    
+                    <div class="col-lg-4 col-sm-12 mx-auto">
                         <div class="input-daterange input-group" id="date-transaction">
                             <input type="text" class="form-control m-input" name="start">
                             <div class="input-group-append">
@@ -82,7 +86,8 @@
                 <table class="table table-bordered" id="tableTransation">
                     <thead>
                         <tr>
-                            <th>Invoice ID</th>
+                            <th>Trans-ID</th>
+                            <th>Description</th>
                             <th>Game Name</th>
                             <th>Market</th>
                             <th>Date/Time</th>
@@ -163,7 +168,7 @@ var tbladmin = 'admin-tbl-zen';
                                 '<div class="input-group-prepend"><span class="input-group-text"><i class="la la-money"></i></span></div>' +
                                 '<input type="number" class="form-control m-input" value="" placeholder="0.00" id="input-amount">' +
                                 '<select class="form-control m-input" id="operator"><option value="1">Addition</option><option value="2">Subtract </option></select>' +
-                                '<input type="text" class="form-control m-input" value="" placeholder="Descrition" id="desc-balance">'+
+                                '<input type="text" class="form-control m-input" value="" placeholder="Description" id="desc-balance">'+
                                 '<input type="hidden" value="'+getPId+'" id="pid-balance">'+
                                 '<div class="input-group-append">' +
                                 '<button class="btn btn-primary" id="update-balance" type="button">Update</button>' +
@@ -231,7 +236,8 @@ var tbladmin = 'admin-tbl-zen';
                         }
                     },
                     columns: [
-                        {data: 'invoiceId', name: 'invoiceId'},
+                        {data: 'transid', name: 'transid'},
+                        {data: 'descrtion', name: 'descrtion'},
                         {data: 'gameName', name: 'gameName'},
                         {data: 'market', name: 'market'},
                         {data: 'date', name: 'date'},
@@ -268,7 +274,10 @@ var tbladmin = 'admin-tbl-zen';
                             "text": "<i class=\"fa fa-print\"><\/i><span>Print<\/span>",
                             "className": " m-btn--icon"
                         }
-                    ]
+                    ],
+                    columnDefs:[{
+                        className: "dt-right", "targets": [4,5,6,7]
+                    }]
                 });
 
                 $('input[name="start"], input[name="end"]').change(function () {
