@@ -15,7 +15,7 @@ class MemberAuthController extends Controller {
     protected $redirectTo = '/member';
 
     public function __construct() {
-
+        $this->middleware('auth:api', ['except' => ['login']]);
         $this->middleware('guest:member', ['except' => ['logout']]);
     }
 

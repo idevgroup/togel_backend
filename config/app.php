@@ -173,6 +173,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         //image fly resize
         Mxmm\ImageResize\ImageResizeServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------

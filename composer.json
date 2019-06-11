@@ -27,7 +27,8 @@
         "uxweb/sweet-alert": "^2.0",
         "yajra/laravel-datatables-buttons": "^4.6",
         "yajra/laravel-datatables-html": "^4.4",
-        "yajra/laravel-datatables-oracle": "^9.0"
+        "yajra/laravel-datatables-oracle": "^9.0",
+         "tymon/jwt-auth": "^1.0.0-rc.3.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

@@ -38,8 +38,8 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'members',
             'hash' => false,
         ],
         'member' => [
