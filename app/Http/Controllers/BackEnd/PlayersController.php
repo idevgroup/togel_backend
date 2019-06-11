@@ -12,6 +12,7 @@ use Datatables;
 use App\Http\Requests\PlayerRequest;
 use App\Models\BackEnd\PlayerBanks;
 use Carbon\Carbon;
+use CommonFunction;
 
 class PlayersController extends Controller {
 
@@ -75,7 +76,13 @@ class PlayersController extends Controller {
         $end = request()->get('searchByEnd');
         $start = $start . " 00:00:00";
         $end = $end . " 23:59:59";
-        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end]))->make(true);
+        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end])->orderBy('date','DESC'))
+                ->editColumn('debet', '<span @if($debet < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($debet)}} </span>')
+                ->editColumn('kredit', '<span @if($kredit < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($kredit)}}</span>')
+                ->editColumn('saldo', '<span @if($saldo < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($saldo)}}</span>')
+                ->editColumn('transid', '{{($transid == null)?$invoiceId:$transid}}')
+                ->rawColumns(['debet','kredit','saldo'])
+                ->make(true);
     }
 
     /**
@@ -178,7 +185,7 @@ class PlayersController extends Controller {
         $pId = $request->input('pId');
         $playerBalance = Player::findOrFail($pId)->reg_remain_balance;
         $playerBank = PlayerBanks::where('reg_id', $pId)->with('getBank')->get();
-        return response()->json(['record' => $playerBank, 'balance' => $playerBalance]);
+        return response()->json(['record' => $playerBank, 'balance' => CommonFunction::_CurrencyFormat($playerBalance)]);
     }
 
     public function updateBalance(Request $request) {
@@ -195,28 +202,31 @@ class PlayersController extends Controller {
                 $player->reg_remain_balance = $player->reg_remain_balance - $amount;
             }
             $player->save();
-            if ($operator == '1') {
-                $transid = 'CR-' . date('YmdHis', strtotime(Carbon::now()));
-            } elseif ($operator == '2') {
-                $transid = 'DE-' . date('YmdHis', strtotime(Carbon::now()));
-            }
+
             $playerTransaction = new PlayerTransaction;
-            $playerTransaction->invoiceId = 'Balance Updated by administrator';
+            if ($operator == '1') {
+                $playerTransaction->invoiceId = 'CREDIT';
+                $transid = 'CR-' . date('YmdHis', strtotime(Carbon::now())).'-'.$player->id;
+            } elseif ($operator == '2') {
+                $playerTransaction->invoiceId = 'DEBIT';
+                $transid = 'DE-' . date('YmdHis', strtotime(Carbon::now())).'-'.$player->id;
+            }
             $playerTransaction->transid = $transid;
             $playerTransaction->playerid = $pid;
             $playerTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
-            
-           
+
+
             if ($operator == '1') {
                 $playerTransaction->saldo = $remainBalance + $amount;
-                 $playerTransaction->kredit = $amount;
-                 $playerTransaction->debet = 0;
+                $playerTransaction->kredit = $amount;
+                $playerTransaction->debet = 0;
             } elseif ($operator == '2') {
                 $playerTransaction->saldo = $remainBalance - $amount;
                 $playerTransaction->kredit = 0;
-                 $playerTransaction->debet = $amount;
+                $playerTransaction->debet = $amount;
             }
             $playerTransaction->updated_by = \Auth::user()->id;
+            $playerTransaction->descrtion = $descBalance;
             $playerTransaction->save();
             return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.balanceupdate'), 'status' => 'success', 'balance' => $player->reg_remain_balance]);
         } else {

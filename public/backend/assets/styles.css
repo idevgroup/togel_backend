@@ -24,3 +24,7 @@ td.showDragHandle {
     background-repeat: no-repeat;
     cursor: move;
 }
+table thead tr th{
+        text-align: center !important;
+        font-weight: bold;
+    }
