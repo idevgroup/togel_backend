@@ -74,7 +74,7 @@ class BankHolderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BankHolderRequest $request)
     {
 //        dd($request->all());
         $bankholder =new BankHolder;

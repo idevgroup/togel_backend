@@ -13,7 +13,7 @@ class BankAccountGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class BankAccountGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'bank_id' => 'required|unique:bank_account_group,bank_holder_id'
         ];
+
     }
 }
