@@ -6,7 +6,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.bankaccount')}}
+                        {{trans('menu.bankholder')}}
                     </h3>
                 </div>
             </div>
@@ -34,7 +34,7 @@
         var tbladmin = 'admin-tbl-zen';
     </script>
     @include('backend.shared._deleteconfirm', [
-        'entity' => 'bankaccounts',
+        'entity' => 'bankholders',
         'vid' => '$(this).data("id")'
     ])
 
