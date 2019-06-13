@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('bankholder').'-'.trans('trans.edit'))
+@push('title',trans('bankaccountgroup').'-'.trans('trans.edit'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankholders/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankaccountgroups/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.bankholder').' / '.trans('trans.edit')}}
+                            {{trans('menu.bankaccountgroups').' / '.trans('trans.edit')}}
                         </h3>
                     </div>
                 </div>
@@ -20,68 +20,54 @@
         </div>
         <div class="m-portlet__body">
             <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-                {!!Form::label('name','Bank Account Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('name',old('name',$record->name),['class' => 'form-control m-input','id'=>'name'])!!}
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('email')) has-danger @endif">
-                {!!Form::label('email','Email',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('bank_holder_id')) has-danger @endif">
+                {!!Form::label('bank_holder_id','Bank Holder',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-                    {!!Form::email('email',old('email',$record->email),['class' => 'form-control m-input','id'=>'email'])!!}
-                    @if ($errors->has('email')) <p
-                            class="form-control-feedback">{{ $errors->first('email') }}</p> @endif
+                    {!!Form::select('bank_holder_id',$bank_holder_id,old('bank_holder_id', $record->bank_holder_id),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('phone')) has-danger @endif">
-                {!!Form::label('phone','Phone Number',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('bank_id')) has-danger @endif">
+                {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-                    {!!Form::text('phone',old('phone',$record->phone),['class' => 'form-control m-input','id'=>'phone'])!!}
-                    @if ($errors->has('phone')) <p
-                            class="form-control-feedback">{{ $errors->first('phone') }}</p> @endif
+                    {!!Form::select('bank_id',$bank_id,old('bank_id',$record->bank_id),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('position')) has-danger @endif">
-                {!!Form::label('position','Position',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('deposit_min')) has-danger @endif">
+                {!!Form::label('deposit_min','Deposit Minimum',['class' => 'col-sm-3 col-form-label '])!!}
                 <div class="col-sm-5">
-                    {!!Form::text('position',old('position',$record->position),['class' => 'form-control m-input','id'=>'position'])!!}
-                    @if ($errors->has('position')) <p
-                            class="form-control-feedback">{{ $errors->first('position') }}</p> @endif
+                    {!!Form::text('deposit_min',old('deposit_min',$record->deposit_min),['class' => 'form-control m-input','id'=>'deposit_min'])!!}
+                    @if ($errors->has('deposit_min')) <p
+                            class="form-control-feedback">{{ $errors->first('deposit_min') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row">
-                {!!Form::label('gender','Gender',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('deposit_max')) has-danger @endif">
+                {!!Form::label('deposit_max','Deposit Maximum',['class' => 'col-sm-3 col-form-label '])!!}
                 <div class="col-sm-5">
-                    {{--                {!!Form::select('gender',$record,old('gender',$record->gender),['class'=>'form-control m-input'])!!}--}}
-                    <select class="form-control" name="gender">
-                        {{--                    <option>Select</option>--}}
-                        <option value="male" {!!$record?$record->gender=='male' ?'selected':'':''!!}>Male</option>
-                        <option value="famale" {!!$record?$record->gender=='famale' ?'selected':'':''!!}>Famale</option>
-                    </select>
+                    {!!Form::text('deposit_max',old('deposit_max',$record->deposit_max),['class' => 'form-control m-input','id'=>'deposit_max'])!!}
+                    @if ($errors->has('deposit_max')) <p
+                            class="form-control-feedback">{{ $errors->first('deposit_max') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('dob')) has-danger @endif">
-                {!!Form::label('dob','Date of Birth',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('withdraw_min')) has-danger @endif">
+                {!!Form::label('withdraw_min','Withdraw Minimum',['class' => 'col-sm-3 col-form-label '])!!}
                 <div class="col-sm-5">
-                    <div class="input-group date">
-                        {!!Form::text('dob',old('dob',$record->dob),['class' => 'form-control m-input','id'=>'dob'])!!}
-                        <div class="input-group-append">
-                        <span class="input-group-text">
-                            <i class="la la-calendar"></i>
-                        </span>
-                        </div>
-                    </div>
-                    @if ($errors->has('txtdob')) <p
-                            class="form-control-feedback">{{ $errors->first('txtdob') }}</p> @endif
+                    {!!Form::text('withdraw_min',old('withdraw_min',$record->withdraw_min),['class' => 'form-control m-input','id'=>'withdraw_min'])!!}
+                    @if ($errors->has('withdraw_min')) <p
+                            class="form-control-feedback">{{ $errors->first('withdraw_min') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if($errors->has('photo')) has-danger @endif">
-                {!!Form::label('photo','Profile Picture',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('withdraw_max')) has-danger @endif">
+                {!!Form::label('withdraw_max','Withdraw Maximum',['class' => 'col-sm-3 col-form-label '])!!}
                 <div class="col-sm-5">
-
-                    {!!Form::file('photo',['id' =>'banner'])!!}
-                    @if ($errors->has('photo')) <p class="form-control-feedback">{{ $errors->first('photo') }}</p> @endif
+                    {!!Form::text('withdraw_max',old('withdraw_max',$record->withdraw_max),['class' => 'form-control m-input','id'=>'withdraw_max'])!!}
+                    @if ($errors->has('withdraw_max')) <p
+                            class="form-control-feedback">{{ $errors->first('withdraw_max') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">

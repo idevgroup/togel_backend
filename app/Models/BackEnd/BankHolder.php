@@ -35,6 +35,9 @@ class BankHolder extends Model
     {
         return $this->name . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
+    public function bankaccountgroup(){
+        return $this->hasOne('App\Models\BackEnd\BankAccountGroup', 'id', 'bank_holder_id');
+    }
     static function getAllRecord($is_trashed)
     {
         return self::where('is_trashed', $is_trashed)->orderBy('name', 'ASC');

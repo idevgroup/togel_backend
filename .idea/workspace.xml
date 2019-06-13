@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="048c0372-e567-4802-8aca-8c9574ef1b55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankHolderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankHolderController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/BankHolderRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/BankHolderRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankholder/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankholder/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/BackEnd/Banks.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BackEnd/Banks.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="68" column="64" lean-forward="true" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="69" />
+            <state relative-caret-position="245">
+              <caret line="92" column="31" selection-start-line="92" selection-start-column="31" selection-end-line="92" selection-end-column="31" />
               <folding>
                 <element signature="e#48#94#0#PHP" expanded="true" />
               </folding>
@@ -40,41 +36,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+            <state relative-caret-position="479">
+              <caret line="27" column="41" lean-forward="true" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/ProductController.php">
+        <entry file="file://$PROJECT_DIR$/resources/lang/en/trans.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3190">
-              <caret line="153" column="56" selection-start-line="151" selection-start-column="9" selection-end-line="153" selection-end-column="56" />
-              <folding>
-                <element signature="e#48#86#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="418">
+              <caret line="19" column="23" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Requests/BankHolderRequest.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+            <state relative-caret-position="264">
+              <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -91,11 +75,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+            <state relative-caret-position="66">
+              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-22">
+              <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -152,7 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/backend/catalogs/product/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/post/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/dreambook/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/catalogs/slide/create.blade.php" />
@@ -181,7 +173,6 @@
         <option value="$PROJECT_DIR$/resources/views/backend/bank/edit.blade.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/views/backend/bank/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/Models/BackEnd/Banks.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/bankaccount/index.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BanksController.php" />
         <option value="$PROJECT_DIR$/app/Models/BackEnd/BankAccount.php" />
@@ -190,7 +181,6 @@
         <option value="$PROJECT_DIR$/resources/views/backend/bankaccount/edit.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountController.php" />
         <option value="$PROJECT_DIR$/resources/lang/en/menu.php" />
-        <option value="$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/bankholder/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/bankholder/index.blade.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
@@ -199,10 +189,13 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankHolderController.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/BankHolderRequest.php" />
         <option value="E:/lyhuoth/All Template/aceadminv133/html/form-elements.html" />
-        <option value="$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php" />
         <option value="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" />
+        <option value="$PROJECT_DIR$/app/Models/BackEnd/Banks.php" />
+        <option value="$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php" />
+        <option value="$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php" />
+        <option value="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php" />
       </list>
     </option>
   </component>
@@ -333,6 +326,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -373,11 +367,82 @@
               <item name="Http" type="462c0819:PsiDirectoryNode" />
               <item name="Requests" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="en" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="bank" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="bankaccountgroup" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="bankholder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="catalogs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="togel_backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="togel_backend" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="catalogs" type="462c0819:PsiDirectoryNode" />
+              <item name="category" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -445,16 +510,18 @@
       <workItem from="1560302192418" duration="310000" />
       <workItem from="1560305176135" duration="24904000" />
       <workItem from="1560333424608" duration="1269000" />
+      <workItem from="1560388448516" duration="12367000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169568000" />
+    <option name="totallyTimeSpent" value="181935000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.17590618" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12686567" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -474,53 +541,11 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1337953" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" weight="0.30552545" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.49945828" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bank/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config-database.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bank/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/lyhuoth/tamplate/rentcars/resources/views/administrator/category/create.blade.php" />
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/BanksRequest.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -585,16 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/Banks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="39" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="39" />
-          <folding>
-            <element signature="e#38#77#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
@@ -618,24 +633,10 @@
     </entry>
     <entry file="file://E:/lyhuoth/tamplate/rentcars/resources/views/administrator/users/create.blade.php" />
     <entry file="file://E:/lyhuoth/tamplate/rentcars/resources/views/administrator/users/edit.blade.php" />
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/catalogs/category/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="55" column="14" lean-forward="true" selection-start-line="48" selection-start-column="7" selection-end-line="55" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/backend/catalogs/dreambook/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
           <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="56" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankholder/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1364">
-          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -653,44 +654,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/en/trans.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/lang/en/menu.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="16" column="21" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="36" column="38" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="35" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="35" />
-          <folding>
-            <element signature="e#38#77#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankHolderController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="70" column="7" lean-forward="true" selection-start-line="70" selection-start-column="7" selection-end-line="70" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -715,16 +682,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://E:/lyhuoth/All Template/aceadminv133/html/form-elements.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1997">
-          <caret line="2507" column="49" selection-start-line="2507" selection-start-column="49" selection-end-line="2507" selection-end-column="49" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://E:/lyhuoth/All Template/aceadminv133/html/form-elements.html" />
     <entry file="file://$PROJECT_DIR$/resources/views/backend/bankholder/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -748,16 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/CategoryController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="82" column="64" lean-forward="true" selection-start-line="82" selection-start-column="64" selection-end-line="82" selection-end-column="64" />
-          <folding>
-            <element signature="e#48#76#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/DreambooksController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -768,20 +716,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/PlayersController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CategoriesRequest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/ProductController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3190">
-          <caret line="153" column="56" selection-start-line="151" selection-start-column="9" selection-end-line="153" selection-end-column="56" />
-          <folding>
-            <element signature="e#48#86#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="594">
+          <caret line="27" column="55" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -789,13 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="616">
           <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -809,17 +740,134 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/CategoriesRequest.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/CategoryController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" column="55" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="55" />
+        <state relative-caret-position="330">
+          <caret line="82" column="64" lean-forward="true" selection-start-line="82" selection-start-column="64" selection-end-line="82" selection-end-column="64" />
+          <folding>
+            <element signature="e#48#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/PostController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-198">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/PlayersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-484">
+          <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/ProductController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="831">
+          <caret line="153" column="56" selection-start-line="151" selection-start-column="9" selection-end-line="153" selection-end-column="56" />
+          <folding>
+            <element signature="e#48#86#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="147" column="11" lean-forward="true" selection-start-line="147" selection-start-column="11" selection-end-line="147" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/BankAccountGroup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="62" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/Banks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="e#38#77#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankHolderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="176" column="24" selection-start-line="176" selection-start-column="24" selection-end-line="176" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/BackEnd/BankHolder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="35" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="35" />
+          <folding>
+            <element signature="e#38#77#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankholder/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="656">
+          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bank/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/catalogs/category/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="47" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/en/trans.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="19" column="23" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-22">
+          <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/BankAccountGroupController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="68" column="64" lean-forward="true" selection-start-line="68" selection-start-column="64" selection-end-line="68" selection-end-column="69" />
+        <state relative-caret-position="245">
+          <caret line="92" column="31" selection-start-line="92" selection-start-column="31" selection-end-line="92" selection-end-column="31" />
           <folding>
             <element signature="e#48#94#0#PHP" expanded="true" />
           </folding>
@@ -828,15 +876,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Requests/BankAccountGroupRequest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+        <state relative-caret-position="479">
+          <caret line="27" column="41" lean-forward="true" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
         </state>
       </provider>
     </entry>

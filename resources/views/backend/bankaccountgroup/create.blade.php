@@ -32,9 +32,6 @@
                     {!!Form::select('bank_holder_id',$bank_holder_id,old('bank_holder_id'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
-{{--            @foreach ($bank_acc_group as $test)--}}
-{{--                {{ $test->bank_id }}--}}
-{{--            @endforeach--}}
             <div class="form-group m-form__group row @if ($errors->has('bank_id')) has-danger @endif">
                 {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">

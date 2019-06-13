@@ -23,24 +23,35 @@ class BankAccountGroupController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $bankholder = BankHolder::getAllRecord(0);
-            $datatables = Datatables::of($bankholder)->addColumn('action', function ($bankholder) {
-                $id = $bankholder->id;
-                $entity = 'bankholders';
+            $bankaccountfroup = BankAccountGroup::getAllRecord(0);
+            $datatables = Datatables::of($bankaccountfroup)->addColumn('action', function ($bankaccountfroup) {
+                $id = $bankaccountfroup->id;
+                $entity = 'bankaccountgroups';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/bankholders') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small><b>Email:</b> {{$email}}</small>   <small><b>Phone:</b> {{$phone}}</small><br/><small><b>Gender:</b> {{$gender}}</small>   <small><b>Date of birth:</b> {{$dob}}</small><br/><small><b>Position:</b> {{$position}}</small>')
+            })
+                ->editColumn('bank_id', function ($query) {
+                    return $query->bank->name;
+                })
+                ->editColumn('bank_holder_id', function ($query) {
+                    return $query->bank_holder->name;
+                })
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
-                ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'deposit_min', 'name' => 'deposit_min', 'title' => 'Deposit Min'],
+            ['data' => 'deposit_max', 'name' => 'deposit_max', 'title' => 'Deposit Max'],
+            ['data' => 'withdraw_min', 'name' => 'withdraw_min', 'title' => 'Withdraw Min'],
+            ['data' => 'withdraw_max', 'name' => 'withdraw_max', 'title' => 'Withdraw Max'],
+            ['data' => 'bank_id', 'name' => 'bank_id', 'title' => 'Bank'],
+            ['data' => 'bank_holder_id', 'name' => 'bank_holder_id', 'title' => 'Bank Holder'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
@@ -66,11 +77,11 @@ class BankAccountGroupController extends Controller
      */
     public function create()
     {
-        $bank_acc_group = BankAccountGroup::where('status', 1)->get();
+//        $bank_acc_group = BankAccountGroup::where('status', 1)->get();
         $bank_id = Banks::where('status', 1)->pluck('name', 'id')->all();
 //        $bank_id = Banks::where('status', 1)->get();
         $bank_holder_id = BankHolder::where('status', 1)->pluck('name', 'id')->all();
-        return view('backend.bankaccountgroup.create')->with('bank_id', $bank_id)->with('bank_holder_id', $bank_holder_id)->with('bank_acc_group', $bank_acc_group);
+        return view('backend.bankaccountgroup.create')->with('bank_id', $bank_id)->with('bank_holder_id', $bank_holder_id);
     }
 
     /**
@@ -79,76 +90,26 @@ class BankAccountGroupController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BankAccountGroupRequest $request)
     {
-//        $bank_id = $request->bank_id;
-//        dd($request->bank_id);
-//        $request->validate([
-//            'bank_id' => 'required|unique:bank_account_group,bank_holder_id'
-//        ]);
         $bank_holder_id = $request->bank_holder_id;
         $bank_id = $request->bank_id;
-//        dd($bank_id);
-        $bank_acc_group = BankAccountGroup::where('status', 1)->get();
-//        $bank_acc_group = BankAccountGroup::where('status', 1)->pluck('bank_id')->all();
-        $bank_id_test = '';
-        if ($bank_acc_group->isEmpty()) {
-            $bankaccgroup = new BankAccountGroup;
-            $bankaccgroup->name = $request->name;
-            $bankaccgroup->bank_holder_id = $request->bank_holder_id;
-            $bankaccgroup->deposit_min = $request->deposit_min;
-            $bankaccgroup->deposit_max = $request->deposit_max;
-            $bankaccgroup->withdraw_min = $request->withdraw_min;
-            $bankaccgroup->withdraw_max = $request->withdraw_max;
-            $bankaccgroup->bank_id = $request->bank_id;
-            $bankaccgroup->status = ($request->has('status') == true) ? 1 : 0;
-////        $arrbank = '';
-////        foreach ($bank_id as $bank) {
-////            $arrbank .= '[' . $bank . '],';
-////            $arrbank .= $bank . ',';
-////        }
-////        dd($arrbank);
-////        $bankaccgroup->bank_id = substr($arrbank, 0, -1);
-            $bankaccgroup->save();
-            \Alert::success(trans('menu.bankaccountgroup') . trans('trans.messageaddsuccess'), trans('trans.success'));
-            if ($request->has('btnsaveclose')) {
-                return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups');
-            } else {
-                return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups/' . $bankaccgroup->id . '/edit');
-            }
-        } else {
-            foreach ($bank_acc_group as $test) {
-                $bank_id_test = $test;
-            }
-            dd($bank_id_test);
-            if ($bank_id_test->bank_id == $bank_id && $bank_id_test->bank_holder_id == $bank_holder_id) {
-                return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups/create');
-            } else {
-                $bankaccgroup = new BankAccountGroup;
-                $bankaccgroup->name = $request->name;
-                $bankaccgroup->bank_holder_id = $request->bank_holder_id;
-                $bankaccgroup->deposit_min = $request->deposit_min;
-                $bankaccgroup->deposit_max = $request->deposit_max;
-                $bankaccgroup->withdraw_min = $request->withdraw_min;
-                $bankaccgroup->withdraw_max = $request->withdraw_max;
-                $bankaccgroup->bank_id = $request->bank_id;
-                $bankaccgroup->status = ($request->has('status') == true) ? 1 : 0;
-////        $arrbank = '';
-////        foreach ($bank_id as $bank) {
-////            $arrbank .= '[' . $bank . '],';
-////            $arrbank .= $bank . ',';
-////        }
-////        dd($arrbank);
-////        $bankaccgroup->bank_id = substr($arrbank, 0, -1);
-                $bankaccgroup->save();
-                \Alert::success(trans('menu.bankaccountgroup') . trans('trans.messageaddsuccess'), trans('trans.success'));
-                if ($request->has('btnsaveclose')) {
-                    return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups');
-                } else {
-                    return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups/' . $bankaccgroup->id . '/edit');
-                }
-            }
+        $bankaccgroup = new BankAccountGroup;
+        $bankaccgroup->name = $request->name;
+        $bankaccgroup->bank_holder_id = $bank_holder_id;
+        $bankaccgroup->deposit_min = $request->deposit_min;
+        $bankaccgroup->deposit_max = $request->deposit_max;
+        $bankaccgroup->withdraw_min = $request->withdraw_min;
+        $bankaccgroup->withdraw_max = $request->withdraw_max;
+        $bankaccgroup->bank_id = $bank_id;
+        $bankaccgroup->status = ($request->has('status') == true) ? 1 : 0;
 
+        $bankaccgroup->save();
+        \Alert::success(trans('menu.bankaccountgroup') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups/' . $bankaccgroup->id . '/edit');
         }
     }
 
@@ -174,7 +135,13 @@ class BankAccountGroupController extends Controller
     public
     function edit($id)
     {
-        //
+        $record = BankAccountGroup::find($id);
+        $bank_holder_id = BankHolder::where('status',1)->pluck('name', 'id')->all();
+        $bank_id = Banks::where('status',1)->pluck('name', 'id')->all();
+        return view('backend.bankaccountgroup.edit')
+            ->with('record', $record)
+            ->with('bank_holder_id', $bank_holder_id)
+            ->with('bank_id', $bank_id);
     }
 
     /**
@@ -187,7 +154,25 @@ class BankAccountGroupController extends Controller
     public
     function update(Request $request, $id)
     {
-        //
+        $bank_holder_id = $request->bank_holder_id;
+        $bank_id = $request->bank_id;
+        $bankaccgroup = BankAccountGroup::find($id);
+        $bankaccgroup->name = $request->name;
+        $bankaccgroup->bank_holder_id = $bank_holder_id;
+        $bankaccgroup->deposit_min = $request->deposit_min;
+        $bankaccgroup->deposit_max = $request->deposit_max;
+        $bankaccgroup->withdraw_min = $request->withdraw_min;
+        $bankaccgroup->withdraw_max = $request->withdraw_max;
+        $bankaccgroup->bank_id = $bank_id;
+        $bankaccgroup->status = ($request->has('status') == true) ? 1 : 0;
+
+        $bankaccgroup->save();
+        \Alert::success(trans('menu.bankaccountgroup') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/bankaccountgroups/' . $bankaccgroup->id . '/edit');
+        }
     }
 
     /**
@@ -197,8 +182,50 @@ class BankAccountGroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public
-    function destroy($id)
+    function destroy(Request $request, $id)
     {
-        //
+        if ($request->has('type')) {
+            $type = $request->input('type');
+            $id = explode(',', $request->input('checkedid'));
+            if ($type == 'delete') {
+                BankAccountGroup::whereIn('id', $id)->delete();
+                $message = trans('menu.bankaccountgroup') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                BankAccountGroup::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.bankaccountgroup') . trans('trans.messagemovedtrashed');
+            }
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        } else {
+            BankAccountGroup::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankholder') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
+    }
+
+    public function checkStatus(Request $request)
+    {
+        $id = $request->input('id');
+        $status = $request->input('status');
+        if ($status == 1) {
+            $status = 0;
+        } elseif ($status == 0) {
+            $status = 1;
+        }
+        $upstatus = BankAccountGroup::find($id);
+        $upstatus->status = $status;
+        $upstatus->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => trans('menu.bankaccountgroup') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+
+    public function checkMultiple(Request $request)
+    {
+        $id = explode(',', $request->input('checkedid'));
+        $status = $request->input('status');
+        BankAccountGroup::whereIn('id', $id)->update(['status' => $status]);
+        if ($status == 1) {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccountgroup') . trans('trans.messageactive'), 'status' => 'success']);
+        } else {
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccountgroup') . trans('trans.messageunactive'), 'status' => 'warning']);
+        }
     }
 }
