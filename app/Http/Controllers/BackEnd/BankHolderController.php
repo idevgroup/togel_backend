@@ -22,25 +22,24 @@ class BankHolderController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $bankaccount = BankHolder::getAllRecord(0);
-            $datatables = Datatables::of($bankaccount)->addColumn('action', function ($bankaccount) {
-                $id = $bankaccount->id;
-                $entity = 'bankaccounts';
+            $bankholder= BankHolder::getAllRecord(0);
+            $datatables = Datatables::of($bankholder)->addColumn('action', function ($bankholder) {
+                $id = $bankholder->id;
+                $entity = 'bankholders';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/bankaccounts') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small>Phone: {{$phone}}</small>')
+            })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/bankholders') . '/{{ $id }}/edit" >{{ $name }}</a><br/><small><b>Email:</b> {{$email}}</small>   <small><b>Phone:</b> {{$phone}}</small><br/><small><b>Gender:</b> {{$gender}}</small>   <small><b>Date of birth:</b> {{$dob}}</small><br/><small><b>Position:</b> {{$position}}</small>')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
-                ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action','thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
+            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'number', 'name' => 'number', 'title' => 'Bank Account Number'],
-            ['data' => 'balance', 'name' => 'balance', 'title' => 'Balance'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
@@ -66,8 +65,7 @@ class BankHolderController extends Controller
      */
     public function create()
     {
-        $bank = Banks::where('status', 1)->pluck('name','id')->all();
-        return view('backend.bankholder.create')->with('bank', $bank);
+        return view('backend.bankholder.create');
     }
 
     /**
@@ -78,21 +76,24 @@ class BankHolderController extends Controller
      */
     public function store(BankHolderRequest $request)
     {
-        $bankacc =new BankHolder;
-        $bankacc->name = $request->input('name');
-        $bankacc->bank_id = $request->input('bank_id');
-        $bankacc->number = $request->input('number');
-        $bankacc->phone =$request->input('phone');
-        $bankacc->balance = $request->input('balance');
-        $bankacc->address = $request->input('address');
-        $bankacc->type = $request->input('type');
-        $bankacc->status = ($request->has('status') == true) ? 1 : 0;
-        $bankacc->save();
-        \Alert::success(trans('menu.$bankacc') . trans('trans.messageaddsuccess'), trans('trans.success'));
+//        dd($request->all());
+        $bankholder =new BankHolder;
+        $bankholder->name = $request->input('name');
+        $bankholder->email = $request->input('email');
+        $bankholder->phone =$request->input('phone');
+        $bankholder->position = $request->input('position');
+        $bankholder->gender = $request->input('gender');
+        $bankholder->dob = $request->input('dob');
+        $bankholder->status = ($request->has('status') == true) ? 1 : 0;
+        $bankholder->save();
+        if ($request->hasFile('photo')) {
+            $bankholder->uploadImage($request->file('photo'));
+        }
+        \Alert::success(trans('menu.bankholder') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts');
+            return redirect(_ADMIN_PREFIX_URL . '/bankholders');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts' . $bankacc->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/bankholders' . $bankholder->id . '/edit');
         }
     }
 
@@ -116,8 +117,7 @@ class BankHolderController extends Controller
     public function edit($id)
     {
         $record = BankHolder::find($id);
-        $bank = Banks::where('status', 1)->pluck('name','id')->all();
-        return view('backend.bankholder.edit')->with('record',$record)->with('bank',$bank);
+        return view('backend.bankholder.edit')->with('record',$record);
     }
 
     /**
@@ -129,21 +129,23 @@ class BankHolderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bankacc = BankHolder::findOrfail($id);
-        $bankacc->name = $request->input('name');
-        $bankacc->bank_id = $request->input('bank_id');
-        $bankacc->number = $request->input('number');
-        $bankacc->phone =$request->input('phone');
-        $bankacc->balance = $request->input('balance');
-        $bankacc->address = $request->input('address');
-        $bankacc->type = $request->input('type');
-        $bankacc->status = ($request->has('status') == true) ? 1 : 0;
-        $bankacc->save();
-        \Alert::success(trans('menu.$bankacc') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        $bankholder = BankHolder::findOrfail($id);
+        $bankholder->name = $request->input('name');
+        $bankholder->email = $request->input('email');
+        $bankholder->phone =$request->input('phone');
+        $bankholder->position = $request->input('position');
+        $bankholder->gender = $request->input('gender');
+        $bankholder->dob = $request->input('dob');
+        $bankholder->status = ($request->has('status') == true) ? 1 : 0;
+        $bankholder->save();
+        if ($request->hasFile('photo')) {
+            $bankholder->uploadImage($request->file('photo'));
+        }
+        \Alert::success(trans('menu.bankholder') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts');
+            return redirect(_ADMIN_PREFIX_URL . '/bankholders');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/bankaccounts' . $bankacc->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/bankholders' . $bankholder->id . '/edit');
         }
     }
 

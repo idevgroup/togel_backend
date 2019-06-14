@@ -1,12 +1,12 @@
 @extends('backend.template.main')
-@push('title',trans('bankholder'))
+@push('title',trans('bankaccountgroup'))
 @section('content')
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.bankholder')}}
+                        {{trans('menu.bankaccountgroup')}}
                     </h3>
                 </div>
             </div>
@@ -34,7 +34,7 @@
         var tbladmin = 'admin-tbl-zen';
     </script>
     @include('backend.shared._deleteconfirm', [
-        'entity' => 'bankholders',
+        'entity' => 'bankaccountgroups',
         'vid' => '$(this).data("id")'
     ])
 

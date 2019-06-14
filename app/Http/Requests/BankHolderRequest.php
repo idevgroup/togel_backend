@@ -25,8 +25,8 @@ class BankHolderRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'number' => 'required|numeric',
-            'phone' => 'required|numeric'
+            'phone' => 'required|numeric',
+            'email' => 'required|unique:bank_holder,email'
         ];
     }
 
@@ -34,8 +34,6 @@ class BankHolderRequest extends FormRequest
     {
         return [
             'name.required' => 'Please Input Account Name',
-            'number.required' => 'Please Input Account Number',
-            'number.numeric' => 'Please Input Only number',
             'phone.required' => 'Please Input Phone Number',
             'phone.numeric' => 'Please Input Only number',
         ];

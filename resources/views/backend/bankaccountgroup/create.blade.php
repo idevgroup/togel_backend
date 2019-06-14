@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('bankholder').'-'.trans('trans.create'))
+@push('title',trans('bankaccountgroup').'-'.trans('trans.create'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankholders'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankaccountgroups'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.bankholder').' / '.trans('trans.create')}}
+                            {{trans('menu.bankaccountgroup').' / '.trans('trans.create')}}
                         </h3>
                     </div>
                 </div>
@@ -26,64 +26,53 @@
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
             </div>
-            {{--            <div class="form-group m-form__group row">--}}
-            {{--                {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}--}}
-            {{--                <div class="col-sm-5">--}}
-            {{--                    {!!Form::select('bank_id',$bank,old('bank_id'),['class'=>'form-control m-input'])!!}--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-
-            <div class="form-group m-form__group row @if ($errors->has('email')) has-danger @endif">
-                {!!Form::label('email','Email',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('bank_holder_id')) has-danger @endif">
+                {!!Form::label('bank_holder_id','Bank Holder',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-                    {!!Form::email('email',old('email'),['class' => 'form-control m-input','id'=>'email'])!!}
-                    @if ($errors->has('email')) <p
-                            class="form-control-feedback">{{ $errors->first('email') }}</p> @endif
+                    {!!Form::select('bank_holder_id',$bank_holder_id,old('bank_holder_id'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('phone')) has-danger @endif">
-                {!!Form::label('phone','Phone Number',['class' => 'col-sm-3 col-form-label required'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('bank_id')) has-danger @endif">
+                {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-                    {!!Form::text('phone',old('phone'),['class' => 'form-control m-input','id'=>'phone'])!!}
-                    @if ($errors->has('phone')) <p
-                            class="form-control-feedback">{{ $errors->first('phone') }}</p> @endif
+                    {{--                    <select class="selectpicker form-control m-input" multiple name="bank_id[]" id="bank_id">--}}
+                    {{--                        @foreach($bank_id as $item)--}}
+                    {{--                            <option value="{{ $item->id }}">{{ $item->name }}</option>--}}
+                    {{--                        @endforeach--}}
+                    {{--                    </select>--}}
+                    {!!Form::select('bank_id',$bank_id,old('bank_id'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('position')) has-danger @endif">
-                {!!Form::label('position','Position',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('deposit_min')) has-danger @endif">
+                {!!Form::label('deposit_min','Deposit Minimum',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-                    {!!Form::text('position',old('position'),['class' => 'form-control m-input','id'=>'position'])!!}
-                    @if ($errors->has('position')) <p
-                            class="form-control-feedback">{{ $errors->first('position') }}</p> @endif
+                    {!!Form::text('deposit_min',old('deposit_min'),['class' => 'form-control m-input','id'=>'deposit_min'])!!}
+                    @if ($errors->has('deposit_min')) <p
+                            class="form-control-feedback">{{ $errors->first('deposit_min') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row">
-                {!!Form::label('gender','Gender',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('deposit_max')) has-danger @endif">
+                {!!Form::label('deposit_max','Deposit Maximum',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-                    {!!Form::select('gender',[''=> 'Select','male' => 'Male', 'female' => 'Female'],old('gender'),['class'=>'form-control m-input'])!!}
+                    {!!Form::text('deposit_max',old('deposit_max'),['class' => 'form-control m-input','id'=>'deposit_max'])!!}
+                    @if ($errors->has('deposit_max')) <p
+                            class="form-control-feedback">{{ $errors->first('deposit_max') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if ($errors->has('dob')) has-danger @endif">
-                {!!Form::label('dob','Date of Birth',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('withdraw_min')) has-danger @endif">
+                {!!Form::label('withdraw_min','Withdraw Minimum',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-                    <div class="input-group date">
-                        {!!Form::text('dob',old('dob'),['class' => 'form-control m-input','id'=>'dob'])!!}
-                        <div class="input-group-append">
-                        <span class="input-group-text">
-                            <i class="la la-calendar"></i>
-                        </span>
-                        </div>
-                    </div>
-                    @if ($errors->has('dob')) <p class="form-control-feedback">{{ $errors->first('dob') }}</p> @endif
+                    {!!Form::text('withdraw_min',old('withdraw_min'),['class' => 'form-control m-input','id'=>'withdraw_min'])!!}
+                    @if ($errors->has('withdraw_min')) <p
+                            class="form-control-feedback">{{ $errors->first('withdraw_min') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if($errors->has('photo')) has-danger @endif">
-                {!!Form::label('photo','Profile Picture',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if ($errors->has('withdraw_max')) has-danger @endif">
+                {!!Form::label('withdraw_max','Withdraw Maximum',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-
-                    {!!Form::file('photo',['id' =>'banner'])!!}
-                    @if ($errors->has('photo')) <p
-                            class="form-control-feedback">{{ $errors->first('photo') }}</p> @endif
+                    {!!Form::text('withdraw_max',old('withdraw_max'),['class' => 'form-control m-input','id'=>'withdraw_max'])!!}
+                    @if ($errors->has('withdraw_max')) <p
+                            class="form-control-feedback">{{ $errors->first('withdraw_max') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
@@ -154,33 +143,40 @@
                 showMaskOnHover: true,
                 showMaskOnFocus: true
             });
-            $("#name").focus();
+            // $("#name").focus();
             //validation
-            $("#idev-form").validate({
-
-                rules: {
-                    name: "required",
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    phone:{
-                        required: true,
-                        number: true
-                    },
-                },
-                // Specify validation error messages
-                messages: {
-                    name: "Please Input Account Name",
-                    phone:{
-                        required: "Please Input Account Number",
-                        number: "Input Only Number"
-                    },
-                    email: {
-                        required: "Please Input Email Address",
-                    }
-                }
-            });
+            // $("#idev-form").validate({
+            //
+            //     rules: {
+            //         name: "required",
+            //         number:{
+            //             required: true,
+            //             number: true
+            //         },
+            //         phone:{
+            //             required: true,
+            //             number: true
+            //         },
+            //         balance:{
+            //             number: true
+            //         }
+            //     },
+            //     // Specify validation error messages
+            //     messages: {
+            //         name: "Please Input Account Name",
+            //         number:{
+            //             required: "Please Input Account Number",
+            //             number: "Input Only Number"
+            //         },
+            //         phone:{
+            //             required: "Please Input Account Number",
+            //             number: "Input Only Number"
+            //         },
+            //         balance:{
+            //             number: "Input Only Number"
+            //         }
+            //     }
+            // });
         });
 
         // $(document).ready(function () {

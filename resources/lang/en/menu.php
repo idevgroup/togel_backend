@@ -13,7 +13,7 @@ return [
     'notification' => 'Notification',
     'customerservice' => 'Customer Service',
     'bank' => 'Bank',
-    'bankaccount' => 'Bank Account',
+    'bankholder' => 'Bank Holder',
     'bankaccountgroup' => 'Bank Account Group',
     'games' => 'Games',
     '4D' => '4D',

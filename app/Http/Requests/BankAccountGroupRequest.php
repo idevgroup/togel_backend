@@ -13,7 +13,7 @@ class BankAccountGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class BankAccountGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:2',
+            'bank_holder_id' => 'required'
+//            'bank_id' => 'exists:bank_account_group,bank_id'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+          'name.required' => 'Please Input Name Account Group',
+          'name.min' => 'Name is Minimum 2 character'
         ];
     }
 }
