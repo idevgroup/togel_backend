@@ -174,6 +174,8 @@ return [
         //image fly resize
         Mxmm\ImageResize\ImageResizeServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
+        App\Providers\MemberProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -227,5 +229,8 @@ return [
         'ImageResize' => Mxmm\ImageResize\Facade::class,
         'Datatables' => yajra\Datatables\Datatables::class,
         'CommonFunction' => App\Libraries\CommonFunction::class,
+        "cors" => \Barryvdh\Cors\HandleCors::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
     ],
 ];

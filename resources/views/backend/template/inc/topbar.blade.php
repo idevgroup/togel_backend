@@ -268,7 +268,7 @@
                                                     <img src="{{asset('images/blank_user_icon.png')}}" class="m--img-rounded m--marginless" alt="" />
                                                 </div>
                                                 <div class="m-card-user__details">
-                                                    <span class="m-card-user__name m--font-weight-500">{{ Auth::user()->name }}</span>
+                                                    <span class="m-card-user__name m--font-weight-500">{{ Auth::guard('web')->user()->name }}</span>
                                                 </div>
                                             </div>
                                         </div>

@@ -40,7 +40,7 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'members',
-            'hash' => false,
+            'hash' => true,
         ],
         'member' => [
             'driver' => 'session',
