@@ -22,7 +22,7 @@
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
             {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
-                {!!Form::text('name',old('name',$record->name),['class' => 'form-control m-input','id'=>'name'])!!}
+                {!!Form::text('name',old('name',$record->bk_name),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
             </div>
         </div>
@@ -38,7 +38,7 @@
         <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
             {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
-                {!!Form::text('link',old('link', $record->link),['class' => 'form-control m-input','id' => 'link' ])!!}
+                {!!Form::text('link',old('link', $record->bk_link),['class' => 'form-control m-input','id' => 'link' ])!!}
                 @if ($errors->has('link')) <p
                         class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
             </div>
@@ -46,7 +46,7 @@
         <div class="form-group m-form__group row">
             {!!Form::label('description','Description',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-7">
-                {!!Form::textarea('description',old('description',$record->description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                {!!Form::textarea('description',old('description',$record->bk_description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
             </div>
         </div>
 
@@ -112,7 +112,7 @@ var BootstrapSwitch = {init: function () {
 jQuery(document).ready(function () {
     $('#banner').ace_file_input('show_file_list', [{
             type: 'image',
-            name: '{{asset($record->thumb)}}'
+            name: '{{asset($record->bk_thumb)}}'
         }]);
     BootstrapSwitch.init()
 });

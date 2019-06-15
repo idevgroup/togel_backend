@@ -27,12 +27,12 @@ class BanksController extends Controller
                 $id = $bank->id;
                 $entity = 'banks';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })->editColumn('description', '{!! $description !!}')
+            })->editColumn('bk_description', '{!! $bk_description !!}')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
-                ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
+                ])->editColumn('bk_thumb', '{!!_CheckImage($bk_thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'description', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['action','bk_description', 'bk_thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
@@ -40,10 +40,10 @@ class BanksController extends Controller
             <label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
             <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Image', "orderable" => false, "searchable" => false, 'width' => '80'],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'link', 'name' => 'link', 'title' => 'Link'],
-            ['data' => 'description', 'name' => 'description', 'title' => 'Description'],
+            ['data' => 'bk_thumb', 'name' => 'bk_thumb', 'title' => 'Image', "orderable" => false, "searchable" => false, 'width' => '80'],
+            ['data' => 'bk_name', 'name' => 'bk_name', 'title' => 'Name'],
+            ['data' => 'bk_link', 'name' => 'bk_link', 'title' => 'Link'],
+            ['data' => 'bk_description', 'name' => 'bk_description', 'title' => 'Description'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
@@ -82,9 +82,9 @@ class BanksController extends Controller
     {
 //        dd($request->all());
         $bank = new Banks;
-        $bank->name = $request->name;
-        $bank->link = $request->link;
-        $bank->description = $request->desc;
+        $bank->bk_name = $request->name;
+        $bank->bk_link = $request->link;
+        $bank->bk_description = $request->desc;
         $bank->status = ($request->has('status') == true) ? 1 : 0;
         if ($request->hasFile('bannerfile')) {
             $bank->uploadImage($request->file('bannerfile'));
@@ -118,6 +118,7 @@ class BanksController extends Controller
     public function edit($id)
     {
         $record = Banks::findOrfail($id);
+//        dd($record);
         return view('backend.bank.edit')->with('record', $record);
     }
 
@@ -131,9 +132,9 @@ class BanksController extends Controller
     public function update(Request $request, $id)
     {
         $bank = Banks::findOrfail($id);
-        $bank->name = $request->name;
-        $bank->link = $request->link;
-        $bank->description = $request->description;
+        $bank->bk_name = $request->name;
+        $bank->bk_link = $request->link;
+        $bank->bk_description = $request->description;
         $bank->status = ($request->has('status') == true) ? 1 : 0;
         if ($request->hasFile('bannerfile')) {
             $bank->uploadImage($request->file('bannerfile'));

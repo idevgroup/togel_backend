@@ -11,14 +11,14 @@ class Banks extends Model
     protected $table = 'bank';
 
     protected static $imageFields = [
-        'image' => [
+        'bk_image' => [
             'width' => _IMG_CATE_W,
             'resize_image_quality' => 90,
             'crop' => false,
             'path' => _UPLOAD_DIRE . 'banks/' . _DIRE_IS_MONTH,
             'file_input' => 'bannerfile'
         ],
-        'thumb' => [
+        'bk_thumb' => [
             'width' => _IMG_CATE_THUM_W,
             'resize_image_quality' => 90,
             'crop' => true,
@@ -27,12 +27,12 @@ class Banks extends Model
         ],
     ];
 
-    protected function imageUploadFilePath($file)
+    protected function bk_imageUploadFilePath($file)
     {
         return $this->name . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
 
-    protected function thumbUploadFilePath($file)
+    protected function bk_thumbUploadFilePath($file)
     {
         return $this->name . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
@@ -41,6 +41,6 @@ class Banks extends Model
     }
     static function getAllRecord($is_trashed)
     {
-        return self::where('is_trashed', $is_trashed)->orderBy('name', 'ASC');
+        return self::where('is_trashed', $is_trashed)->orderBy('bk_name', 'ASC');
     }
 }

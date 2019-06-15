@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.bank').'-'.trans('trans.create'))
+@push('title',trans('menu.gamemarket').'-'.trans('trans.create'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/banks'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/gamemarkets'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.bank').' / '.trans('trans.create')}}
+                            {{trans('menu.gamemarket').' / '.trans('trans.create')}}
                         </h3>
                     </div>
                 </div>
@@ -26,22 +26,7 @@
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-                {!!Form::label('bannerfile','Image',['class' => 'col-sm-3 col-form-label'])!!}
-                <div class="col-sm-5">
 
-                    {!!Form::file('bannerfile',['id' =>'banner'])!!}
-                    @if ($errors->has('bannerfile')) <p class="form-control-feedback">{{ $errors->first('bannerfile') }}</p> @endif
-                </div>
-            </div>
-            <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-                {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label'])!!}
-                <div class="col-sm-5">
-                    {!!Form::text('link',old('link'),['class' => 'form-control m-input','id' => 'link' ])!!}
-                    @if ($errors->has('link')) <p
-                            class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
-                </div>
-            </div>
             <div class="form-group m-form__group row">
                 {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-7">
@@ -55,11 +40,6 @@
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 
                 </div>
-{{--                {!!Form::label('status','Status',['class' => 'col-sm-1 col-form-label'])!!}--}}
-{{--                <div class="col-sm-2">--}}
-{{--                    <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">--}}
-
-{{--                </div>--}}
             </div>
         </div>
 
