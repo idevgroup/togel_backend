@@ -35,6 +35,6 @@ class ProductsRequest extends FormRequest
             'txtname.required' => 'Please input Product Name',
             'txtname.unique' => 'The Product name as already been taken',
             'txtslug.required' => 'Please input slug'
-        ]
+        ];
     }
 }

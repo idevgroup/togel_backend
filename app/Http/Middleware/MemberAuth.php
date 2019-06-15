@@ -16,10 +16,10 @@ class MemberAuth {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if (Auth::guard('member')->check()) {
+        if (Auth::guard('api')->check()) {
             return $next($request);
         }
-        return redirect()->route('member.login');
+        return redirect()->route('v1.member.login');
     }
 
 }

@@ -37,12 +37,13 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\LastUserActivity::class,
-            \App\Http\Middleware\MemberOnline::class,
+            
         ],
-
         'api' => [
             'throttle:60,1',
             'bindings',
+            \App\Http\Middleware\MemberOnline::class,
+            \Barryvdh\Cors\HandleCors::class,
         ],
     ];
 

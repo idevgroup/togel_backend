@@ -38,9 +38,9 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
+            'driver' => 'jwt',
+            'provider' => 'members',
+            'hash' => true,
         ],
         'member' => [
             'driver' => 'session',

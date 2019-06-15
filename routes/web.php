@@ -15,9 +15,9 @@ Route::get('/', function () {
     return redirect('login');
 });
 Route::get('/home', 'HomeController@index')->name('home');
-Route::group(array('namespace' => 'FrontEnd'), function () {
+/*Route::group(array('namespace' => 'FrontEnd'), function () {
     Route::get('/', 'HomeController@home')->name('frontend.home');
-});
+});*/
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();

@@ -17,9 +17,9 @@ class MemberOnline
      */
     public function handle($request, Closure $next)
     {
-           if (Auth::guard('member')->check()) {
+           if (Auth::guard('api')->check()) {
             $expiresAt = Carbon::now()->addMinute(1);
-            Cache::put('member-is-online-' . Auth::guard('member')->user()->id, true, $expiresAt);
+            Cache::put('member-is-online-' . Auth::guard('api')->user()->id, true, $expiresAt);
            }
         return $next($request);
     }

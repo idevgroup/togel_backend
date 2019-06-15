@@ -34,7 +34,7 @@ class PlayerRequest extends FormRequest {
                         'txtpassword' => 'min:6|required_with:txtconfirm|same:txtconfirm',
                         'txtconfirm' => 'min:6',
                         'txtemail' => 'required|string|email|max:255|unique:players,reg_email',
-                        'txtdob' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d')
+                       // 'txtdob' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d')
                     ];
                 }
             case 'PUT':
@@ -43,7 +43,7 @@ class PlayerRequest extends FormRequest {
                         'txtname' => 'required|string|min:3',
                         'txtusername' => 'required|min:3|max:255|unique:players,reg_username,' . $this->segment(3) . ',id',
                         'txtemail' => 'required|string|email|max:255|unique:players,reg_email,' . $this->segment(3) . ',id',
-                        'txtdob' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+                        //'txtdob' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
                         'txtpassword' => 'sometimes|same:txtconfirm',
                     ];
                 }
