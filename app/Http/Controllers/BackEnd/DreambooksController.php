@@ -138,7 +138,7 @@ class DreambooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(dreambooksRequest $request, $id)
     {
         $dreambook = DreamBooks::findOrfail($id);
         $dreambook->name = $request->txtname;

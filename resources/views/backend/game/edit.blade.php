@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('code')) has-danger @endif">
-            {!!Form::label('code','Code Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('code','Code Name',['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
                 {!!Form::text('code',old('code',$record->code),['class' => 'form-control m-input','id'=>'code'])!!}
                 @if ($errors->has('code')) <p class="form-control-feedback">{{ $errors->first('code') }}</p> @endif

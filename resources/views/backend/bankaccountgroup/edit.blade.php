@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.bankaccountgroups').' / '.trans('trans.edit')}}
+                            {{trans('menu.bankaccountgroup').' / '.trans('trans.edit')}}
                         </h3>
                     </div>
                 </div>
@@ -36,6 +36,7 @@
                 {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::select('bank_id',$bank_id,old('bank_id',$record->bank_id),['class'=>'form-control m-input'])!!}
+                    @if ($errors->has('bank_id')) <p class="form-control-feedback">{{ $errors->first('bank_id') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('deposit_min')) has-danger @endif">

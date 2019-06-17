@@ -129,7 +129,7 @@ class BanksController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BanksRequest $request, $id)
     {
         $bank = Banks::findOrfail($id);
         $bank->bk_name = $request->name;

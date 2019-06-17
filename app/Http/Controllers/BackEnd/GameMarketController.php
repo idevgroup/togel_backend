@@ -123,7 +123,7 @@ class GameMarketController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GameMarketRequest $request, $id)
     {
         $gameMarket = GameMarket::findOrfail($id);
         $gameMarket->name = $request->name;
@@ -155,7 +155,7 @@ class GameMarketController extends Controller
                 $message = trans('menu.gamemarket') . trans('trans.messagedeleted');
             }elseif ($type == 'remove'){
                 GameMarket::whereIn('id', $id)->update(['is_trashed' => 1,'trashed_at' => \Carbon\Carbon::now()]);
-                $message = trans('menu.bankaccountgroup') . trans('trans.messagemovedtrashed');
+                $message = trans('menu.gamemarket') . trans('trans.messagemovedtrashed');
             }
             return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
         }else{

@@ -136,7 +136,7 @@ class PostController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostsRequest $request, $id)
     {
         $post = Post::findOrfail($id);
         $post->created_by = $request->user_id;

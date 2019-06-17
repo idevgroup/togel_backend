@@ -41,6 +41,7 @@
                     {{--                        @endforeach--}}
                     {{--                    </select>--}}
                     {!!Form::select('bank_id',$bank_id,old('bank_id'),['class'=>'form-control m-input'])!!}
+                    @if ($errors->has('bank_id')) <p class="form-control-feedback">{{ $errors->first('bank_id') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('deposit_min')) has-danger @endif">

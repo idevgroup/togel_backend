@@ -120,7 +120,19 @@
                 $("[data-switch=true]").bootstrapSwitch()
             }};
         jQuery(document).ready(function () {
-            BootstrapSwitch.init()
+            BootstrapSwitch.init();
+            $("#name").focus();
+            //validation
+            $("#idev-form").validate({
+
+                rules: {
+                    txtname: "required"
+                },
+                // Specify validation error messages
+                messages: {
+                    txtname: "Please Input Name",
+                }
+            });
         });
     </script>
 @endpush

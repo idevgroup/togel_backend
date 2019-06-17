@@ -106,7 +106,20 @@
                 $("[data-switch=true]").bootstrapSwitch()
             }};
         jQuery(document).ready(function () {
-            BootstrapSwitch.init()
+            BootstrapSwitch.init();
+
+            $("#name").focus();
+            //validation
+            $("#idev-form").validate({
+
+                rules: {
+                    name: "required"
+                },
+                // Specify validation error messages
+                messages: {
+                    name: "Please Input Account Name",
+                }
+            });
         });
     </script>
 @endpush

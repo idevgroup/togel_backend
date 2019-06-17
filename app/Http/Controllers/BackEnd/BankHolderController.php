@@ -76,7 +76,6 @@ class BankHolderController extends Controller
      */
     public function store(BankHolderRequest $request)
     {
-//        dd($request->all());
         $bankholder =new BankHolder;
         $bankholder->name = $request->input('name');
         $bankholder->email = $request->input('email');
@@ -127,7 +126,7 @@ class BankHolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BankHolderRequest $request, $id)
     {
         $bankholder = BankHolder::findOrfail($id);
         $bankholder->name = $request->input('name');

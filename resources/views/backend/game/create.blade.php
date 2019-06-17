@@ -1,7 +1,7 @@
 @extends('backend.template.main')
 @push('title',trans('menu.game').'-'.trans('trans.create'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/gamemarkets'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/games'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -27,16 +27,16 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('code')) has-danger @endif">
-                {!!Form::label('code','Code Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('code','Code Name',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('code',old('code'),['class' => 'form-control m-input','id'=>'code'])!!}
                     @if ($errors->has('code')) <p class="form-control-feedback">{{ $errors->first('code') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('description','Description',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-7">
-                    {!!Form::textarea('desc',old('desc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                    {!!Form::textarea('description',old('description'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
                 </div>
             </div>
 

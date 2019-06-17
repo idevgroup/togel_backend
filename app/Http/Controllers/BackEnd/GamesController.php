@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\BackEnd;
 
+use App\Http\Requests\GameRequest;
 use App\Models\BackEnd\Game;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,7 @@ class GamesController extends Controller
                     'data-id' => '{{$id}}'
                 ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['description','action', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['description', 'action', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
         }
         $html = $builder->columns([
@@ -70,18 +71,30 @@ class GamesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GameRequest $request)
     {
-        //
+//        dd($request->all());
+        $game = new Game;
+        $game->name = $request->name;
+        $game->code = $request->code;
+        $game->description = $request->description;
+        $game->status = ($request->has('status') == true) ? 1 : 0;
+        $game->save();
+        \Alert::success(trans('menu.game') . trans('trans.messageaddsuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/games');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/games/' . $bankaccgroup->id . '/edit');
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -92,34 +105,86 @@ class GamesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $record = Game::findOrfail($id);
+        return view('backend.game.edit')->with('record', $record);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GameRequest $request, $id)
     {
-        //
+        $game = Game::findOrfail($id);
+        $game->name = $request->name;
+        $game->code = $request->code;
+        $game->description = $request->description;
+        $game->status = ($request->has('status') == true) ? 1 : 0;
+        $game->save();
+        \Alert::success(trans('menu.game') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/games');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/games/' . $bankaccgroup->id . '/edit');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if ($request->has('type')) {
+            $id = explode(',', $request->input('checkedid'));
+            $type = $request->input('type');
+            if ($type == 'delete'){
+                $game = Game::whereIn('id', $id)->delete();
+                $message = trans('menu.game') . trans('trans.messagedeleted');
+            }elseif ($type == 'remove'){
+                $game = Game::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.game') . trans('trans.messagemovedtrashed');
+            }
+            return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
+        }else{
+            Game::findOrfail($id)->delete();
+            $message = trans('menu.game') . trans('trans.messagedeleted');
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.game') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        }
+    }
+
+    public function checkStatus(Request $request){
+        $status = $request->status;
+        $id = $request->id;
+        if($status == 1){
+            $status =0;
+        }elseif ($status ==0){
+            $status=1;
+        }
+        $upstatus = Game::find($id);
+        $upstatus->status = $status;
+        $upstatus->save();
+        $html = _CheckStatus($status, $id);
+        return response()->json(['message' => trans('menu.game') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+    }
+    public function checkMultiple(Request $request){
+        $status = $request->input('status');
+        $id = explode(',', $request->input('checkedid'));
+        $game = Game::whereIn('id', $id)->update(['status'=>$status]);
+         if ($status == 1) {
+             return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.game') . trans('trans.messageactive'), 'status' => 'success']);
+         } else {
+             return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.game') . trans('trans.messageunactive'), 'status' => 'warning']);
+         }
     }
 }

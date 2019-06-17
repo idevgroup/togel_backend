@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GameMarketRequest extends FormRequest
+class GameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +25,19 @@ class GameMarketRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2',
-            'code' => 'required|min:2|max:8|unique:game_market,code'
+//            'code' => 'required|min:2|max:8|unique:game_market,code'
         ];
     }
+
     public function messages()
     {
         return [
             'name.required' => 'Please input name',
             'name.required' => 'The name is can\'t null ',
-            'name.min' => 'Game name is minimum 2 character',
-            'code.required' => 'Please input Code Name',
-            'code.max' => 'Code Name is maximum 8 character',
-            'code.min' => 'Code Name is minimum 2 character'
+            'name.min' => 'Game name is minimum 2 character'
+//            'code.required' => 'Please input Code Name',
+//            'code.max' => 'Code Name is maximum 8 character',
+//            'code.min' => 'Code Name is minimum 2 character'
         ];
     }
 }

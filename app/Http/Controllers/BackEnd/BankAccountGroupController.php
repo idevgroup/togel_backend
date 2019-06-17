@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\BankAccountGroupRequest;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\BankAccountGroup;
 use App\Models\BackEnd\BankHolder;
@@ -17,6 +16,7 @@ use Illuminate\Validation\Rule;
 class BankAccountGroupController extends Controller
 {
     use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +86,7 @@ class BankAccountGroupController extends Controller
 //        $bank_acc_group = BankAccountGroup::where('status', 1)->get();
         $bank_id = Banks::where('status', 1)->pluck('bk_name', 'id')->prepend('Select One', '')->all();
 //        $bank_id = Banks::where('status', 1)->get();
-        $bank_holder_id = BankHolder::where('status', 1)->pluck('bk_name', 'id')->prepend('Select One', '')->all();
+        $bank_holder_id = BankHolder::where('status', 1)->pluck('name', 'id')->prepend('Select One', '')->all();
         return view('backend.bankaccountgroup.create')->with('bank_id', $bank_id)->with('bank_holder_id', $bank_holder_id);
     }
 
@@ -96,8 +96,20 @@ class BankAccountGroupController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BankAccountGroupRequest $request)
+    public function store(Request $request)
     {
+
+
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'bank_id' => 'required|unique:bank_account_group,bank_id,NULL,NULL,bank_holder_id,' . $request->input('bank_holder_id'),
+            'bank_holder_id' => 'required'
+        ], [
+            'name.required' => 'Please Input Name Account Group',
+            'name.min' => 'Name is Minimum 2 character',
+            'bank_id.unique' => 'This Bank has already with this Bank holder']);
+
+
         $bank_holder_id = $request->bank_holder_id;
         $bank_id = $request->bank_id;
         $bankaccgroup = new BankAccountGroup;
@@ -160,6 +172,16 @@ class BankAccountGroupController extends Controller
     public
     function update(Request $request, $id)
     {
+
+        $this->validate($request, [
+            'name' => 'required|min:2',
+            'bank_id' => 'required|unique:bank_account_group,bank_id,' . $id . ',id,bank_holder_id,' . $request->input('bank_holder_id'),
+            'bank_holder_id' => 'required'
+        ], [
+            'name.required' => 'Please Input Name Account Group',
+            'name.min' => 'Name is Minimum 2 character',
+            'bank_id.unique' => 'This Bank has already with this Bank holder']);
+
         $bank_holder_id = $request->bank_holder_id;
         $bank_id = $request->bank_id;
         $bankaccgroup = BankAccountGroup::find($id);
