@@ -13,7 +13,7 @@ class GameMarketRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class GameMarketRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:2',
+            'code' => 'required|min:2|max:8|unique:game_market,code'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please input name',
+            'name.required' => 'The name is can\'t null ',
+            'name.min' => 'Game name is minimum 2 character',
+            'code.required' => 'Please input Code Name',
+            'code.max' => 'Code Name is maximum 4 character',
+            'code.min' => 'Code Name is minimum 2 character'
         ];
     }
 }

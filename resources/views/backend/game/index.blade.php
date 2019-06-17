@@ -1,12 +1,12 @@
 @extends('backend.template.main')
-@push('title',trans('menu.gamemarket'))
+@push('title',trans('menu.game'))
 @section('content')
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.gamemarket')}}
+                        {{trans('menu.game')}}
                     </h3>
                 </div>
             </div>
@@ -34,7 +34,7 @@
         var tbladmin = 'admin-tbl-zen';
     </script>
     @include('backend.shared._deleteconfirm', [
-        'entity' => 'gamemarkets',
+        'entity' => 'games',
         'vid' => '$(this).data("id")'
     ])
 

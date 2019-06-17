@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Requests\BankAccountGroupRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\BankAccountGroup;
 use App\Models\BackEnd\BankHolder;
 use App\Models\BackEnd\Banks;
@@ -15,6 +16,7 @@ use Illuminate\Validation\Rule;
 
 class BankAccountGroupController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +25,9 @@ class BankAccountGroupController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $bankaccountfroup = BankAccountGroup::getAllRecord(0);
-            $datatables = Datatables::of($bankaccountfroup)->addColumn('action', function ($bankaccountfroup) {
-                $id = $bankaccountfroup->id;
+            $bankaccountgroup = BankAccountGroup::getAllRecord(0);
+            $datatables = Datatables::of($bankaccountgroup)->addColumn('action', function ($bankaccountgroup) {
+                $id = $bankaccountgroup->id;
                 $entity = 'bankaccountgroups';
                 return view('backend.shared._actions', compact("id", "entity"));
             })

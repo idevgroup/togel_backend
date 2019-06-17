@@ -1,5 +1,5 @@
 @extends('backend.template.main')
-@push('title',trans('menu.gamemarket').'-'.trans('trans.create'))
+@push('title',trans('menu.game').'-'.trans('trans.create'))
 @section('content')
     {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/gamemarkets'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
@@ -9,7 +9,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('menu.gamemarket').' / '.trans('trans.create')}}
+                            {{trans('menu.game').' / '.trans('trans.create')}}
                         </h3>
                     </div>
                 </div>
