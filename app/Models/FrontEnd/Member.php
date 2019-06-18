@@ -14,10 +14,10 @@ class Member extends Authenticatable implements JWTSubject {
     protected $guard = 'api';
     protected $table = 'players';
     protected $fillable = [
-        'reg_name', 'reg_email', 'reg_username', 'reg_date', 'reg_ip', 'reg_phone', 'lastip', 'lastloggin', 'reg_remain_balance', 'reg_activation_code', 'api_token'
+        'reg_name', 'reg_email', 'reg_username','reg_password', 'reg_date', 'reg_ip', 'reg_phone', 'lastip', 'lastloggin', 'reg_remain_balance', 'reg_activation_code', 'api_token'
     ];
     protected $hidden = [
-        'session_id', 'api_token'
+        'reg_password','session_id', 'api_token'
     ];
 
     // Rest omitted for brevity

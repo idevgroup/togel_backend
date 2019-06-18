@@ -24,8 +24,8 @@ class MemberRegisterRequest extends FormRequest {
         return [
             'name' => 'required|string|min:3',
             'username' => 'required|min:3|max:255|unique:players,reg_username',
-            'password' => 'min:6|required_with:confirmpassword|same:confirmpassword',
-            'confirmpassword' => 'min:6',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6',
             'email' => 'required|string|email|max:255|unique:players,reg_email',
         ];
     }

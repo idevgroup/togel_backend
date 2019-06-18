@@ -16,14 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware' => 'api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
+Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
     Route::post('register', 'MemberRegisterController@register')->name('register');
+});
 
-    Route::group(['middleware' => 'jwt.auth'], function () {
-        Route::get('refresh', 'MemberAuthController@refresh')->name('refresh');
-        Route::post('me', 'MemberAuthController@me')->name('me');
+Route::group(['middleware' => 'auth:api','prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'],function(){
+     Route::get('refresh', function (Request $request) {
+            return $request->user();
+        });
         Route::get('dashboard', 'MemberController@dashBoard')->name('dashboard');
         Route::post('logout', 'MemberAuthController@logout')->name('logout');
-    });
 });
