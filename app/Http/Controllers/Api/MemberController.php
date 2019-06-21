@@ -9,11 +9,11 @@ use Tymon\JWTAuth\JWTAuth;
 
 class MemberController extends Controller {
 
-    public function __construct(JWTAuth $auth) {
-        $this->auth = $auth;
-    }
+   // public function __construct(JWTAuth $auth) {
+       // $this->auth = $auth;
+   // }
     public function dashBoard() {
-        dd(Auth::guard('api')->user());
+      return response()->json(['success' => true]);
     }
 
 }

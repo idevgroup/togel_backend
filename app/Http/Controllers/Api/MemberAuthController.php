@@ -16,7 +16,7 @@ class MemberAuthController extends Controller {
  
     public function __construct() {
        // $this->auth=$auth;
-        $this->middleware('auth:api', ['except' => ['login']]);
+     //   $this->middleware('auth:api', ['except' => ['login']]);
         // $this->middleware('guest:member', ['except' => ['logout']]);
     }
 
@@ -67,7 +67,7 @@ class MemberAuthController extends Controller {
 
     protected function respondWithToken($token) {
         return response()->json([
-                    'access_token' => $token,
+                    'token' => $token,
                     'token_type' => 'bearer',
                     'data' => $this->guard()->user(),
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
