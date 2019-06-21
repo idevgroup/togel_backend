@@ -102,7 +102,7 @@ class SoftwareController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/software');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/software' . $product->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/software' . $software->id . '/edit');
         }
     }
 
@@ -157,7 +157,7 @@ class SoftwareController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/software');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/software' . $product->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/software' . $software->id . '/edit');
         }
     }
 

@@ -96,7 +96,7 @@ class SlidesController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/slides');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/slides' . $dreambook->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/slides' . $slide->id . '/edit');
         }
     }
 
@@ -147,7 +147,7 @@ class SlidesController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/slides');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/slides' . $dreambook->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/slides' . $slide->id . '/edit');
         }
     }
 

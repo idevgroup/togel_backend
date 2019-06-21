@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\GameMarketRequest;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\GameMarket;
+use App\Models\BackEnd\SiteLock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 
-class GameMarketController extends Controller
+class SiteLockController extends Controller
 {
     use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
@@ -21,14 +23,12 @@ class GameMarketController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            $gameMarket = GameMarket::getAllRecord(0);
-            $datatables = Datatables::of($gameMarket)->addColumn('action', function ($gameMarket) {
-                $id = $gameMarket->id;
-                $entity = 'gamemarkets';
+            $sitelock = SiteLock::getAllRecord(0);
+            $datatables = Datatables::of($sitelock)->addColumn('action', function ($sitelock) {
+                $id = $sitelock->id;
+                $entity = 'sitelocks';
                 return view('backend.shared._actions', compact("id", "entity"));
-            })
-                ->editColumn('description',
-                    '{!! $description !!}')
+            })->editColumn('description','{!! $description !!}')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
                 ])->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
@@ -39,9 +39,10 @@ class GameMarketController extends Controller
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'lock_from', 'name' => 'lock_from', 'title' => 'From'],
+            ['data' => 'lock_to', 'name' => 'lock_to', 'title' => 'To'],
+            ['data' => 'market', 'name' => 'market', 'title' => 'Market'],
             ['data' => 'description', 'name' => 'description', 'title' => 'Description'],
-            ['data' => 'code', 'name' => 'code', 'title' => 'Code Name'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
@@ -57,7 +58,7 @@ class GameMarketController extends Controller
                 'dataSrc' => ['parent_id'],
             ]
         ]);
-        return view('backend.gamemarket.index', compact('html'));
+        return view('backend.sitelock.index', compact('html'));
     }
 
     /**
@@ -67,7 +68,8 @@ class GameMarketController extends Controller
      */
     public function create()
     {
-        return view('backend.gamemarket.create');
+        $market = GameMarket::where('status', 1)->where('is_trashed', 0)->get();
+        return view('backend.sitelock.create')->with('market', $market);
     }
 
     /**
@@ -76,21 +78,24 @@ class GameMarketController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GameMarketRequest $request)
+    public function store(Request $request)
     {
-        $gameMarket = new GameMarket;
-        $gameMarket->name = $request->name;
-        $gameMarket->description = $request->desc;
-        $gameMarket->code = $request->code;
-        $gameMarket->status = ($request->has('status') == true) ? 1 : 0;
-        $gameMarket->save();
-        \Alert::success(trans('menu.gamemarket') . trans('trans.messageaddsuccess'), trans('trans.success'));
+//        dd($request->all());
+        $siteLock = new SiteLock;
+        $siteLock->userid = $request->userid;
+        $siteLock->lock_from = $request->from;
+        $siteLock->lock_to = $request->to;
+        $siteLock->market = $request->market;
+        $siteLock->description = $request->desc;
+        $siteLock->status = ($request->has('status') == true) ? 1 : 0;
+        $siteLock->date = Carbon::now();
+        $siteLock->save();
+        \Alert::success(trans('menu.sitelock') . trans('trans.messageaddsuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/gamemarkets');
+            return redirect(_ADMIN_PREFIX_URL . '/sitelocks');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/gamemarkets/' . $gameMarket->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/sitelocks/' . $siteLock->id . '/edit');
         }
-
     }
 
     /**
@@ -112,8 +117,9 @@ class GameMarketController extends Controller
      */
     public function edit($id)
     {
-        $record = GameMarket::findOrfail($id);
-        return view('backend.gamemarket.edit')->with('record', $record);
+        $record = SiteLock::find($id);
+        $market = GameMarket::where('status', 1)->get();
+        return view('backend.sitelock.edit')->with('record',$record)->with('market', $market);
     }
 
     /**
@@ -123,19 +129,23 @@ class GameMarketController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GameMarketRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $gameMarket = GameMarket::findOrfail($id);
-        $gameMarket->name = $request->name;
-        $gameMarket->code = $request->code;
-        $gameMarket->description = $request->description;
-        $gameMarket->status = ($request->has('status') == true) ? 1 : 0;
-        $gameMarket->save();
-        \Alert::success(trans('menu.gamemarket') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+//        dd($request->all());
+        $siteLock = SiteLock::find($id);
+        $siteLock->userid = $request->userid;
+        $siteLock->lock_from = $request->from;
+        $siteLock->lock_to = $request->to;
+        $siteLock->market = $request->market;
+        $siteLock->description = $request->desc;
+        $siteLock->status = ($request->has('status') == true) ? 1 : 0;
+        $siteLock->date = Carbon::now();
+        $siteLock->save();
+        \Alert::success(trans('menu.sitelock') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {
-            return redirect(_ADMIN_PREFIX_URL . '/gamemarkets');
+            return redirect(_ADMIN_PREFIX_URL . '/sitelocks');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/gamemarkets/' . $gameMarket->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/sitelocks/' . $siteLock->id . '/edit');
         }
     }
 
@@ -145,48 +155,49 @@ class GameMarketController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request,$id)
     {
-        if ($request->has('type')){
+        if ($request->has('type')) {
             $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
-            if ($type == 'delete'){
-                GameMarket::whereIn('id', $id)->delete();
-                $message = trans('menu.gamemarket') . trans('trans.messagedeleted');
-            }elseif ($type == 'remove'){
-                GameMarket::whereIn('id', $id)->update(['is_trashed' => 1,'trashed_at' => \Carbon\Carbon::now()]);
-                $message = trans('menu.gamemarket') . trans('trans.messagemovedtrashed');
+            if ($type == 'delete') {
+                SiteLock::whereIn('id', $id)->delete();
+                $message = trans('menu.sitelock') . trans('trans.messagedeleted');
+            } elseif ($type == 'remove') {
+                SiteLock::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => \Carbon\Carbon::now()]);
+                $message = trans('menu.sitelock') . trans('trans.messagemovedtrashed');
             }
             return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
-        }else{
-            GameMarket::findOrfail($id)->delete();
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.gamemarket') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+        } else {
+            SiteLock::find($id)->delete();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.sitelock') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
         }
     }
-
-    public function checkStatus(Request $request){
+    public function checkStatus(Request $request)
+    {
         $id = $request->input('id');
         $status = $request->input('status');
-        if ($status == 1){
+        if ($status == 1) {
             $status = 0;
-        }elseif ($status == 0){
+        } elseif ($status == 0) {
             $status = 1;
         }
-        $upstatus = GameMarket::find($id);
+        $upstatus = SiteLock::find($id);
         $upstatus->status = $status;
         $upstatus->save();
         $html = _CheckStatus($status, $id);
-        return response()->json(['message' => trans('menu.gamemarket') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
+        return response()->json(['message' => trans('menu.sitelock') . trans('trans.messageupdatesuccess'), 'status' => $status, 'id' => $id, 'html' => $html]);
     }
 
-    public function checkMultiple(Request $request){
+    public function checkMultiple(Request $request)
+    {
         $id = explode(',', $request->input('checkedid'));
         $status = $request->input('status');
-        GameMarket::whereIn('id', $id)->update(['status'=>$status]);
+        SiteLock::whereIn('id', $id)->update(['status' => $status]);
         if ($status == 1) {
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.gamemarket') . trans('trans.messageactive'), 'status' => 'success']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.sitelock') . trans('trans.messageactive'), 'status' => 'success']);
         } else {
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.gamemarket') . trans('trans.messageunactive'), 'status' => 'warning']);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.sitelock') . trans('trans.messageunactive'), 'status' => 'warning']);
         }
     }
 }

@@ -36,6 +36,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
 
     Route::post('players/banking', 'PlayersController@playerBank');
     Route::post('players/updatebalance', 'PlayersController@updatebalance');
+    Route::post('gameSettingVal', 'GameSettingController@getvalue');
     $ArrMenu = ['dashboards' => 'DashBoardController',
         'useraccounts' => 'UserController',
         'rolegroups' => 'RoleController',
@@ -51,6 +52,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'bankaccountgroups' => 'BankAccountGroupController',
         'gamemarkets' => 'GameMarketController',
         'games' => 'GamesController',
+        'gamesettings' => 'GameSettingController',
+        'sitelocks' => 'SiteLockController',
         'players' => 'PlayersController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

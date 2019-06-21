@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Requests\GameRequest;
+use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\Game;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,7 @@ use Yajra\DataTables\Html\Builder;
 
 class GamesController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -87,7 +89,7 @@ class GamesController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/games');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/games/' . $bankaccgroup->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/games/' . $game->id . '/edit');
         }
     }
 
@@ -133,7 +135,7 @@ class GamesController extends Controller
         if ($request->has('btnsaveclose')) {
             return redirect(_ADMIN_PREFIX_URL . '/games');
         } else {
-            return redirect(_ADMIN_PREFIX_URL . '/games/' . $bankaccgroup->id . '/edit');
+            return redirect(_ADMIN_PREFIX_URL . '/games/' . $game->id . '/edit');
         }
     }
 

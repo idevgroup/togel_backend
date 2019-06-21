@@ -225,7 +225,7 @@ class BankAccountGroupController extends Controller
             return response()->json(['title' => trans('trans.success'), 'message' => $message, 'status' => 'success']);
         } else {
             BankAccountGroup::find($id)->delete();
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankholder') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('menu.bankaccountgroup') . trans('trans.messagedeleted'), 'status' => 'success', 'id' => 'id_' . $id]);
         }
     }
 
