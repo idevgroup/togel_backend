@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.gamemarket').'-'.trans('trans.edit'))
+@push('title',trans('menu.game').'-'.trans('trans.edit'))
 @section('content')
-{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/gamemarkets/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
+{!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/games/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
     <div class="m-portlet__head" style="">
@@ -9,7 +9,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.gamemarket').' / '.trans('trans.edit')}}
+                        {{trans('menu.game').' / '.trans('trans.edit')}}
                     </h3>
                 </div>
             </div>
