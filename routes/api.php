@@ -27,5 +27,6 @@ Route::group(['middleware' => 'auth:api','prefix' => 'v1/member', 'namespace' =>
             return $request->user();
         });
         Route::get('dashboard', 'MemberController@dashBoard')->name('dashboard');
+        Route::get('getmarket','MemberController@getMarket')->name('getmarket');
         Route::post('logout', 'MemberAuthController@logout')->name('logout');
 });
