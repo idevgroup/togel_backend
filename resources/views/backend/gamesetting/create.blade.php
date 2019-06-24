@@ -222,7 +222,6 @@
     @include('backend.shared._selectimg',['selectElement' => '#banner'])
     @include('backend.shared._tinymce',['elements' => '.cms-editor'])
     <script type="text/javascript">
-        $('#name').furl({id: 'slug', seperate: '-'});
         var BootstrapSwitch = {
             init: function () {
                 $("[data-switch=true]").bootstrapSwitch()
@@ -269,13 +268,6 @@
 
         jQuery(document).ready(function () {
             BootstrapSwitch.init();
-
-
-            // $('#market_id').change(function () {
-            //     getValue();
-            //
-            // });
-
         });
     </script>
 @endpush
