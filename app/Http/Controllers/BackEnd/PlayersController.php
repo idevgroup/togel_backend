@@ -139,7 +139,8 @@ class PlayersController extends Controller {
             $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
             if ($type == 'delete') {
-                Player::whereIn('id', $id)->delete();
+             $playerBank=Player::whereIn('id', $id)->with('getPlayerBank')->delete();
+             $playerBank->getPlayerBank->delete();
                 $message = trans('trans.player') . trans('trans.messagedeleted');
             } elseif ($type == 'remove') {
                 Player::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => date('Y-m-d H:i:s', strtotime(Carbon::now()))]);

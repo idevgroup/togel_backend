@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Rules\Recaptcha;
 class MemberRegisterRequest extends FormRequest {
 
     /**
@@ -27,6 +27,10 @@ class MemberRegisterRequest extends FormRequest {
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6',
             'email' => 'required|string|email|max:255|unique:players,reg_email',
+            'recaptcha' => ['required',new Recaptcha],
+            'bank' => 'required',
+            'accountid' => 'required|unique:player_banks,reg_account_number',
+            'accountname' => 'required',            
         ];
     }
 

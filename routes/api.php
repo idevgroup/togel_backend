@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
   |
  */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['middleware' => 'guest:api','prefix' => 'v1', 'namespace' => 'Api'],function(){
+    Route::get('banklist','FrontEndController@getBank')->name('get.bank.list');
 });
 Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
@@ -26,5 +27,6 @@ Route::group(['middleware' => 'auth:api','prefix' => 'v1/member', 'namespace' =>
             return $request->user();
         });
         Route::get('dashboard', 'MemberController@dashBoard')->name('dashboard');
+        Route::get('getmarket','MemberController@getMarket')->name('getmarket');
         Route::post('logout', 'MemberAuthController@logout')->name('logout');
 });

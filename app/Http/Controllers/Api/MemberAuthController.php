@@ -13,10 +13,10 @@ class MemberAuthController extends Controller {
     use AuthenticatesUsers;
 
     protected $redirectTo = 'v1/member/dashboard';
- 
+
     public function __construct() {
-       // $this->auth=$auth;
-     //   $this->middleware('auth:api', ['except' => ['login']]);
+        // $this->auth=$auth;
+        //   $this->middleware('auth:api', ['except' => ['login']]);
         // $this->middleware('guest:member', ['except' => ['logout']]);
     }
 
@@ -24,7 +24,6 @@ class MemberAuthController extends Controller {
         return Auth::guard('api');
     }
 
-  
     protected function credentials(Request $request) {
         return $request->only($this->username(), 'reg_password');
     }
@@ -76,6 +75,37 @@ class MemberAuthController extends Controller {
 
     public function refresh() {
         return $this->respondWithToken($this->guard()->refresh());
+    }
+
+    protected function attemptLogin(Request $request) {
+        $token = $this->guard()->attempt($this->credentials($request));
+
+        if ($token) {
+            $this->guard()->setToken($token);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request) {
+        $this->clearLoginAttempts($request);
+
+        $token = (string) $this->guard()->getToken();
+        $expiration = $this->guard()->getPayload()->get('exp');
+
+        return [
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $expiration - time(),
+        ];
     }
 
 }
