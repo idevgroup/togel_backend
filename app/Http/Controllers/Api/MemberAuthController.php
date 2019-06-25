@@ -70,7 +70,7 @@ class MemberAuthController extends Controller {
         return response()->json([
                     'token' => $token,
                     'token_type' => 'bearer',
-                    'data' => $this->guard()->user(),
+                   // 'data' => $this->guard()->user(),
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }

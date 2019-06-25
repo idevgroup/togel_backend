@@ -24,6 +24,7 @@
         "maximumadvertising/laravel-image-resize": "^1.0",
         "proengsoft/laravel-jsvalidation": "^2.4",
         "qcod/laravel-imageup": "^1.0",
+        "rap2hpoutre/laravel-log-viewer": "^1.2",
         "spatie/laravel-permission": "^2.36",
         "tymon/jwt-auth": "dev-develop",
         "unisharp/laravel-filemanager": "~1.8",

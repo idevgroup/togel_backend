@@ -31,6 +31,7 @@ Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function
 Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
 Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController@upload');
 Auth::routes(['register' => false]);
+Route::get('laravel-logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth'], 'namespace' => 'BackEnd'), function () {
 
