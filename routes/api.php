@@ -23,9 +23,10 @@ Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' 
 });
 
 Route::group(['middleware' => 'auth:api','prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'],function(){
-     Route::get('refresh', function (Request $request) {
+       /*Route::get('refresh', function (Request $request) {
             return $request->user();
-        });
+        });*/
+        Route::get('refresh','MemberAuthController@refresh');
         Route::get('dashboard', 'MemberController@dashBoard')->name('dashboard');
         Route::get('getmarket','MemberController@getMarket')->name('getmarket');
         Route::post('logout', 'MemberAuthController@logout')->name('logout');
