@@ -16,7 +16,7 @@ class MemberAuthController extends Controller {
 
     public function __construct() {
         // $this->auth=$auth;
-        //   $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
         // $this->middleware('guest:member', ['except' => ['logout']]);
     }
 
@@ -70,14 +70,20 @@ class MemberAuthController extends Controller {
         return response()->json([
                     'token' => $token,
                     'token_type' => 'bearer',
-                    'data' => $this->guard()->user(),
+                    //'data' => $this->guard()->user(),
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 
     public function refresh() {
-        return $this->respondWithToken($this->guard()->refresh());
-    }
+        \Log::info($this->guard()->user()->id);
+        $id =$this->guard()->user()->id;
+       $memeber= Member::with(['getPlayerBank'=>function($query){
+            return $query->with('getBank');
+        }])->where('id',$id)->first();
+        //return $this->guard()->user();
+         return response()->json($memeber);
+    }   
 
     protected function attemptLogin(Request $request) {
         $token = $this->guard()->attempt($this->credentials($request));
