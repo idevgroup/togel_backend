@@ -50,6 +50,9 @@ class Member extends Authenticatable implements JWTSubject {
         } while ($this->where('api_token', $this->api_token)->exists());
         $this->save();
     }
+      public function getPlayerBank() {
+        return $this->hasOne('App\Models\FrontEnd\PlayerBank', 'reg_id', 'id');
+    }
 
 //    public function setPasswordAttribute($password) {
 //        if ($password !== null & $password !== "") {

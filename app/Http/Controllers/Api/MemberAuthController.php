@@ -34,7 +34,7 @@ class MemberAuthController extends Controller {
             'username' => 'required',
             'password' => 'required|min:6'
         ]);
-        $memberAuth = Member::where('reg_email', $request->username)->orWhere('reg_username', $request->username)->where('reg_password', _EncryptPwd($request->password))->where('status', '1')->where('is_trashed', '0')->first();
+        $memberAuth = Member::with(['getPlayerBank'])->where('reg_email', $request->username)->orWhere('reg_username', $request->username)->where('reg_password', _EncryptPwd($request->password))->where('status', '1')->where('is_trashed', '0')->first();
         if ($memberAuth) {
             if ($request->has('remember')) {
                 $token_remember = true;
