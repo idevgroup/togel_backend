@@ -31,12 +31,15 @@ Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function
 Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
 Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController@upload');
 Auth::routes(['register' => false]);
+Route::get('laravel-logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth'], 'namespace' => 'BackEnd'), function () {
 
     Route::post('players/banking', 'PlayersController@playerBank');
     Route::post('players/updatebalance', 'PlayersController@updatebalance');
     Route::post('gameSettingVal', 'GameSettingController@getvalue');
+    Route::post('gameSettingVal', 'BonusRefController@getvalue');
+//    Route::post('getValidate','BonusRefController@getValidate');
     $ArrMenu = ['dashboards' => 'DashBoardController',
         'useraccounts' => 'UserController',
         'rolegroups' => 'RoleController',
@@ -54,9 +57,12 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'games' => 'GamesController',
         'gamesettings' => 'GameSettingController',
         'sitelocks' => 'SiteLockController',
+        'bonusrefs' => 'BonusRefController',
+        'transactionlimits' => 'TransactionLimitController',
         'players' => 'PlayersController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");
+
         Route::post("{$key}/status", "{$value}@checkStatus")->name($key . ".status");
         Route::post("{$key}/multstatus", "{$value}@checkMultiple")->name($key . ".multstatus");
     }

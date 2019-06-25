@@ -176,6 +176,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         App\Providers\MemberProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
