@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Tymon\JWTAuth\JWTAuth;
 use App\Models\FrontEnd\Market;
+use App\Models\FrontEnd\TempTransaction;
 class MemberController extends Controller {
 
     public function __construct(JWTAuth $auth) {
@@ -20,7 +21,7 @@ class MemberController extends Controller {
         return response($market->jsonSerialize());
     }
    public function doDeposit(Request $request){
-       \Log::info($request->all());
+      
    } 
     
 }
