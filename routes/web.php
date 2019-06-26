@@ -58,6 +58,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'sitelocks' => 'SiteLockController',
         'bonusrefs' => 'BonusRefController',
         'transactionlimits' => 'TransactionLimitController',
+        'homesettings' => 'HomeSettingController',
         'players' => 'PlayersController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");
