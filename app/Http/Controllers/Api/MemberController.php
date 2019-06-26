@@ -19,6 +19,8 @@ class MemberController extends Controller {
         $market = Market::getAllRecord(0, 1)->get();
         return response($market->jsonSerialize());
     }
-   
+   public function doDeposit(Request $request){
+       \Log::info($request->all());
+   } 
     
 }
