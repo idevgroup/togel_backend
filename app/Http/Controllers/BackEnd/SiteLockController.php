@@ -58,7 +58,7 @@ class SiteLockController extends Controller
                 'dataSrc' => ['parent_id'],
             ]
         ]);
-        return view('backend.sitelock.index', compact('html'));
+        return view('backend.systemsetting.sitelock.index', compact('html'));
     }
 
     /**
@@ -69,7 +69,7 @@ class SiteLockController extends Controller
     public function create()
     {
         $market = GameMarket::where('status', 1)->where('is_trashed', 0)->get();
-        return view('backend.sitelock.create')->with('market', $market);
+        return view('backend.systemsetting.sitelock.create')->with('market', $market);
     }
 
     /**
@@ -119,7 +119,7 @@ class SiteLockController extends Controller
     {
         $record = SiteLock::find($id);
         $market = GameMarket::where('status', 1)->get();
-        return view('backend.sitelock.edit')->with('record',$record)->with('market', $market);
+        return view('backend.systemsetting.sitelock.edit')->with('record',$record)->with('market', $market);
     }
 
     /**

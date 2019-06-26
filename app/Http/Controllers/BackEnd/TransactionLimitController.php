@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\BackEnd;
 
+use App\Http\controllers\controller;
 use App\Models\BackEnd\TransactionLimit;
 use Illuminate\Http\Request;
-use App\Http\controllers\controller;
+use App\Models\BackEnd\Authorizable;
 
 class TransactionLimitController extends Controller
 {
+    use Authorizable;
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,7 @@ class TransactionLimitController extends Controller
     {
         $transaction = TransactionLimit::first();
 //        dd($transaction->dep_min);
-        return view('backend.transaction.create')->with('transaction',$transaction);
+        return view('backend.systemsetting.transaction.create')->with('transaction', $transaction);
     }
 
     /**
@@ -72,7 +74,20 @@ class TransactionLimitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        $id = $request->id;
+        $transaction = TransactionLimit::find($id);
+        $transaction->dep_min = str_replace(',', '', $request->dep_min);
+        $transaction->dep_max = str_replace(',', '', $request->dep_max);
+        $transaction->with_min = str_replace(',', '', $request->with_min);
+        $transaction->with_max = str_replace(',', '', $request->with_max);
+        $transaction->save();
+        \Alert::success(trans('menu.transactionlimitation') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+        if ($request->has('btnsaveclose')) {
+            return redirect(_ADMIN_PREFIX_URL . '/transactionlimits');
+        } else {
+            return redirect(_ADMIN_PREFIX_URL . '/transactionlimits/');
+        }
+
     }
 
     /**

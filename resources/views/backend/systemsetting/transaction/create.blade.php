@@ -33,6 +33,7 @@
                     </div>
                 </div>
                 <hr/>
+                <input type="hidden" value="{{ $transaction->id }}" name="id">
                 <div class="form-group m-form__group row @if ($errors->has('dep_min')) has-danger @endif">
                     {!!Form::label('dep_min','Minimum *',['class' => 'col-sm-3 col-form-label'])!!}
                     <div class="col-sm-6">
@@ -123,6 +124,7 @@
 
     <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
     <script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     {{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}}
     @include('backend.shared._selectimg',['selectElement' => '#banner'])
     @include('backend.shared._tinymce',['elements' => '.cms-editor'])
@@ -134,11 +136,46 @@
         };
         jQuery(document).ready(function () {
             BootstrapSwitch.init();
-
-            var dep_min = $('#dep_min').val();
-           var test = dep_min.defaultFormat('$0,0.00');
-            console.log(test);
-
+            getValue();
+            //validation
         });
+        //validation
+        $("#idev-form").validate({
+
+            rules: {
+                dep_min:{
+                    max: function(){ return $("#dep_max").val();}
+                }
+            },
+            // Specify validation error messages
+            messages: {
+                dep_min: {
+                    max: 'Minimum Deposit cannot be greater than Maximum Deposit!'
+                }
+            }
+        });
+
+        
+        $(function () {
+            
+            $('#dep_min').keyup(getValue);
+            $('#dep_max').keyup(getValue);
+            $('#with_min').keyup(getValue);
+            $('#with_max').keyup(getValue);
+        })
+        function getValue() {
+            var dep_min = $('#dep_min').val();
+            var dep_max = $('#dep_max').val();
+            var with_min = $('#with_min').val();
+            var with_max = $('#with_max').val();
+            var depMin = numeral(dep_min).format();
+            $('#dep_min').val(depMin);
+            var depMax = numeral(dep_max).format();
+            $('#dep_max').val(depMax);
+            var withMin = numeral(with_min).format();
+            $('#with_min').val(withMin);
+            var withMax = numeral(with_max).format();
+            $('#with_max').val(withMax);
+        }
     </script>
 @endpush

@@ -29,7 +29,7 @@ class GameSettingController extends Controller
         $gameSetting = GameSetting::all();
 //        dd($game, $market, $gameSetting);
 //        dd();
-        return view('backend.gamesetting.create')->with('market', $market)->with('game', $game)->with('gameSetting', $gameSetting);
+        return view('backend.systemsetting.gamesetting.create')->with('market', $market)->with('game', $game)->with('gameSetting', $gameSetting);
     }
 
     /**
