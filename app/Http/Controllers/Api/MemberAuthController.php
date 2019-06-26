@@ -16,7 +16,7 @@ class MemberAuthController extends Controller {
 
     public function __construct() {
         // $this->auth=$auth;
-        //   $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
         // $this->middleware('guest:member', ['except' => ['logout']]);
     }
 
@@ -34,7 +34,9 @@ class MemberAuthController extends Controller {
             'username' => 'required',
             'password' => 'required|min:6'
         ]);
-        $memberAuth = Member::where('reg_email', $request->username)->orWhere('reg_username', $request->username)->where('reg_password', _EncryptPwd($request->password))->where('status', '1')->where('is_trashed', '0')->first();
+        $memberAuth = Member::with(['getPlayerBank'=>function($query){
+            return $query->with('getBank');
+        }])->where('reg_email', $request->username)->orWhere('reg_username', $request->username)->where('reg_password', _EncryptPwd($request->password))->where('status', '1')->where('is_trashed', '0')->first();
         if ($memberAuth) {
             if ($request->has('remember')) {
                 $token_remember = true;
@@ -68,14 +70,20 @@ class MemberAuthController extends Controller {
         return response()->json([
                     'token' => $token,
                     'token_type' => 'bearer',
-                    'data' => $this->guard()->user(),
+                    //'data' => $this->guard()->user(),
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 
     public function refresh() {
-        return $this->respondWithToken($this->guard()->refresh());
-    }
+        \Log::info($this->guard()->user()->id);
+        $id =$this->guard()->user()->id;
+       $memeber= Member::with(['getPlayerBank'=>function($query){
+            return $query->with('getBank');
+        }])->where('id',$id)->first();
+        //return $this->guard()->user();
+         return response()->json($memeber);
+    }   
 
     protected function attemptLogin(Request $request) {
         $token = $this->guard()->attempt($this->credentials($request));
