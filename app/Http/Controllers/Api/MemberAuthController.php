@@ -76,8 +76,7 @@ class MemberAuthController extends Controller {
     }
 
     public function refresh() {
-        \Log::info($this->guard()->user()->id);
-        $id =$this->guard()->user()->id;
+       $id =$this->guard()->user()->id;
        $memeber= Member::with(['getPlayerBank'=>function($query){
             return $query->with('getBank');
         }])->where('id',$id)->first();
