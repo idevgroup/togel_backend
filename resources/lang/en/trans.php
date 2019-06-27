@@ -1,20 +1,21 @@
 <?php
 
-return[
-    'Dashboard'=> 'Dashboard',
+return [
+    'Dashboard' => 'Dashboard',
     'newbtn' => 'New',
     'removebtn' => 'Remove to Trashed',
     'deleterecord' => 'Delete',
     'unpublishedbtn' => 'Inactive',
     'publishedbtn' => 'Active',
-    'create'=> 'Create',
+    'create' => 'Create',
+    'add' => 'Add',
     'edit' => 'Edit',
     'btnsave' => 'Save',
     'btnrefresh' => 'Clear',
     'btnapply' => 'Apply',
     'btnsave&close' => 'Save & Close',
     'btnsave&new' => 'Save & New',
-    'btnback'   => 'Back',
+    'btnback' => 'Back',
     'success' => 'Success',
     'messageaddsuccess' => ' has been added successfully !!!',
     'messageupdatesuccess' => ' has been updated successfully !!!',
@@ -27,6 +28,6 @@ return[
     'player' => 'Player',
     'invbalance' => 'Invalid amount, please try again!!!',
     'warning' => 'Warning',
-    'balanceupdate' => 'Balance update successfully !!!'
-    
+    'balanceupdate' => 'Balance update successfully !!!',
+
 ];

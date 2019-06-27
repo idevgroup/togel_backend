@@ -58,6 +58,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'gamesettings' => 'GameSettingController',
         'sitelocks' => 'SiteLockController',
         'bonusrefs' => 'BonusRefController',
+        'blacklists' => 'BlackListController',
         'transactionlimits' => 'TransactionLimitController',
         'homesettings' => 'HomeSettingController',
         'players' => 'PlayersController'];
