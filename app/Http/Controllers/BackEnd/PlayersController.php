@@ -207,10 +207,10 @@ class PlayersController extends Controller {
             $playerTransaction = new PlayerTransaction;
             if ($operator == '1') {
                 $playerTransaction->invoiceId = 'CREDIT';
-                $transid = 'CR-' . date('YmdHis', strtotime(Carbon::now())).'-'.$player->id;
+                $transid = 'CR-' .(int) round(microtime(true) * 1000);
             } elseif ($operator == '2') {
                 $playerTransaction->invoiceId = 'DEBIT';
-                $transid = 'DE-' . date('YmdHis', strtotime(Carbon::now())).'-'.$player->id;
+                $transid = 'DE-' .(int) round(microtime(true) * 1000);
             }
             $playerTransaction->transid = $transid;
             $playerTransaction->playerid = $pid;
