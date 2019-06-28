@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\controllers\controller;
 use App\Models\BackEnd\HomeSetting;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Mail\Message;
 
 class HomeSettingController extends Controller
 {
@@ -101,6 +102,19 @@ class HomeSettingController extends Controller
                 return redirect(_ADMIN_PREFIX_URL . '/homesettings/');
             }
         }else{
+
+
+            $request->validate([
+                'name' => 'required',
+                'Adress' => 'required',
+                'ipfilter_alias_exception' => 'required',
+            ],
+            [
+                'name.required' => 'Please Input Name',
+                'Adress.required' => 'Please Input Address',
+                'ipfilter_alias_exception.required' => 'Please Input Exception Keyword']);
+
+
             $homesetting = new HomeSetting;
             $homesetting->sc_name = $request->name;
             $homesetting->sc_address = $request->address;
