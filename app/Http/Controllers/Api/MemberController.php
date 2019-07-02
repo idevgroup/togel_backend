@@ -37,6 +37,7 @@ class MemberController extends Controller {
     public function doDeposit(Request $request) {
 
         $getBankId = $request->input('debank');
+        $getDepositBank = $request->input('memberbank');
         $getSettingBankLimit = FrontSetting::getSettingBankLimit($getBankId);
         $this->validate($request, [
             'amount' => "required|numeric|max:$getSettingBankLimit->deposit_max|min:$getSettingBankLimit->deposit_min",
@@ -67,21 +68,27 @@ class MemberController extends Controller {
 
     public function getBankMember(Request $request) {
         $memberId = $request->input('memberid');
-        $query = PlayerBank::where('reg_id', $memberId)->with(['getBank'])->get();
-        $memberBankList = array(['id' => null, 'bank' => "Select One"]);
-        
-        foreach ($query as $row) {
-            $memberBankList[] = ['id' => $row->id, 'bank' => $row->getBank->bk_name . '-' . $row->reg_account_name . '-' . $row->reg_account_number];
+        try {
+            $query = PlayerBank::where('reg_id', $memberId)->with(['getBank'])->get();
+            $memberBankList = array(['id' => null, 'bank' => "Select One"]);
+
+            foreach ($query as $row) {
+                $memberBankList[] = ['id' => $row->id, 'bank' => $row->getBank->bk_name . '-' . $row->reg_account_name . '-' . $row->reg_account_number];
+            }
+        } catch (\Exception $e) {
+            \Log::error('Deposit Form Request-Select Member Bank');
+            \Log::info(\URL::current());
+            \Log::error($e);
         }
         return response()->json($memberBankList);
     }
 
     public function getBankOperator() {
         $memberBankId = request()->get('bankmember');
-        $getBankId = PlayerBank::where('id', $memberBankId)->with('getBank')->first();
-        $getBankOperator = FrontSetting::getSettingBankLimit($getBankId->reg_bk_id);
         $bankOperator = array(['id' => null, 'bank' => 'Select One']);
         try {
+            $getBankId = PlayerBank::where('id', $memberBankId)->with('getBank')->first();
+            $getBankOperator = FrontSetting::getSettingBankLimit($getBankId->reg_bk_id);
             foreach ($getBankOperator as $row) {
                 $bankOperator[] = ['id' => $row->id, 'bank' => $getBankId->getBank->bk_name . '-' . $row->name . '-' . _covertStringX($row->account_number)];
             }

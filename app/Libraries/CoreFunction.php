@@ -85,6 +85,5 @@ function _strip_html_tags($text) {
 function _covertStringX($str) {
     $strLen = strlen($str);
     $getStr = substr($str,-4);
-   \Log::info($getStr);
     return 'XXXXXXXX'.$getStr;
 }
