@@ -35,37 +35,95 @@ class MemberController extends Controller {
     }
 
     public function doDeposit(Request $request) {
+           $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
+            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid')));
+        $checkDeposit = TempTransaction::where('proc_type', 'deposit')->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+        if (!$checkDeposit) {
+            $getBankId = $request->input('debank');
+            $getDepositBank = $request->input('memberbank');
+            $getSettingBankLimit = FrontSetting::getSettingBankLimit($getBankId);
+            $getBankPlayer = PlayerBank::where('id', $getDepositBank)->with('getBank')->first();
 
-        $getBankId = $request->input('debank');
-        $getDepositBank = $request->input('memberbank');
-        $getSettingBankLimit = FrontSetting::getSettingBankLimit($getBankId);
-        $this->validate($request, [
-            'amount' => "required|numeric|max:$getSettingBankLimit->deposit_max|min:$getSettingBankLimit->deposit_min",
-            'recaptcha' => ['required', new Recaptcha],
-                ], [
-            'amount.required' => 'Please input amount,the field is required',
-            'amount.min' => "Deposit Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
-            'amount.max' => "Deposit Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
-            'amount.numeric' => 'Deposit Amount can only be numeric!'
-        ]);
+            $getBankName = $getBankPlayer->getBank->bk_name;
+            $getBankAccount = $getBankPlayer->reg_account_name;
+            $getBankAccountNumber = $getBankPlayer->reg_account_number;
 
-        $tempTransaction = new TempTransaction;
-        $tempTransaction->player_id = $request->input('memberid');
-        $tempTransaction->bank_name = $request->input('bank');
-        $tempTransaction->bank_acc_name = $request->input('accountname');
-        $tempTransaction->bank_acc_id = $request->input('accountid');
-        $tempTransaction->amount = $request->input('amount');
-        $tempTransaction->deposit_bank = $request->input('debank');
-        $tempTransaction->proc_type = 'deposit';
-        $tempTransaction->ip = $request->getClientIp();
-        $tempTransaction->note = $request->input('note');
-        $tempTransaction->status = 0;
-        $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
-        $tempTransaction->transactid = 'DE-' . (int) round(microtime(true) * 1000);
-        $tempTransaction->save();
-        return response()->json(['success' => true, 'alert' => ['title' => 'Deposit successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
+            $getOperatorBank = $getSettingBankLimit->bk_name;
+            $getOperatorBankAccount = $getSettingBankLimit->name;
+            $getOperatorBankAccNumber = $getSettingBankLimit->account_number;
+            $getOperatorBankID = $getSettingBankLimit->bank_id;
+         
+            $this->validate($request, [
+                'amount' => "required|numeric|max:$getSettingBankLimit->deposit_max|min:$getSettingBankLimit->deposit_min",
+                'recaptcha' => ['required', new Recaptcha],
+                    ], [
+                'amount.required' => 'Please input amount,the field is required',
+                'amount.min' => "Deposit Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
+                'amount.max' => "Deposit Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
+                'amount.numeric' => 'Deposit Amount can only be numeric!'
+            ]);
+            $tempTransaction = new TempTransaction;
+            $tempTransaction->player_id = $request->input('memberid');
+            $tempTransaction->bank_name = $getBankName;
+            $tempTransaction->bank_acc_name = $getBankAccount;
+            $tempTransaction->bank_acc_id = $getBankAccountNumber;
+            $tempTransaction->amount = $numberAmount;
+            $tempTransaction->deposit_bank = $getOperatorBankID;
+            $tempTransaction->deposit_ac_number = $getOperatorBankAccNumber;
+            $tempTransaction->deposit_bank_name = $getOperatorBank;
+            $tempTransaction->deposit_ac_name = $getOperatorBankAccount;
+            $tempTransaction->proc_type = 'deposit';
+            $tempTransaction->ip = $request->getClientIp();
+            $tempTransaction->note = $request->input('note');
+            $tempTransaction->status = 0;
+            $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $tempTransaction->transactid = 'DE-' . (int) round(microtime(true) * 1000);
+            $tempTransaction->save();
+            return response()->json(['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
+        } else {
+            return response()->json(['success' => false, 'alert' => ['title' => 'Deposit is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+        }
     }
+    public function doWithdraw(Request $request){
+        $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
+            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid')));
+        $checkWithdraw = TempTransaction::where('proc_type', 'withdraw')->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+        if (!$checkWithdraw) {
+            $getWithdrawBank = $request->input('memberbank');
+            $getSettingBankLimit = FrontSetting::getLimitWithdraw();
+            $getBankPlayer = PlayerBank::where('id', $getWithdrawBank)->with('getBank')->first();
 
+            $getBankName = $getBankPlayer->getBank->bk_name;
+            $getBankAccount = $getBankPlayer->reg_account_name;
+            $getBankAccountNumber = $getBankPlayer->reg_account_number;
+         
+            $this->validate($request, [
+                'amount' => "required|numeric|max:$getSettingBankLimit->with_max|min:$getSettingBankLimit->with_min",
+                'recaptcha' => ['required', new Recaptcha],
+                    ], [
+                'amount.required' => 'Please input amount,the field is required',
+                'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
+                'amount.max' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
+                'amount.numeric' => 'Deposit Amount can only be numeric!'
+            ]);
+            $tempTransaction = new TempTransaction;
+            $tempTransaction->player_id = $request->input('memberid');
+            $tempTransaction->bank_name = $getBankName;
+            $tempTransaction->bank_acc_name = $getBankAccount;
+            $tempTransaction->bank_acc_id = $getBankAccountNumber;
+            $tempTransaction->amount = $numberAmount;
+            $tempTransaction->proc_type = 'withdraw';
+            $tempTransaction->ip = $request->getClientIp();
+            $tempTransaction->note = $request->input('note');
+            $tempTransaction->status = 0;
+            $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $tempTransaction->transactid = 'WD-' . (int) round(microtime(true) * 1000);
+            $tempTransaction->save();
+            return response()->json(['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
+        } else {
+            return response()->json(['success' => false, 'alert' => ['title' => 'Withdraw is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+        }
+    }
     public function getBankMember(Request $request) {
         $memberId = $request->input('memberid');
         try {
@@ -87,8 +145,8 @@ class MemberController extends Controller {
         $memberBankId = request()->get('bankmember');
         $bankOperator = array(['id' => null, 'bank' => 'Select One']);
         try {
-            $getBankId = PlayerBank::where('id', $memberBankId)->with('getBank')->first();
-            $getBankOperator = FrontSetting::getSettingBankLimit($getBankId->reg_bk_id);
+            $getBankId = PlayerBank::where('id', $memberBankId)->first();
+            $getBankOperator = FrontSetting::getBankOperator($getBankId->reg_bk_id);
             foreach ($getBankOperator as $row) {
                 $bankOperator[] = ['id' => $row->id, 'bank' => $getBankId->getBank->bk_name . '-' . $row->name . '-' . _covertStringX($row->account_number)];
             }
