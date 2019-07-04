@@ -7,9 +7,10 @@ use DB;
 class FrontSetting extends Model
 {
    
-    const TBL_ACCOUNT_LIMIT = '';
+    const TBL_ACCOUNT_LIMIT = 'bank_account_group';
 
-    public function getSettingBankLimit(){
-       $query =DB::table(self::TBL_ACCOUNT_LIMIT)->where('status',1);
+   static function getSettingBankLimit($bkid){
+       $query =DB::table(self::TBL_ACCOUNT_LIMIT)->where('bank_id',$bkid)->where('status',1)->get();
+       return $query;
     }
 }
