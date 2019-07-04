@@ -60,6 +60,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'bonusrefs' => 'BonusRefController',
         'blacklists' => 'BlackListController',
         'ipfilters' => 'IPFilterController',
+        'messagetemplates' => 'MessageTemplateController',
         'transactionlimits' => 'TransactionLimitController',
         'homesettings' => 'HomeSettingController',
         'players' => 'PlayersController'];

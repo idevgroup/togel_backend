@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="048c0372-e567-4802-8aca-8c9574ef1b55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/togel_backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/togel_backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/BlackList.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BlackListController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BlackListController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/members/player/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/members/player/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/template/inc/topbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/template/inc/topbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/resources/views/backend/template/inc/footer.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="264">
-              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+              <caret line="57" selection-start-line="57" selection-end-line="57" />
             </state>
           </provider>
         </entry>
@@ -478,16 +477,17 @@
       <workItem from="1561344983681" duration="21861000" />
       <workItem from="1561424997358" duration="124000" />
       <workItem from="1561610967387" duration="786000" />
+      <workItem from="1562128810537" duration="597000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="301153000" />
+    <option name="totallyTimeSpent" value="301750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="0" width="1936" height="1056" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17005348" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17219251" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -758,13 +758,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/gamesetting/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="223" column="35" selection-start-line="223" selection-start-column="35" selection-end-line="223" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/gamesetting/create.blade.php" />
     <entry file="file://$PROJECT_DIR$/resources/lang/en/menu.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -772,13 +766,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/bonusref/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="323" column="40" selection-start-line="323" selection-start-column="4" selection-end-line="358" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/bonusref/create.blade.php" />
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BackEnd/TransactionLimitController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-352">
@@ -793,13 +781,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/backend/transaction/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/backend/transaction/create.blade.php" />
     <entry file="file://$PROJECT_DIR$/resources/views/backend/bank/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -817,7 +799,7 @@
     <entry file="file://$PROJECT_DIR$/resources/views/backend/template/inc/footer.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
-          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
         </state>
       </provider>
     </entry>
