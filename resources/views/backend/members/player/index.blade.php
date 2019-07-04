@@ -111,7 +111,7 @@
                 </button>
             </div>
             <div class="modal-body" id="bank-info" >
-
+                
             </div>
         </div>
     </div>

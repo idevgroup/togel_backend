@@ -17,6 +17,8 @@
         </div>
     </div>
     <div class="m-portlet__body">
+      @php($getCurrentCode =Config('sysconfig.currency_code') ) 
+          {{-- {{dd($getCurrentCode)}} --}}
         @if(!$record->isEmpty())
         @foreach($record as $item)
         <input type="hidden" value="{!!$item->id!!}" name="id">
@@ -147,7 +149,19 @@
                 </div>
             </div>
         </div>
-        <div class="form-group m-form__group row @if ($errors->has('ipfilter_alias_exception')) has-danger @endif">
+        
+        <div class="form-group m-form__group row @if ($errors->has('market')) has-danger @endif">
+            {!!Form::label('market','Market',['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="col-sm-7">
+                <select class="form-control m-input" name="market" id="market_id">
+                    @foreach ($getCurrentCode as $key=>$value)
+                        <option class="form-control m-input" value="{{$key}}">{{$value['name']}}</option>
+                    @endforeach
+                </select> @if ($errors->has('market'))
+                            <p class="form-control-feedback">{{ $errors->first('market') }}</p> @endif
+            </div>
+        </div>
+        {{-- <div class="form-group m-form__group row @if ($errors->has('ipfilter_alias_exception')) has-danger @endif">
             {!!Form::label('ipfilter_alias_exception','Exception Keyword ',['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-7">
                 <div class="input-group">
@@ -155,7 +169,7 @@
                     <p class="form-control-feedback">{{ $errors->first('ipfilter_alias_exception') }}</p> @endif
                 </div>
             </div>
-        </div>
+        </div> --}}
        @endforeach
         @else
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
