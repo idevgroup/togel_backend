@@ -63,7 +63,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'messagetemplates' => 'MessageTemplateController',
         'transactionlimits' => 'TransactionLimitController',
         'homesettings' => 'HomeSettingController',
-        'players' => 'PlayersController'];
+        'players' => 'PlayersController',
+        'deposittransactions' => 'DepositTransactionController'];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");
 

@@ -36,8 +36,8 @@ class MemberController extends Controller {
 
     public function doDeposit(Request $request) {
            $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid')));
-        $checkDeposit = TempTransaction::where('proc_type', 'deposit')->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid'),'note' => $request->input('note')));
+        $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit','withdraw'])->where('status', 0)->where('player_id',$request->input('memberid'))->first();
         if (!$checkDeposit) {
             $getBankId = $request->input('debank');
             $getDepositBank = $request->input('memberbank');
@@ -77,7 +77,7 @@ class MemberController extends Controller {
             $tempTransaction->note = $request->input('note');
             $tempTransaction->status = 0;
             $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
-            $tempTransaction->transactid = 'DE-' . (int) round(microtime(true) * 1000);
+            $tempTransaction->transactid = 'DEP-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
             return response()->json(['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
         } else {
@@ -87,7 +87,7 @@ class MemberController extends Controller {
     public function doWithdraw(Request $request){
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
             $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid')));
-        $checkWithdraw = TempTransaction::where('proc_type', 'withdraw')->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+        $checkWithdraw = TempTransaction::whereIn('proc_type', ['deposit','withdraw'])->where('status', 0)->where('player_id',$request->input('memberid'))->first();
         if (!$checkWithdraw) {
             $getWithdrawBank = $request->input('memberbank');
             $getSettingBankLimit = FrontSetting::getLimitWithdraw();
