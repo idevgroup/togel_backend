@@ -29,6 +29,7 @@ return [
     'messagetemplate' => 'Message Template',
     'ipblacklist' => 'IP Black List',
     'ipfiter' => 'IP Filter',
+    'generalsetting' => 'General Setting',
     'dynamicpassword' => 'Dynamic Password',
     'useraccount' => 'User Account',
     'rolepermission' => 'Role Permission',

@@ -8,8 +8,6 @@ use App\Models\BackEnd\GameMarket;
 use App\Models\BackEnd\GameSetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
-use Yajra\DataTables\Html\Builder;
 
 class GameSettingController extends Controller
 {
@@ -85,11 +83,28 @@ class GameSettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $game_name = $request->game;
-        $market = $request->market;
-        $id = $request->id;
+        // $game_name = $request->game;
+        // $market = $request->market;
+        if(request()->ajax()){
+            $id = $request->input('id');
+            if ($id) {
+                $gameSetting = GameSetting::find($id);
+                $gameSetting->discount = $request->input('discount');
+                $gameSetting->menang = $request->menang;
+                $gameSetting->menang_dbl = $request->menang_dbl;
+                $gameSetting->menang_triple = $request->menang_triple;
+                $gameSetting->menang_quadruple = $request->menang_quadruple;
+                $gameSetting->kei = $request->kei;
+                $gameSetting->min_bet = $request->min_bet;
+                $gameSetting->max_bet = $request->max_bet;
+                $gameSetting->bet_mod = $request->bet_mod;
+                $gameSetting->bet_times = $request->bet_times;
+                $gameSetting->save();
+                return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
+            }
+        }
 //        dd($game_name, $market,$id);
-        $gameSetting = GameSetting::find($id);
+        /*$gameSetting = GameSetting::find($id);
         $gameSetting->discount = $request->discount;
         $gameSetting->menang = $request->menang;
         $gameSetting->menang_dbl = $request->menang_dbl;
@@ -107,6 +122,7 @@ class GameSettingController extends Controller
         } else {
             return redirect(_ADMIN_PREFIX_URL . '/gamesettings/');
         }
+        */
     }
 
     /**

@@ -14,7 +14,13 @@
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
-                    @include('backend.shared._actionform')
+                    {{--  @include('backend.shared._actionform')  --}}
+                    <button type="button" name="btnsaveclose" id="btnsaveclose" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                        <span>
+                            <i class="fa fa-archive"></i>
+                            <span>{{__('trans.btnsave')}}</span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -85,7 +91,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_quadruple')) has-danger @endif">
-                {!!Form::label('menang_quadruple','Menang Quadruple',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_quadruple','Quadruple wins',['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_quadruple',old('menang_quadruple'),['class' => 'form-control m-input','id'=>'menang_quadruple'])!!}
                     @if ($errors->has('menang_quadruple')) <p
@@ -227,11 +233,7 @@
                 $("[data-switch=true]").bootstrapSwitch()
             }
         };
-        $(function () {
-            getValue();
-            $('#market_id').change(getValue);
-            $('#game_id').change(getValue);
-        })
+    
 
         function getValue() {
             var market = $("#market_id").val();
@@ -259,15 +261,110 @@
                     $('#bet_mod').val(response[0].bet_mod);
                     $('#bet_times').val(response[0].bet_times);
                     $('#id').val(response[0].id);
+                    
 
-                    console.log(response[0]);
-
+                    
+                        /* $(function(){
+                        $('body').on('click', '#btnsaveclose', function(){
+                            var discount = response[0].discount;
+                            var menang = response[0].menang;
+                            var menang_dbl = response[0].menang_dbl;
+                            var menang_triple = response[0].menang_triple;
+                            var menang_quadruple = response[0].menang_quadruple;
+                            var kei = response[0].kei;
+                            var min_bet = response[0].min_bet;
+                            var max_bet = response[0].max_bet;
+                            var bet_mod = response[0].bet_mod;
+                            var bet_times = response[0].bet_times;
+                            var id = response[0].id;
+                            $.ajax({
+                                url: '{{url(_ADMIN_PREFIX_URL."/gamesettings/0")}}',
+                                type: 'PATCH',
+                                dataType: 'JSON',
+                                data: {
+                                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                                    discount,
+                                    menang,
+                                    menang_dbl,
+                                    menang_triple,
+                                    menang_quadruple,
+                                    kei,
+                                    min_bet,
+                                    max_bet,
+                                    bet_mod,
+                                    bet_times,
+                                    id
+                                },
+                                success: function(response) {
+                                    swal({
+                                        title: response.title,
+                                        html: response.message,
+                                        type: response.status,
+                                        allowOutsideClick: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+                        })
+                    }) 
+                    */
+                    {{--  console.log(response[0]);
+                    console.log(discount);  --}}
                 }
             })
         }
 
         jQuery(document).ready(function () {
             BootstrapSwitch.init();
+            getValue();
+            $('#market_id').change(getValue);
+            $('#game_id').change(getValue);
         });
+
+        $(function(){
+            $('body').on('click', '#btnsaveclose', function(){
+                
+                var discount = $('#discount').val();
+                var menang = $('#menang').val();
+                var menang_dbl = $('#menang_dbl').val();
+                var menang_triple = $('#menang_triple').val();
+                var menang_quadruple = $('#menang_quadruple').val();
+                var kei = $('#kei').val();
+                var min_bet = $('#min_bet').val();
+                var max_bet =$('#max_bet').val();
+                var bet_mod = $('#bet_mod').val();
+                var bet_times = $('#bet_times').val();
+                var id = $('#id').val();
+                console.log(discount,menang,menang_dbl);
+                $.ajax({
+                    url: '{{url(_ADMIN_PREFIX_URL."/gamesettings/0")}}',
+                    type: 'PATCH',
+                    dataType: 'JSON',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        discount,
+                        menang,
+                        menang_dbl,
+                        menang_triple,
+                        menang_quadruple,
+                        kei,
+                        min_bet,
+                        max_bet,
+                        bet_mod,
+                        bet_times,
+                        id
+                    },
+                    success: function(response) {
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false,
+                            timer: 1500
+                        });
+                    }
+                })
+            })
+        })
     </script>
 @endpush
