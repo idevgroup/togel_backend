@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('menang')) has-danger @endif">
-                {!!Form::label('menang','Menang',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang','Win',['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang',old('menang'),['class' => 'form-control m-input','id'=>'menang'])!!}
                     @if ($errors->has('menang')) <p
@@ -67,7 +67,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_dbl')) has-danger @endif">
-                {!!Form::label('menang_dbl','Menang Double',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_dbl','Double Win',['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_dbl',old('menang_dbl'),['class' => 'form-control m-input','id'=>'menang_dbl'])!!}
                     @if ($errors->has('menang')) <p
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_triple')) has-danger @endif">
-                {!!Form::label('menang_triple','Menang Triple',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_triple','Triple Win',['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_triple',old('menang_triple'),['class' => 'form-control m-input','id'=>'menang_triple'])!!}
                     @if ($errors->has('menang_triple')) <p
