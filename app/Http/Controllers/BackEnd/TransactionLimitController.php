@@ -75,11 +75,22 @@ class TransactionLimitController extends Controller
     public function update(Request $request, $id)
     {
         $id = $request->id;
+        $withMin = str_replace(',', '', $request->with_min);
+        $withMax = str_replace(',', '', $request->with_max);
+
+        // dd($request->all());
+        $request->validate([
+            'with_min' => 'lt:with_max'
+        ],
+        [
+            'with_min.lt' => 'Minimum Deposit cannot be greater than Maximum Deposit!']);
+
+
         $transaction = TransactionLimit::find($id);
-        $transaction->dep_min = str_replace(',', '', $request->dep_min);
-        $transaction->dep_max = str_replace(',', '', $request->dep_max);
-        $transaction->with_min = str_replace(',', '', $request->with_min);
-        $transaction->with_max = str_replace(',', '', $request->with_max);
+        // $transaction->dep_min = str_replace(',', '', $request->dep_min);
+        // $transaction->dep_max = str_replace(',', '', $request->dep_max);
+        $transaction->with_min = $withMin;
+        $transaction->with_max = $withMax;
         $transaction->save();
         \Alert::success(trans('menu.transactionlimitation') . trans('trans.messageupdatesuccess'), trans('trans.success'));
         if ($request->has('btnsaveclose')) {

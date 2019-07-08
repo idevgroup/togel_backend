@@ -20,11 +20,11 @@
         </div>
         <div class="m-portlet__body">
             <input type="hidden" value="{{ auth()->user()->id }}" name="userid">
-            <div class="form-group m-form__group row">
-                {!! Form::label('ip', 'IP Address', ['class' => 'col-sm-3 col-form-label required']) !!}
+            <div class="form-group m-form__group row @if ($errors->has('ip')) has-danger @endif">
+                {!!Form::label('ip','IP Address',['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
-                    {!! Form::text('ip', old('ip'), ['class' => 'form-control m-input','id'=>'ip']) !!}
-                    @if ($errors->has('ip')) <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
+                    {!!Form::text('ip',old('ip'),['class' => 'form-control m-input','id'=>'ip'])!!} @if ($errors->has('ip'))
+                    <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
@@ -49,8 +49,8 @@
 @endsection
 
 @push('style')
-    <link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}"/>
-    <link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}"/>
+<link rel="stylesheet" href="{{asset('backend/assets/fileinput/fileinput.css')}}" />
+<link rel="stylesheet" href="{{asset('backend/assets/tagsinput/tagsinput.css')}}" />
     <style>
         .bootstrap-tagsinput .badge {
             margin: 2px 2px;
@@ -76,18 +76,14 @@
 @push('javascript')
 
 
-    {{--<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
 
-    <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
-    <script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
-    <!--begin::Page Scripts -->
-    <script src="{{ asset('backend/assets/demo/default/custom/crud/forms/widgets/bootstrap-timepicker.js') }}"
-            type="text/javascript"></script>
-    {{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}}
-    @include('backend.shared._selectimg',['selectElement' => '#banner'])
-    @include('backend.shared._tinymce',['elements' => '.cms-editor'])
+<script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
+<script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
+{{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}} 
+@include('backend.shared._selectimg',['selectElement' => '#banner'])
+@include('backend.shared._tinymce',['elements' => '.cms-editor'])
     <script type="text/javascript">
-        $('#name').furl({id: 'slug', seperate: '-'});
         var BootstrapSwitch = {
             init: function () {
                 $("[data-switch=true]").bootstrapSwitch()

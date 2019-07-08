@@ -15,7 +15,7 @@ return [
     'bank' => 'Bank',
     'bankholder' => 'Bank Holder',
     'bankaccountgroup' => 'Bank Account Group',
-    'coresystem' => 'core system',
+    'gamesetting' => 'Game Setting',
     'gamemarket' => 'Game Market',
     'game' => 'Game',
     'games' => 'Games',

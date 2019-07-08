@@ -19,13 +19,20 @@
             </div>
         </div>
         <div class="m-portlet__body">
-            <div class="form-group m-form__group row">
+            <div class="form-group m-form__group row  @if ($errors->has('ip')) has-danger @endif">
                 {!! Form::label('ip', 'IP Address', ['class' => 'col-sm-3 col-form-label required']) !!}
                 <div class="col-sm-5">
                     {!! Form::text('ip', old('ip'), ['class' => 'form-control m-input','id'=>'ip']) !!}
                     @if ($errors->has('ip')) <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
                 </div>
             </div>
+            {{-- <div class="form-group m-form__group row @if ($errors->has('ip')) has-danger @endif">
+                {!!Form::label('ip','IP Address',['class' => 'col-sm-3 col-form-label required'])!!}
+                <div class="col-sm-5">
+                    {!!Form::text('ip',old('ip'),['class' => 'form-control m-input','id'=>'ip'])!!} @if ($errors->has('ip'))
+                    <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
+                </div>
+            </div> --}}
             <div class="form-group m-form__group row">
                 {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
