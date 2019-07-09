@@ -12,7 +12,8 @@ use App\Models\FrontEnd\FrontSetting;
 use App\Rules\Recaptcha;
 use Carbon\Carbon;
 use App\Models\FrontEnd\PlayerBank;
-
+use App\Models\FrontEnd\PlayerTransaction;
+use App\Models\FrontEnd\Member;
 class MemberController extends Controller {
 
     public function __construct(JWTAuth $auth) {
@@ -21,11 +22,18 @@ class MemberController extends Controller {
 
     public function dashBoard(Request $request) {
         $memberid = $request->input('memberid');
-        $getTrans = TempTransaction::getTemTransaction($memberid)->get();
+        $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id','DESC')->get();
+        $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId',['DEPOSIT','WITHDRAW'])->orderBy('id', 'DESC')->get();
         $dataJson = [];
+        foreach ($getPlayTrans as $row) {
+                $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transid, 'transactiondate' => $row->date, 'amount' => ($row->debet > 0) ? '- ' . \CommonFunction::_CurrencyFormat($row->debet) : \CommonFunction::_CurrencyFormat($row->kredit), 'status' => 1, 'transtype' => $row->invoiceId];
+           
+        }
         foreach ($getTrans as $row) {
             $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transactid, 'transactiondate' => $row->request_at, 'amount' => \CommonFunction::_CurrencyFormat($row->amount), 'status' => $row->status, 'transtype' => $row->proc_type];
         }
+
+
         return response()->json($dataJson);
     }
 
@@ -35,9 +43,9 @@ class MemberController extends Controller {
     }
 
     public function doDeposit(Request $request) {
-           $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid'),'note' => $request->input('note')));
-        $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit','withdraw'])->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+        $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
+        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $request->input('memberid'), 'note' => $request->input('note')));
+        $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $request->input('memberid'))->first();
         if (!$checkDeposit) {
             $getBankId = $request->input('debank');
             $getDepositBank = $request->input('memberbank');
@@ -52,7 +60,7 @@ class MemberController extends Controller {
             $getOperatorBankAccount = $getSettingBankLimit->name;
             $getOperatorBankAccNumber = $getSettingBankLimit->account_number;
             $getOperatorBankID = $getSettingBankLimit->bank_id;
-         
+
             $this->validate($request, [
                 'amount' => "required|numeric|max:$getSettingBankLimit->deposit_max|min:$getSettingBankLimit->deposit_min",
                 'recaptcha' => ['required', new Recaptcha],
@@ -84,27 +92,29 @@ class MemberController extends Controller {
             return response()->json(['success' => false, 'alert' => ['title' => 'Deposit is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
         }
     }
-    public function doWithdraw(Request $request){
+
+    public function doWithdraw(Request $request) {
+        $member = Member::findOrFail($request->input('memberid'));
+        $getCurrentBalance =  $member->reg_remain_balance;
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-            $request->merge(array('amount' => $numberAmount,'recaptcha' => $request->input('recaptcha'),'memberid' => $request->input('memberid')));
-        $checkWithdraw = TempTransaction::whereIn('proc_type', ['deposit','withdraw'])->where('status', 0)->where('player_id',$request->input('memberid'))->first();
+        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $request->input('memberid'),'balance' => preg_replace('/[^0-9-.]+/', '',$getCurrentBalance)));
+        $checkWithdraw = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $request->input('memberid'))->first();
         if (!$checkWithdraw) {
             $getWithdrawBank = $request->input('memberbank');
             $getSettingBankLimit = FrontSetting::getLimitWithdraw();
             $getBankPlayer = PlayerBank::where('id', $getWithdrawBank)->with('getBank')->first();
-
             $getBankName = $getBankPlayer->getBank->bk_name;
             $getBankAccount = $getBankPlayer->reg_account_name;
             $getBankAccountNumber = $getBankPlayer->reg_account_number;
-         
             $this->validate($request, [
-                'amount' => "required|numeric|max:$getSettingBankLimit->with_max|min:$getSettingBankLimit->with_min",
+                'amount' => "required|numeric|max:$getSettingBankLimit->with_max|min:$getSettingBankLimit->with_min|lte:balance",
                 'recaptcha' => ['required', new Recaptcha],
                     ], [
                 'amount.required' => 'Please input amount,the field is required',
-                'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
-                'amount.max' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
-                'amount.numeric' => 'Deposit Amount can only be numeric!'
+                'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
+                'amount.max' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
+                'amount.numeric' => 'Withdraw Amount can only be numeric!',
+                'amount.lte' => 'Sorry this amount have insufficient balance,<br/> please check again !!!'        
             ]);
             $tempTransaction = new TempTransaction;
             $tempTransaction->player_id = $request->input('memberid');
@@ -112,18 +122,23 @@ class MemberController extends Controller {
             $tempTransaction->bank_acc_name = $getBankAccount;
             $tempTransaction->bank_acc_id = $getBankAccountNumber;
             $tempTransaction->amount = $numberAmount;
-            $tempTransaction->proc_type = 'withdraw';
+            $tempTransaction->proc_type = 'WITHDRAW';
             $tempTransaction->ip = $request->getClientIp();
             $tempTransaction->note = $request->input('note');
             $tempTransaction->status = 0;
             $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
             $tempTransaction->transactid = 'WD-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
+            //update balance member
+            $member->reg_remain_balance = (float)$member->reg_remain_balance - (float)$request->input('amount');
+            $member->save();
+            
             return response()->json(['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
         } else {
             return response()->json(['success' => false, 'alert' => ['title' => 'Withdraw is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
         }
     }
+
     public function getBankMember(Request $request) {
         $memberId = $request->input('memberid');
         try {

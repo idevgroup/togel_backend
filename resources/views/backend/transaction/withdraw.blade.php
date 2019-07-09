@@ -1,12 +1,12 @@
 @extends('backend.template.main')
-@push('title',trans('menu.deposit'))
+@push('title',trans('menu.withdraw'))
 @section('content')
 <div class="m-portlet m-portlet--last m-portlet--head-sm m-portlet--responsive-mobile" >
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    {{trans('menu.deposit')}}
+                    {{trans('menu.withdraw')}}
                 </h3>
             </div>
         </div>
@@ -46,7 +46,7 @@ $(function () {
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     $.ajax({
-                        url: '{{url(_ADMIN_PREFIX_URL."/deposittransactions")}}',
+                        url: '{{url(_ADMIN_PREFIX_URL."/withdrawtransactions")}}',
                         type: 'POST',
                         dataType: 'JSON',
                         data: {transID, memberId, '_token': $('meta[name="csrf-token"]').attr('content')},
@@ -81,7 +81,7 @@ $(function () {
             preConfirm: function () {
                 return new Promise(function (resolve) {
                     $.ajax({
-                        url: '{{url(_ADMIN_PREFIX_URL."/deposittransactions")}}/'+transID,
+                        url: '{{url(_ADMIN_PREFIX_URL."/withdrawtransactions")}}/'+transID,
                         type: 'PATCH',
                         dataType: 'JSON',
                         data: {transID, memberId, '_token': $('meta[name="csrf-token"]').attr('content')},

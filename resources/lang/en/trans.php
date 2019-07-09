@@ -31,5 +31,6 @@ return [
     'warning' => 'Warning',
     'balanceupdate' => 'Balance update successfully !!!',
     'checkdeposit' => 'This request has already processed by another user!!!',
-    'depositmsm' => 'Deposit has been proccessed successfully !!!'
+    'depositmsm' => 'Deposit has been proccessed successfully !!!',
+    'depositreject' => 'Deposit has been rejected successfully !!!'
 ];

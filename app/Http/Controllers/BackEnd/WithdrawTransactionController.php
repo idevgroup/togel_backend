@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\TemTransaction;
-use App\DataTables\DepositDatatable;
+use App\DataTables\WithdrawDatatable;
 use App\Models\BackEnd\PlayerTransaction;
 use App\Models\BackEnd\Player;
 use Auth;
 use App\Models\BackEnd\RegisterDoposit;
 use Carbon\Carbon;
 
-class DepositTransactionController extends Controller {
+class WithdrawTransactionController extends Controller {
 
     use Authorizable;
 
@@ -22,8 +22,8 @@ class DepositTransactionController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DepositDatatable $dataTable) {
-        return $dataTable->render('backend.transaction.deposit');
+    public function index(WithdrawDatatable $dataTable) {
+        return $dataTable->render('backend.transaction.withdraw');
     }
 
     /**
@@ -82,7 +82,7 @@ class DepositTransactionController extends Controller {
 
             //Save Bonus Transaction
             $addTransaction = new PlayerTransaction;
-            $addTransaction->invoiceId = 'DEPOSIT BONUS '. $getPercentBonus->dep_bonus . ' %';
+            $addTransaction->invoiceId = 'DEPOSIT BONUS ' . $getPercentBonus->dep_bonus . ' %';
             $addTransaction->transid = $getTransID;
             $addTransaction->playerid = $getMemberID;
             $addTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
@@ -133,8 +133,8 @@ class DepositTransactionController extends Controller {
     public function update(Request $request, $id) {
         $getTransID = $request->input('transID');
         $getMemberID = $request->input('memberId');
-       $getAmountDeposit = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
-       if (is_null($getAmountDeposit)) {
+        $getAmountDeposit = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
+        if (is_null($getAmountDeposit)) {
             return response()->json(['title' => trans('trans.info'), 'message' => trans('trans.checkdeposit'), 'status' => 'info']);
         } else {
             $getAmountDeposit->status = 2;
@@ -143,7 +143,6 @@ class DepositTransactionController extends Controller {
             $getAmountDeposit->save();
             return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.depositreject'), 'status' => 'success']);
         }
-       
     }
 
     /**
