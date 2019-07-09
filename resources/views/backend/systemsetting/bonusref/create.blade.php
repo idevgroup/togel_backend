@@ -233,7 +233,7 @@
                         <div class="form-group m-form__group row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
-                                    <button type="submit" name="btnsaveclose" id="btnsavecloseRefDep" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                    <button type="button" name="btnsaveclose" id="btnsavecloseRefbet" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                                 <span>
                                                                     <i class="fa fa-archive"></i>
                                                                     <span>{{__('trans.btnsave')}}</span>
@@ -326,7 +326,7 @@
                 // $('#bet_times').val(response[0].bet_times);
                 $('#game_setting_id').val(response[0].id);
 
-                console.log(response[0]);
+                // console.log(response[0]);
             }
         })
     }
@@ -370,7 +370,6 @@
                 var ref_dep2 = $('#ref_dep2').val();
                 var ref_dep3 = $('#ref_dep3').val();
                 var ref_dep4 = $('#ref_dep4').val();
-                console.log(refdep_id);
                 $.ajax({
                     url: '{{ url(_ADMIN_PREFIX_URL."/bonusrefs/0") }}',
                     method: 'PATCH',
@@ -396,25 +395,25 @@
             })
 
             //Referral Deposit Bonus
-            $('body').on('click', '#btnsavecloseRefDep', function(){
+            $('body').on('click', '#btnsavecloseRefbet', function(){
 
-            var refdep_id = $('#refdep_id').val();
-            var ref_dep1 = $('#ref_dep1').val();
-            var ref_dep2 = $('#ref_dep2').val();
-            var ref_dep3 = $('#ref_dep3').val();
-            var ref_dep4 = $('#ref_dep4').val();
-            console.log(refdep_id);
+            var refbet_id = $('#game_setting_id').val();
+            var ref_bet1 = $('#ref_bet1').val();
+            var ref_bet2 = $('#ref_bet2').val();
+            var ref_bet3 = $('#ref_bet3').val();
+            var ref_bet4 = $('#ref_bet4').val();
+            // console.log(refdep_id);
             $.ajax({
                 url: '{{ url(_ADMIN_PREFIX_URL."/bonusrefs/0") }}',
                 method: 'PATCH',
                 dataType: 'JSON',
                 data: {
                     '_token': $('meta[name="csrf-token"]').attr('content'),
-                    refdep_id,
-                    ref_dep1,
-                    ref_dep2,
-                    ref_dep3,
-                    ref_dep4
+                    refbet_id,
+                    ref_bet1,
+                    ref_bet2,
+                    ref_bet3,
+                    ref_bet4
                 },
                 success: function(res){
                     swal({

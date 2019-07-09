@@ -63,6 +63,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'messagetemplates' => 'MessageTemplateController',
         'transactionlimits' => 'TransactionLimitController',
         'homesettings' => 'HomeSettingController',
+        'generalsettings' => 'GeneralSettingController',
         'players' => 'PlayersController',
         'deposittransactions' => 'DepositTransactionController'];
     foreach ($ArrMenu as $key => $value) {

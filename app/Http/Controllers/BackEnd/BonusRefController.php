@@ -85,16 +85,17 @@ class BonusRefController extends Controller
         //            'reg_bonus' => 'unique:regdep_bonus,reg_bonus',
         //        ], [
         //            'reg_bonus.unique' => 'is working']);
+        
         if (request()->ajax()) {
             // dd($request->all());
-            $game_setting_id = $request->game_setting_id;
+            $game_setting_id = $request->input('refbet_id');
             $regdep_id = $request->input('regdep_id');
             $refdep_id = $request->input('refdep_id');
-            $regdep = RegisterDoposit::find($regdep_id);
+            
            
             if($regdep_id){
-                dd($request->all());
-                $gameSetting = GameSetting::find($game_setting_id);
+                // dd($request->all());
+                $regdep = RegisterDoposit::find($regdep_id);
                 $regdep->reg_bonus = $request->reg_bonus;
                 $regdep->dep_bonus = $request->dep_bonus;
                 $regdep->save();
@@ -108,15 +109,16 @@ class BonusRefController extends Controller
                 $refdep->ref_dep4 = $request->ref_dep4;
                 $refdep->save();
                 return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
+            }elseif ($game_setting_id) {
+                // dd($request->all());
+                $gameSetting = GameSetting::find($game_setting_id);
+                $gameSetting->ref_bet_1 = $request->ref_bet1;
+                $gameSetting->ref_bet_2 = $request->ref_bet2;
+                $gameSetting->ref_bet_3 = $request->ref_bet3;
+                $gameSetting->ref_bet_4 = $request->ref_bet4;
+                $gameSetting->save();
+                return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
             }
-            
-            
-            $gameSetting->ref_bet_1 = $request->ref_bet1;
-            $gameSetting->ref_bet_2 = $request->ref_bet2;
-            $gameSetting->ref_bet_3 = $request->ref_bet3;
-            $gameSetting->ref_bet_4 = $request->ref_bet4;
-            $gameSetting->save();
-            
         }
         // $game_setting_id = $request->game_setting_id;
         // $regdep_id = $request->regdep_id;
