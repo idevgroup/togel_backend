@@ -26,21 +26,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
 @endpush
 @push('javascript')
-<div class="modal fade" id="Approval-Transaction" tabindex="-1" role="dialog" aria-labelledby="TransationTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="TransationTitle">Deposit </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="renderView">
-
-            </div>
-        </div>
-    </div>
-</div>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
 {!! $dataTable->scripts() !!} 
@@ -60,14 +45,19 @@ $(function () {
             showLoaderOnConfirm: true,
             preConfirm: function () {
                 return new Promise(function (resolve) {
-                    console.log(resolve);
                     $.ajax({
                         url: '{{url(_ADMIN_PREFIX_URL."/deposittransactions")}}',
                         type: 'POST',
                         dataType: 'JSON',
-                        data: {transID,memberId,'_token': $('meta[name="csrf-token"]').attr('content')},
+                        data: {transID, memberId, '_token': $('meta[name="csrf-token"]').attr('content')},
                         success: function (response) {
-
+                            swal({
+                                title: response.title,
+                                html: response.message,
+                                type: response.status,
+                                allowOutsideClick: false
+                            });
+                            window.LaravelDataTables['admin-tbl-zen'].draw(false);
                         },
                     });
                 });
