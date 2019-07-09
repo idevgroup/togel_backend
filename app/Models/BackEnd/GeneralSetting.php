@@ -17,7 +17,7 @@ class GeneralSetting extends Model
             'resize_image_quality' => 90,
             'crop' => false,
             'path' => _UPLOAD_DIRE . 'generalsetting/' . _DIRE_IS_MONTH,
-            'file_input' => 'bannerfile'
+            'file_input' => 'logo'
         ],
         'icon' => [
             'width' => _IMG_GENSETICON_THUM_W,
@@ -25,18 +25,18 @@ class GeneralSetting extends Model
             'resize_image_quality' => 90,
             'crop' => true,
             'path' => _UPLOAD_DIRE . 'generalsetting/' . _DIRE_IS_MONTH . '/icon',
-            'file_input' => 'bannerfile'
+            'file_input' => 'icon'
         ],
     ];
 
     protected function logoUploadFilePath($file)
     {
-        return $this->slug . '-' . $this->id . '.' . $file->getClientOriginalExtension();
+        return $this->currency . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
 
     protected function iconUploadFilePath($file)
     {
-        return $this->slug . '-' . $this->id . '.' . $file->getClientOriginalExtension();
+        return $this->currency . '-' . $this->id . '.' . $file->getClientOriginalExtension();
     }
 
 }
