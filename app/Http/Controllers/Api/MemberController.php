@@ -30,7 +30,7 @@ class MemberController extends Controller {
            
         }
         foreach ($getTrans as $row) {
-            $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transactid, 'transactiondate' => $row->request_at, 'amount' => \CommonFunction::_CurrencyFormat($row->amount), 'status' => $row->status, 'transtype' => $row->proc_type];
+            $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transactid, 'transactiondate' => $row->request_at, 'amount' =>($row->proc_type !=='WITHDRAW')?\CommonFunction::_CurrencyFormat($row->amount):'- '.\CommonFunction::_CurrencyFormat($row->amount), 'status' => $row->status, 'transtype' => $row->proc_type];
         }
 
 

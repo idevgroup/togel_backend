@@ -44,59 +44,37 @@ class WithdrawTransactionController extends Controller {
     public function store(Request $request) {
         $getTransID = $request->input('transID');
         $getMemberID = $request->input('memberId');
-        $getAmountDeposit = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
+        $getAmountWithdraw = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
 
 
-        if ($getAmountDeposit->status != 0 || is_null($getAmountDeposit)) {
+        if ($getAmountWithdraw->status != 0 || is_null($getAmountWithdraw)) {
             return response()->json(['title' => trans('trans.info'), 'message' => trans('trans.checkdeposit'), 'status' => 'info']);
         } else {
 
-            $currentDeposit = $getAmountDeposit->amount;
-            $getTransID = $getAmountDeposit->transactid;
-            $getMemberID = $getAmountDeposit->player_id;
+            $currentWithdraw = $getAmountWithdraw->amount;
+            $getTransID = $getAmountWithdraw->transactid;
+            $getMemberID = $getAmountWithdraw->player_id;
             $player = Player::findOrFail($getMemberID);
             $remainBalance = $player->reg_remain_balance;
-            $player->reg_remain_balance = $remainBalance + $currentDeposit;
-            $player->save();
+            
             //Save Deposit Transaction
             $addTransaction = new PlayerTransaction;
-            $addTransaction->invoiceId = 'DEPOSIT';
+            $addTransaction->invoiceId = 'WITHDRAW';
             $addTransaction->transid = $getTransID;
             $addTransaction->playerid = $getMemberID;
             $addTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
-            $addTransaction->debet = 0;
-            $addTransaction->kredit = $currentDeposit;
-            $addTransaction->saldo = $remainBalance + $currentDeposit;
+            $addTransaction->debet = $currentWithdraw;
+            $addTransaction->kredit = 0;
+            $addTransaction->saldo = $remainBalance ;
             $addTransaction->updated_by = Auth::user()->id;
-            $addTransaction->descrtion = $getAmountDeposit->note;
+            $addTransaction->descrtion = $getAmountWithdraw->note;
             $addTransaction->save();
 
-            //Check Bonus 
-            $getPercentBonus = RegisterDoposit::findOrFail(1);
-            $valueBonus = (float) ($currentDeposit * $getPercentBonus->dep_bonus ) / (float) 100;
-
-            $player = Player::findOrFail($getMemberID);
-            $remainBalance = $player->reg_remain_balance;
-            $player->reg_remain_balance = $remainBalance + $valueBonus;
-            $player->save();
-
-            //Save Bonus Transaction
-            $addTransaction = new PlayerTransaction;
-            $addTransaction->invoiceId = 'DEPOSIT BONUS ' . $getPercentBonus->dep_bonus . ' %';
-            $addTransaction->transid = $getTransID;
-            $addTransaction->playerid = $getMemberID;
-            $addTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
-            $addTransaction->debet = 0;
-            $addTransaction->kredit = $valueBonus;
-            $addTransaction->saldo = $remainBalance + $valueBonus;
-            $addTransaction->updated_by = Auth::user()->id;
-            $addTransaction->descrtion = 'Promote deposit bonus = ' . $getPercentBonus->dep_bonus . ' %';
-            $addTransaction->save();
-            $getAmountDeposit->status = 1;
-            $getAmountDeposit->proc_at = date("Y-m-d H:i:s", strtotime(Carbon::now()));
-            $getAmountDeposit->proc_by = Auth::user()->id;
-            $getAmountDeposit->save();
-            return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.depositmsm'), 'status' => 'success']);
+            $getAmountWithdraw->status = 1;
+            $getAmountWithdraw->proc_at = date("Y-m-d H:i:s", strtotime(Carbon::now()));
+            $getAmountWithdraw->proc_by = Auth::user()->id;
+            $getAmountWithdraw->save();
+            return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.withdrawmsm'), 'status' => 'success']);
         }
     }
 
@@ -133,14 +111,19 @@ class WithdrawTransactionController extends Controller {
     public function update(Request $request, $id) {
         $getTransID = $request->input('transID');
         $getMemberID = $request->input('memberId');
-        $getAmountDeposit = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
-        if (is_null($getAmountDeposit)) {
+        $getAmountWithdraw = TemTransaction::where('transactid', $getTransID)->where('player_id', $getMemberID)->where('status', 0)->first();
+        if (is_null($getAmountWithdraw)) {
             return response()->json(['title' => trans('trans.info'), 'message' => trans('trans.checkdeposit'), 'status' => 'info']);
         } else {
-            $getAmountDeposit->status = 2;
-            $getAmountDeposit->proc_at = date("Y-m-d H:i:s", strtotime(Carbon::now()));
-            $getAmountDeposit->proc_by = Auth::user()->id;
-            $getAmountDeposit->save();
+            $getAmountWithdraw->status = 2;
+            $getAmountWithdraw->proc_at = date("Y-m-d H:i:s", strtotime(Carbon::now()));
+            $getAmountWithdraw->proc_by = Auth::user()->id;
+            $getAmountWithdraw->save();
+            
+            $player = Player::findOrFail($getMemberID);
+            $remainBalance = $player->reg_remain_balance;
+            $player->reg_remain_balance = (float)$remainBalance + (float)$getAmountWithdraw->amount;
+            $player->save();
             return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.depositreject'), 'status' => 'success']);
         }
     }
