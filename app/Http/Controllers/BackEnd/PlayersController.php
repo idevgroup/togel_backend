@@ -76,7 +76,7 @@ class PlayersController extends Controller {
         $end = request()->get('searchByEnd');
         $start = $start . " 00:00:00";
         $end = $end . " 23:59:59";
-        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end])->orderBy('date','DESC'))
+        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end])->orderBy('date','DESC')->orderBy('saldo','DESC'))
                 ->editColumn('debet', '<span @if($debet < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($debet)}} </span>')
                 ->editColumn('kredit', '<span @if($kredit < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($kredit)}}</span>')
                 ->editColumn('saldo', '<span @if($saldo < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($saldo)}}</span>')
@@ -197,9 +197,11 @@ class PlayersController extends Controller {
         if ($amount > 0) {
             $player = Player::findOrFail($pid);
             $remainBalance = $player->reg_remain_balance;
+            //Add
             if ($operator == 1) {
                 $player->reg_remain_balance = $player->reg_remain_balance + $amount;
             } elseif ($operator == 2) {
+            //Subtract 
                 $player->reg_remain_balance = $player->reg_remain_balance - $amount;
             }
             $player->save();
