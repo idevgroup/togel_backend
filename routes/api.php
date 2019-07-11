@@ -16,10 +16,11 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => 'guest:api','prefix' => 'v1', 'namespace' => 'Api'],function(){
     Route::get('banklist','FrontEndController@getBank')->name('get.bank.list');
+    Route::get('getsetting','FrontEndController@getSetting')->name('get.setting.system');
 });
 Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
-    Route::post('register', 'MemberRegisterController@register')->name('register');
+    Route::post('register', 'MemberRegisterController@register')->name('register');   
 });
 
 Route::group(['middleware' => 'auth:api','prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'],function(){

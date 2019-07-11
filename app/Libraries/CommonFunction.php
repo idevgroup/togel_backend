@@ -5,7 +5,7 @@ use Config;
 class CommonFunction {
     static function _CurrencyFormat($number){
         $getArrayCurrency = Config('sysconfig.currency_code');
-        $getSettingCurrency = GeneralSetting::findOrFail(1);
+        $getSettingCurrency = GeneralSetting::first();
         $getCurrency = $getArrayCurrency[$getSettingCurrency->currency];
         if(is_numeric($number)){
             return $getCurrency['symbol'].' '.number_format($number,2);
