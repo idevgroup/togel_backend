@@ -77,7 +77,6 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(CategoriesRequest $request) {
-
         $category = new Category;
         $category->name = $request->input('txtname');
         $category->slug = Str::slug($request->input('txtslug'));

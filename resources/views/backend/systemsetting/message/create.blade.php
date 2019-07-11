@@ -1,4 +1,6 @@
-@extends('backend.template.main') @push('title',trans('menu.messagetemplate').'-'.trans('trans.create')) @section('content')
+@extends('backend.template.main') 
+@push('title',trans('menu.messagetemplate').'-'.trans('trans.create')) 
+@section('content')
 
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 

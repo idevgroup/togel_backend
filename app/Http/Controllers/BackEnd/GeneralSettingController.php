@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackEnd;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackEnd\GeneralSetting;
+use function Opis\Closure\serialize;
 
 class GeneralSettingController extends Controller
 {
@@ -72,35 +73,50 @@ class GeneralSettingController extends Controller
     public function update(Request $request, $id)
     {
         /*
+       \Log::info($request->all());
+        // dd($request->input('id'),$request->input('currency'));
         if (request()->ajax()) {
             // dd($request->all());
-            if ($id) {
-                // dd($request->all());
-            }else {
-                // dd($request->all());
-                $generalSetting = new GeneralSetting;
+             $id = $request->input('id');
+           
+             if($id){
+                $generalSetting = GeneralSetting::find($id);
                 $generalSetting->currency = $request->input('currency');
-                dd($request->all());
-                // if($request->input('logo'))
-                // {
-                //     // dd($request->input('logo'));
-                //     $generalSetting->uploadImage($request->input('logo'));
-                // }
-                // if($request->input('icon'))
-                // {
-                //     // dd($request->input('logo'));
-                //     $generalSetting->uploadImage($request->input('icon'));
-                // }
+                $generalSetting->timezone = $request->input('timezone');
+                if($request->hasFile('logo')){
+                    $generalSetting->uploadImage($request->file('logo'));
+                }
+                if ($request->hasFile('icon')) {
+                    $generalSetting->uploadImage($request->file('icon'));
+                }
+                // dd($request->input('logo'));
                 $generalSetting->save();
                 return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
-            }
+             }
+             else{
+                $generalSetting = new GeneralSetting;
+                $generalSetting->currency = $request->input('currency');
+                $generalSetting->timezone = $request->input('timezone');
+                if($request->hasFile('logo')){
+                    $generalSetting->uploadImage($request->file('logo'));
+                }
+                if ($request->hasFile('icon')) {
+                    $generalSetting->uploadImage($request->file('icon'));
+                }
+                // dd($request->input('logo'));
+                $generalSetting->save();
+                return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
+             }
         }
         */
-       
-        $id = $request->id;
-        if($id){
-            $generalSetting = GeneralSetting::find($id);
+        $general_id = $request->input('general_id');
+        if($general_id){
+            //$test = $request->file('logo');
+            //dd($test->getFilename(),$request->file('logo'));
+
+            $generalSetting = GeneralSetting::find($general_id);
             $generalSetting->currency = $request->input('currency');
+            $generalSetting->timezone = $request->input('timezone');
             if ($request->hasFile('logo')) {
                 $generalSetting->uploadImage($request->file('logo'));
             }
@@ -109,12 +125,13 @@ class GeneralSettingController extends Controller
             }
             $generalSetting->save();
             \Alert::success(trans('menu.category') . trans('trans.messageupdatesuccess'), trans('trans.success'));
-            if ($request->has('btnsaveclose')) {
+            if ($request->has('btnsavecloseGeneral')) {
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
         }else{
             $generalSetting = new GeneralSetting;
             $generalSetting->currency = $request->input('currency');
+            $generalSetting->timezone = $request->input('timezone');
             if ($request->hasFile('logo')) {
                 $generalSetting->uploadImage($request->file('logo'));
             }
@@ -127,11 +144,6 @@ class GeneralSettingController extends Controller
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
         }
-        
-        /*else {
-            return redirect(_ADMIN_PREFIX_URL . '/generalsettings/');
-        }
-        */
     }
 
     /**
