@@ -31,7 +31,7 @@ class FrontSetting extends Model {
         $query = DB::table(self::TBL_BONUS_SETTING)->first();
         return $query;
     }
-    static function getGeneratSetting(){
+    static function getGeneralSetting(){
         $query = DB::table(self::TBL_GENERAL_SETTING)->first();
         return $query;
     }

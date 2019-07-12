@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Builder;
 use App\Models\BackEnd\Category;
 use App\Http\Requests\CategoriesRequest;
 use Illuminate\Support\Str;
-
+use Cookie;
 class CategoryController extends Controller {
 
     use Authorizable;
