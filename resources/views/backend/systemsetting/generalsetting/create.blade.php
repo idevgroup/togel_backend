@@ -187,9 +187,191 @@
 
 
                 <div class="tab-pane" id="m_portlet_base_demo_2_2_tab_content" role="tabpanel">
-                    {!!Form::open(['class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form1','files'=>true])!!} {{-- 'url' =>url(_ADMIN_PREFIX_URL.'/messagetemplates/0'), ,'method'=> 'PATCH' --}}
-                    <h1>Mail Configuration</h1>
-                    {!!Form::close()!!}
+                    @if (!$mailConfig->isEmpty()) 
+                        @foreach ($mailConfig as $item)
+                            {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/generalsettings/0'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form1','files'=>true,'method'=> 'PATCH'])!!}
+                                <input type="hidden" id="mailConfig_id" name="mailConfig_id" value="{{$item->id}}">
+                                <div class="form-group m-form__group row @if ($errors->has('mailFromName')) has-danger @endif">
+                                    {!!Form::label('mailFromName','Mail From Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailFromName',old('mailFromName',$item->mail_name),['class' => 'form-control m-input','placeholder' => 'Example','id'=>'mailFromName'])!!}
+                                        <p><i>This Will be display name for your sent email.</i></p>
+                                        @if ($errors->has('mailFromName'))<p class="form-control-feedback">{{ $errors->first('mailFromName') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailFromAddress')) has-danger @endif">
+                                    {!!Form::label('mailFromAddress','Mail From Address',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailFromAddress',old('mailFromAddress', $item->mail_address),['class' => 'form-control m-input','placeholder' => 'hello@example.com','id'=>'mailFromAddress'])!!}
+                                        <p><i>This Email will be used for "Contact Form" correspondence.</i></p>
+                                        @if ($errors->has('mailFromAddress'))<p class="form-control-feedback">{{ $errors->first('mailFromAddress') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('smtp')) has-danger @endif">
+                                    {!!Form::label('smtp','Mail Driver',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('smtp',old('smtp', $item->mail_smtp),['class' => 'form-control m-input','placeholder' => 'smtp','id'=>'smtp'])!!}
+                                        <p class="mb-0"><i>You can select any driver you want for your Mail setup. <strong>Ex. SMTP, Mailgun, Mandrill, SparkPost, Amazon SES etx.</strong></i></p>
+                                        <p><i>Add <strong>single driver only.</strong></i></p>
+                                        @if ($errors->has('smtp'))<p class="form-control-feedback">{{ $errors->first('smtp') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailHost')) has-danger @endif">
+                                    {!!Form::label('mailHost','Mail HOST',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailHost',old('mailHost', $item->mail_host),['class' => 'form-control m-input','placeholder' => 'smtp.mailtrap.io','id'=>'mailHost'])!!}
+                                        @if ($errors->has('mailHost'))<p class="form-control-feedback">{{ $errors->first('mailHost') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailPort')) has-danger @endif">
+                                    {!!Form::label('mailPort','Mail PORT',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailPort',old('mailPort', $item->mail_port),['class' => 'form-control m-input','placeholder' => '2525','id'=>'mailPort'])!!}
+                                        @if ($errors->has('mailPort'))<p class="form-control-feedback">{{ $errors->first('mailPort') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailUserName')) has-danger @endif">
+                                    {!!Form::label('mailUserName','Mail Username',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailUserName',old('mailUserName',$item->mail_username),['class' => 'form-control m-input','placeholder' => 'Ex, myemaill@email.com','id'=>'mailUserName'])!!}
+                                        <p><i>Add your email id you want to configure for sending emails.</i></p>
+                                        @if ($errors->has('mailUserName'))<p class="form-control-feedback">{{ $errors->first('mailUserName') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailPassword')) has-danger @endif">
+                                    {!!Form::label('mailPassword','Mail Password',['class' => 'col-sm-3 col-form-label required'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailPassword',old('mailPassword', $item->mail_password),['class' => 'form-control m-input','placeholder' => 'Ex, myemaill@email.com','id'=>'mailPassword'])!!}
+                                        <p><i>Add your eamil password you want to configure for sending emails</i></p>
+                                        @if ($errors->has('mailPassword'))<p class="form-control-feedback">{{ $errors->first('mailPassword') }}</p> @endif
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row @if ($errors->has('mailEncryption')) has-danger @endif">
+                                    {!!Form::label('mailEncryption','Mail Encryption',['class' => 'col-sm-3 col-form-label'])!!}
+                                    <div class="col-sm-7">
+                                        {!!Form::text('mailEncryption',old('mailEncryption', $item->mail_encryption),['class' => 'form-control m-input','placeholder' => 'tls Or ssl','id'=>'mailEncryption'])!!}
+                                        <p><i>Use <strong>tls</strong> if your site uses <strong>HTTP</strong> protocol and <strong>ssl </strong>if you site uses <strong>HTTPS</strong> Protocol</i></p>
+                                        {{--  {!!Form::select('isparent',$item,old('isparent',$item->mail_encryption),['class'=>'form-control m-input'])!!}  --}}
+                                        @if ($errors->has('mailEncryption'))
+                                        <p class="form-control-feedback">{{ $errors->first('mailEncryption') }}</p> @endif
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group m-form__group row @if ($errors->has('mailEncryption')) has-danger @endif">
+                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-9">
+                                            <p>
+                                                <strong>Important Note :</strong> IF you are using <strong>GMAIl</strong> for Mail configuration, make sure you have completed following process before updating:
+                                                <li>Go to <a href="https://myaccount.google.com/security">My Account</a> from your Google Account you want to configure and Login</li>
+                                                <li>Scroll down to <strong>Less secure app access </strong> and set it <strong>ON</strong></li>
+                                            </p>
+                                        </div>
+                                    </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" name="btnsavecloseMailConfig" id="btnsavecloseMailConfig" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                <span>
+                                                    <i class="fa fa-archive"></i>
+                                                    <span>{{__('trans.btnsave')}}</span>
+                                                </span>
+                                            </button>
+                                    </div>
+                                </div>
+                            {!!Form::close()!!}
+                        @endforeach
+                    @else
+                        {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/generalsettings/0'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form1','files'=>true,'method'=> 'PATCH'])!!}
+                            <div class="form-group m-form__group row @if ($errors->has('mailFromName')) has-danger @endif">
+                                {!!Form::label('mailFromName','Mail From Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailFromName',old('mailFromName'),['class' => 'form-control m-input','placeholder' => 'Example','id'=>'mailFromName'])!!}
+                                    <p><i>This Will be display name for your sent email.</i></p>
+                                    @if ($errors->has('mailFromName'))<p class="form-control-feedback">{{ $errors->first('mailFromName') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailFromAddress')) has-danger @endif">
+                                {!!Form::label('mailFromAddress','Mail From Address',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailFromAddress',old('mailFromAddress'),['class' => 'form-control m-input','placeholder' => 'hello@example.com','id'=>'mailFromAddress'])!!}
+                                    <p><i>This Email will be used for "Contact Form" correspondence.</i></p>
+                                    @if ($errors->has('mailFromAddress'))<p class="form-control-feedback">{{ $errors->first('mailFromAddress') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('smtp')) has-danger @endif">
+                                {!!Form::label('smtp','Mail Driver',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('smtp',old('smtp'),['class' => 'form-control m-input','placeholder' => 'smtp','id'=>'smtp'])!!}
+                                    <p class="mb-0"><i>You can select any driver you want for your Mail setup. <strong>Ex. SMTP, Mailgun, Mandrill, SparkPost, Amazon SES etx.</strong></i></p>
+                                    <p><i>Add <strong>single driver only.</strong></i></p>
+                                    @if ($errors->has('smtp'))<p class="form-control-feedback">{{ $errors->first('smtp') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailHost')) has-danger @endif">
+                                {!!Form::label('mailHost','Mail HOST',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailHost',old('mailHost'),['class' => 'form-control m-input','placeholder' => 'smtp.mailtrap.io','id'=>'mailHost'])!!}
+                                    @if ($errors->has('mailHost'))<p class="form-control-feedback">{{ $errors->first('mailHost') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailPort')) has-danger @endif">
+                                {!!Form::label('mailPort','Mail PORT',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailPort',old('mailPort'),['class' => 'form-control m-input','placeholder' => '2525','id'=>'mailPort'])!!}
+                                    @if ($errors->has('mailPort'))<p class="form-control-feedback">{{ $errors->first('mailPort') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailUserName')) has-danger @endif">
+                                {!!Form::label('mailUserName','Mail Username',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailUserName',old('mailUserName'),['class' => 'form-control m-input','placeholder' => 'Ex, myemaill@email.com','id'=>'mailUserName'])!!}
+                                    <p><i>Add your email id you want to configure for sending emails.</i></p>
+                                    @if ($errors->has('mailUserName'))<p class="form-control-feedback">{{ $errors->first('mailUserName') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailPassword')) has-danger @endif">
+                                {!!Form::label('mailPassword','Mail Password',['class' => 'col-sm-3 col-form-label required'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailPassword',old('mailPassword'),['class' => 'form-control m-input','placeholder' => 'Ex, myemaill@email.com','id'=>'mailPassword'])!!}
+                                    <p><i>Add your eamil password you want to configure for sending emails</i></p>
+                                    @if ($errors->has('mailPassword'))<p class="form-control-feedback">{{ $errors->first('mailPassword') }}</p> @endif
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row @if ($errors->has('mailEncryption')) has-danger @endif">
+                                {!!Form::label('mailEncryption','Mail Encryption',['class' => 'col-sm-3 col-form-label'])!!}
+                                <div class="col-sm-7">
+                                    {!!Form::text('mailEncryption',old('mailEncryption'),['class' => 'form-control m-input','placeholder' => 'Ex, myemaill@email.com','id'=>'mailEncryption'])!!}
+                                    <p><i>Use <strong>tls</strong> if your site uses <strong>HTTP</strong> protocol and <strong>ssl </strong>if you site uses <strong>HTTPS</strong> Protocol</i></p>
+                                    @if ($errors->has('mailEncryption'))
+                                    <p class="form-control-feedback">{{ $errors->first('mailEncryption') }}</p> @endif
+                                </div>
+                            </div>
+                            <hr>
+                                <div class="form-group m-form__group row @if ($errors->has('mailEncryption')) has-danger @endif">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-9">
+                                        <p>
+                                            <strong>Important Note :</strong> IF you are using <strong>GMAIl</strong> for Mail configuration, make sure you have completed following process before updating:
+                                            <li>Go to <a href="https://myaccount.google.com/security">My Account</a> from your Google Account you want to configure and Login</li>
+                                            <li>Scroll down to <strong>Less secure app access </strong> and set it <strong>ON</strong></li>
+                                        </p>
+                                    </div>
+                                </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                    <button type="submit" name="btnsavecloseMailConfig" id="btnsavecloseMailConfig" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                            <span>
+                                                <i class="fa fa-archive"></i>
+                                                <span>{{__('trans.btnsave')}}</span>
+                                            </span>
+                                        </button>
+                                </div>
+                            </div>
+                        {!!Form::close()!!}
+                    @endif
+                    
+                    
                 </div>
             </div>
         </div>
