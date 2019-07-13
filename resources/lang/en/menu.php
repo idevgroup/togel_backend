@@ -30,6 +30,7 @@ return [
     'ipblacklist' => 'IP Black List',
     'ipfiter' => 'IP Filter',
     'generalsetting' => 'General Setting',
+    'mailconfig' => 'Mail Configuration',
     'dynamicpassword' => 'Dynamic Password',
     'useraccount' => 'User Account',
     'rolepermission' => 'Role Permission',

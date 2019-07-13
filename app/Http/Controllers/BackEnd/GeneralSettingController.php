@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackEnd\GeneralSetting;
 use function Opis\Closure\serialize;
+use App\Models\BackEnd\MailConfig;
 
 class GeneralSettingController extends Controller
 {
@@ -17,7 +18,10 @@ class GeneralSettingController extends Controller
     public function index()
     {
         $generalSetting = GeneralSetting::all();
-        return view('backend.systemsetting.generalsetting.create')->with('generalSetting', $generalSetting);
+        $mailConfig = MailConfig::all();
+        return view('backend.systemsetting.generalsetting.create')
+        ->with('generalSetting', $generalSetting)
+        ->with('mailConfig', $mailConfig);
     }
 
     /**
@@ -124,7 +128,7 @@ class GeneralSettingController extends Controller
                 $generalSetting->uploadImage($request->file('icon'));
             }
             $generalSetting->save();
-            \Alert::success(trans('menu.category') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+            \Alert::success(trans('menu.generalsetting') . trans('trans.messageupdatesuccess'), trans('trans.success'));
             if ($request->has('btnsavecloseGeneral')) {
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
@@ -139,12 +143,39 @@ class GeneralSettingController extends Controller
                 $generalSetting->uploadImage($request->file('icon'));
             }
             $generalSetting->save();
-            \Alert::success(trans('menu.category') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+            \Alert::success(trans('menu.generalsetting') . trans('trans.messageupdatesuccess'), trans('trans.success'));
             if ($request->has('btnsaveclose')) {
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
         }
-    }
+        // dd($request->all());
+        /*
+         "mailFromName" => "lyhuoth"
+        "mailFromAddress" => "kov.lyhuoth@outlook.com"
+        "smtp" => "POP3"
+        "mailHost" => "smtp.mailtrap.io"
+        "mailPort" => "2525"
+        "mailUserName" => "lyhuoth"
+        "mailPassword" => "lyhuoth123456789"
+        "timezone" => "tls"
+        "btnsavecloseGeneral" => null
+        */
+        
+        $mailconfig = new MailConfig;
+        $mailconfig->mail_name = $request->input('mailFromName');
+        $mailconfig->mail_address = $request->input('mailFromAddress');
+        $mailconfig->mail_smtp = $request->input('smtp');
+        $mailconfig->mail_host = $request->input('mailHost');
+        $mailconfig->mail_port = $request->input('mailPort');
+        $mailconfig->mail_username = $request->input('mailUserName');
+        $mailconfig->mail_password = $request->input('mailPassword');
+        $mailconfig->mail_encryption = $request->input('mailEncryption');
+        $mailconfig->save();
+        \Alert::success(trans('menu.mailconfig') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+            if ($request->has('btnsavecloseMailConfig')) {
+                return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
+            } 
+        }
 
     /**
      * Remove the specified resource from storage.
