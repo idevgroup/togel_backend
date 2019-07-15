@@ -21,15 +21,15 @@ class FrontEndController extends Controller {
         $getGeneralSetting = FrontSetting::getGeneralSetting();
         $getArrayCurrency = Config('sysconfig.currency_code');
         $getLocaleCode = $getArrayCurrency[$getGeneralSetting->currency];
-        $setLocaleCode = isset($getLocaleCode['locale']) ? $getLocaleCode['locale'] : 'en';
+        $getSymbol = isset($getLocaleCode['symbol']) ? $getLocaleCode['symbol'] : '';
         $setGeneralSetting = [
             'currency' => $getGeneralSetting->currency,
             'logo' => $getGeneralSetting->logo,
             'favicon' => $getGeneralSetting->icon,
             'timezone' => $getGeneralSetting->timezone,
-            'locale' => $setLocaleCode
+            'symbol' => $getSymbol
         ];
-
+        //\Log::info($setGeneralSetting);
 
         return response()->json(['general' => $setGeneralSetting]);
     }

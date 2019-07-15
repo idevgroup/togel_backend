@@ -89,7 +89,7 @@ class MemberController extends Controller {
             $tempTransaction->save();
             return response()->json(['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
         } else {
-            return response()->json(['success' => false, 'alert' => ['title' => 'Deposit is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
         }
     }
 
@@ -114,7 +114,7 @@ class MemberController extends Controller {
                 'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
                 'amount.max' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
                 'amount.numeric' => 'Withdraw Amount can only be numeric!',
-                'amount.lte' => 'Sorry this amount have insufficient balance,<br/> please check again !!!'        
+                'amount.lte' => 'Sorry this amount have insufficient balance, please try again !!!'        
             ]);
             $tempTransaction = new TempTransaction;
             $tempTransaction->player_id = $request->input('memberid');
@@ -135,7 +135,7 @@ class MemberController extends Controller {
             
             return response()->json(['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
         } else {
-            return response()->json(['success' => false, 'alert' => ['title' => 'Withdraw is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
         }
     }
 

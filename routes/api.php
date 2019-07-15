@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
  */
 
 
-Route::group(['middleware' => 'guest:api', 'prefix' => 'v1', 'namespace' => 'Api'], function() {
+Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
     Route::get('banklist', 'FrontEndController@getBank')->name('get.bank.list');
     Route::post('getsetting', 'FrontEndController@getSetting')->name('get.setting.system');
 });
