@@ -21,7 +21,7 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{!! Auth::user()->id !!}" name="user_id">
             <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-                {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('banner',trans('labels.image'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
 
                     {!!Form::file('bannerfile',['id' =>'banner'])!!}
@@ -30,21 +30,21 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-                {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('link',trans('labels.link'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('link',old('link',$slide->link),['class' => 'form-control m-input','id'=>'link'])!!}
                     @if ($errors->has('link')) <p class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('alt')) has-danger @endif">
-                {!!Form::label('alt','Alt',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('alt',trans('labels.alt'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('alt',old('alt',$slide->alt),['class' => 'form-control m-input','id'=>'alt'])!!}
                     @if ($errors->has('alt')) <p class="form-control-feedback">{{ $errors->first('alt') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status',trans('labels.status'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <input data-switch="true" type="checkbox" value="{{$slide->status}}"
                            {{($slide->status == 1)?'checked':''}} name="status" data-on-color="success"

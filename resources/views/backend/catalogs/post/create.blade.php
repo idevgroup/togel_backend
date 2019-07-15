@@ -21,14 +21,14 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
             <div class="form-group m-form__group row @if ($errors->has('txtname')) has-danger @endif">
-                {!!Form::label('name','Post Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('name',trans('labels.postname'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('txtname',old('txtname'),['class' => 'form-control m-input','id'=>'name'])!!}
                     @if ($errors->has('txtname')) <p class="form-control-feedback">{{ $errors->first('txtname') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('txtslug')) has-danger @endif">
-                {!!Form::label('slug','Slug',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('slug',trans('labels.slug'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('txtslug',old('txtslug'),['class' => 'form-control m-input','id' => 'slug' ])!!}
                     @if ($errors->has('txtslug')) <p
@@ -36,13 +36,13 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('category_id','Category Id',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('category_id',trans('labels.categoryname'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::select('category_id',$get_parent,old('category_id'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
             <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-                {!!Form::label('banner','Banner',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('banner',trans('labels.image'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
 
                     {!!Form::file('bannerfile',['id' =>'banner'])!!}
@@ -50,27 +50,27 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('shortdesc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('shortdesc',trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-7">
                     {!!Form::textarea('shortdesc',old('shortdesc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
                 </div>
             </div>
 
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status',trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('metakey','Meta Key',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('metakey',trans('labels.metakey'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('txtmetakey',old('txtmetakey'),['class' => 'form-control m-input','id' => 'metakeyword','data-role'=> 'tagsinput'])!!}
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('metadesc','Meta Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('metadesc',trans('labels.metadesc'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::textarea('txtmetadesc',old('txtmetadesc'),['class' => 'form-control m-input'])!!}
                 </div>
