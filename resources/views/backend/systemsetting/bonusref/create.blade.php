@@ -14,12 +14,20 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                @include('backend.shared._actionform')
+                {{-- <div class="m-demo__preview m-demo__preview--btn">
+                    <button type="submit" name="btnsaveclose" id="btnsaveclose" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                            <span>
+                                <i class="fa fa-archive"></i>
+                                <span>{{__('trans.btnsave')}}</span>
+                            </span>
+                        </button>
+
+                </div> --}}
             </div>
         </div>
     </div>
     <div class="m-portlet__body">
-        <input type="hidden" id="game_setting_id" name="game_setting_id">
+        
         <div class="m-portlet m-portlet--tabs">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-tools">
@@ -46,7 +54,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="m_portlet_base_demo_2_1_tab_content" role="tabpanel">
                         @foreach($regdep as $item)
-                            <input type="hidden" name="regdep_id" value="{{ $item->id }}">
+                            <input type="hidden" name="regdep_id" id="regdep_id" value="{{ $item->id }}">
                             <div class="form-group m-form__group row @if ($errors->has('reg_bonus')) has-danger @endif">
                                 <label class="col-sm-3 col-form-label">
                                     Registration Bonus
@@ -56,9 +64,9 @@
                                 </label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        <div class="input-group-prepend">
+                                        <!-- <div class="input-group-prepend">
                                             <button class="btn btn-secondary" type="button">Rp.</button>
-                                        </div>
+                                        </div> -->
                                         {!!Form::text('reg_bonus',old('reg_bonus',$item->reg_bonus),['class' => 'form-control m-input','id'=>'reg_bonus'])!!}
                                         @if ($errors->has('reg_bonus'))
                                             <p class="form-control-feedback">{{ $errors->first('reg_bonus') }}</p> @endif
@@ -80,11 +88,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                    <button type="button" name="btnsaveclose" id="btnsavecloseregdep" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                                <span>
+                                                                    <i class="fa fa-archive"></i>
+                                                                    <span>{{__('trans.btnsave')}}</span>
+                                                                </span>
+                                                            </button>
+                                </div>
+                            </div>
                         @endforeach
                     </div>
                     <div class="tab-pane" id="m_portlet_base_demo_2_2_tab_content" role="tabpanel">
                         @foreach($refdep as $item)
-                            <input type="hidden" name="refdep_id" value="{{ $item->id }}">
+                            <input type="hidden" name="refdep_id" id="refdep_id" value="{{ $item->id }}">
                             <div class="form-group m-form__group row @if ($errors->has('ref_dep1')) has-danger @endif">
                                 {!!Form::label('ref_dep1','Level 1',['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-7">
@@ -129,9 +148,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                    <button type="button" name="btnsaveclose" id="btnsavecloseRefDep" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                                <span>
+                                                                    <i class="fa fa-archive"></i>
+                                                                    <span>{{__('trans.btnsave')}}</span>
+                                                                </span>
+                                                            </button>
+                                </div>
+                            </div>
                         @endforeach
                     </div>
                     <div class="tab-pane" id="m_portlet_base_demo_2_3_tab_content" role="tabpanel">
+                    <input type="hidden" id="game_setting_id" name="game_setting_id">
                         <div class="form-group m-form__group row @if ($errors->has('market')) has-danger @endif">
                             {!!Form::label('market','Market',['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
@@ -199,42 +230,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group m-form__group row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                    <button type="button" name="btnsaveclose" id="btnsavecloseRefbet" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                                <span>
+                                                                    <i class="fa fa-archive"></i>
+                                                                    <span>{{__('trans.btnsave')}}</span>
+                                                                </span>
+                                                            </button>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-{{--        <div class="form-group m-form__group row">--}}
-{{--            <div class="m-portlet__head-caption">--}}
-{{--                <div class="m-portlet__head-title">--}}
-{{--                    <span class="m-portlet__head-icon m--hide">--}}
-{{--                                <i class="la la-gear"></i>--}}
-{{--                            </span>--}}
-{{--                    <h5 class="m-portlet__head-text">--}}
-{{--                        Referral Deposit Bonus--}}
-{{--                    </h5>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <hr/>--}}
-
-{{--        <div class="form-group m-form__group row">--}}
-{{--            <div class="m-portlet__head-caption">--}}
-{{--                <div class="m-portlet__head-title">--}}
-{{--                    <span class="m-portlet__head-icon m--hide">--}}
-{{--                                <i class="la la-gear"></i>--}}
-{{--                            </span>--}}
-{{--                    <h5 class="m-portlet__head-text">--}}
-{{--                        Referral Bet Bonus--}}
-{{--                    </h5>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <hr/>--}}
-
-
     </div>
 
 </div>
@@ -316,46 +326,106 @@
                 // $('#bet_times').val(response[0].bet_times);
                 $('#game_setting_id').val(response[0].id);
 
-                console.log(response[0]);
+                // console.log(response[0]);
             }
         })
     }
 
     jQuery(document).ready(function () {
         BootstrapSwitch.init();
-        // var reg_bonus = $('#reg_bonus').val();
-        // var dep_bonus = $('#dep_bonus').val();
-        // var ref_dep1 = $('#ref_dep1').val();
-        // var ref_dep2 = $('#ref_dep2').val();
-        // var ref_dep3 = $('#ref_dep3').val();
-        // var ref_dep4 = $('#ref_dep4').val();
-        //
-        //
-        // var ref_bet1 = $('#ref_bet1').val();
-        // var ref_bet2 = $('#ref_bet2').val();
-        // var ref_bet3 = $('#ref_bet3').val();
-        // var ref_bet4 = $('#ref_bet4').val();
+    });
+    $(function(){
+        //Bonus & Refferrals System
+        $('body').on('click', '#btnsavecloseregdep', function() {
+                var regdep_id = $('#regdep_id').val();
+                var reg_bonus = $('#reg_bonus').val();
+                var dep_bonus = $('#dep_bonus').val();
+                $.ajax({
+                    url: '{{url(_ADMIN_PREFIX_URL."/bonusrefs/0")}}',
+                    type: 'PATCH',
+                    dataType: 'JSON',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        reg_bonus,
+                        dep_bonus,
+                        regdep_id
+                    },
+                    success: function(response) {
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false,
+                            timer: 1500
+                        });
+                    }
+                })
+            });
 
-        // console.log(reg_bonus,dep_bonus,ref_dep1,ref_dep2,ref_dep3,ref_dep4,ref_bet1,ref_bet2,ref_bet3,ref_bet4);
-        // $("#name").focus();
-        //validation
-        {{--$("#idev-form").validate({--}}
-        {{--    rules: {--}}
-        {{--        reg_bonus: {--}}
-        {{--            remote:{--}}
-        {{--                url: '{{ url(_ADMIN_PREFIX_URL."/getValidate") }}',--}}
-        {{--                type: 'POST'--}}
-        {{--            }--}}
-        {{--        }--}}
-        {{--    },--}}
-            // Specify validation error messages
-        //     alert: {
-        //         reg_bonus: {
-        //             remote: "Email already in use!"
-        //         }
-        //     }
-        // });
+            //Referral Deposit Bonus
+            $('body').on('click', '#btnsavecloseRefDep', function(){
 
+                var refdep_id = $('#refdep_id').val();
+                var ref_dep1 = $('#ref_dep1').val();
+                var ref_dep2 = $('#ref_dep2').val();
+                var ref_dep3 = $('#ref_dep3').val();
+                var ref_dep4 = $('#ref_dep4').val();
+                $.ajax({
+                    url: '{{ url(_ADMIN_PREFIX_URL."/bonusrefs/0") }}',
+                    method: 'PATCH',
+                    dataType: 'JSON',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        refdep_id,
+                        ref_dep1,
+                        ref_dep2,
+                        ref_dep3,
+                        ref_dep4
+                    },
+                    success: function(res){
+                        swal({
+                            title: res.title,
+                            html: res.message,
+                            type: res.status,
+                            allowOutsideClick: false,
+                            timer: 1500
+                        });
+                    }
+                })
+            })
+
+            //Referral Deposit Bonus
+            $('body').on('click', '#btnsavecloseRefbet', function(){
+
+            var refbet_id = $('#game_setting_id').val();
+            var ref_bet1 = $('#ref_bet1').val();
+            var ref_bet2 = $('#ref_bet2').val();
+            var ref_bet3 = $('#ref_bet3').val();
+            var ref_bet4 = $('#ref_bet4').val();
+            // console.log(refdep_id);
+            $.ajax({
+                url: '{{ url(_ADMIN_PREFIX_URL."/bonusrefs/0") }}',
+                method: 'PATCH',
+                dataType: 'JSON',
+                data: {
+                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                    refbet_id,
+                    ref_bet1,
+                    ref_bet2,
+                    ref_bet3,
+                    ref_bet4
+                },
+                success: function(res){
+                    swal({
+                        title: res.title,
+                        html: res.message,
+                        type: res.status,
+                        allowOutsideClick: false,
+                        timer: 1500
+                    });
+                }
+            })
+            })
     });
 </script>
 @endpush

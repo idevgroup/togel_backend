@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="048c0372-e567-4802-8aca-8c9574ef1b55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bankaccountgroup/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/members/player/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/members/player/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/template/inc/topbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/template/inc/topbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BlackListController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BlackListController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BonusRefController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/BonusRefController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/HomeSettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/HomeSettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/TransactionLimitController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BackEnd/TransactionLimitController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/bank/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/bank/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/blacklist/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/blacklist/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/bonusref/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/bonusref/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/homesetting/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/homesetting/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/ip/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/ip/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/message/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/message/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/systemsetting/transaction/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/systemsetting/transaction/create.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -289,7 +298,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -393,6 +401,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -478,16 +487,19 @@
       <workItem from="1561424997358" duration="124000" />
       <workItem from="1561610967387" duration="786000" />
       <workItem from="1562128810537" duration="597000" />
+      <workItem from="1562211166149" duration="598000" />
+      <workItem from="1562376842430" duration="173000" />
+      <workItem from="1562387999670" duration="589000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="301750000" />
+    <option name="totallyTimeSpent" value="303110000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="0" width="1936" height="1056" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17219251" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17860962" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />

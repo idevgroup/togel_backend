@@ -74,26 +74,34 @@ class HomeSettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
-        
-        if($request->has('id')){
+        $id = $request->input('id');
+        if($id){
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'ipfilter_alias_exception' => 'required',
+            ],
+            [
+                'name.required' => 'Please Input Name',
+                'address.required' => 'Please Input Address',
+                'ipfilter_alias_exception.required' => 'Please Input Exception Keyword']);
             $id = $request->id;
             $homesetting = HomeSetting::find($id);
-            $homesetting->sc_name = $request->name;
-            $homesetting->sc_address = $request->address;
-            $homesetting->sc_phone = $request->phone;
-            $homesetting->sc_sms = $request->sms;
-            $homesetting->sc_pinbb = $request->pinbb;
-            $homesetting->sc_wechat = $request->wechat;
-            $homesetting->sc_line = $request->line;
-            $homesetting->sc_facebook = $request->facebook;
-            $homesetting->sc_twitter = $request->twitter;
-            $homesetting->sc_google = $request->google;
-            $homesetting->sc_email = $request->mail;
-            $homesetting->sc_title = $request->title;
-            $homesetting->sc_keywords = $request->keywords;
-            $homesetting->sc_description = $request->description;
-            $homesetting->sc_ipfilter_alias_exception = $request->ipfilter_alias_exception;
+            $homesetting->sc_name = $request->input('name');
+            $homesetting->sc_address = $request->input('address');
+            $homesetting->sc_phone = $request->input('phone');
+            $homesetting->sc_sms = $request->input('sms');
+            $homesetting->sc_pinbb = $request->input('pinbb');
+            $homesetting->sc_wechat = $request->input('wechat');
+            $homesetting->sc_line = $request->input('line');
+            $homesetting->sc_facebook = $request->input('facebook');
+            $homesetting->sc_twitter = $request->input('twitter');
+            $homesetting->sc_google = $request->input('google');
+            $homesetting->sc_email = $request->input('mail');
+            $homesetting->sc_title = $request->input('title');
+            $homesetting->sc_keywords = $request->input('keywords');
+            $homesetting->sc_description = $request->input('description');
+            $homesetting->sc_ipfilter_alias_exception = $request->input('ipfilter_alias_exception');
             $homesetting->save();
             \Alert::success(trans('menu.setting') . trans('trans.messageupdatesuccess'), trans('trans.success'));
             if ($request->has('btnsaveclose')) {
@@ -102,16 +110,14 @@ class HomeSettingController extends Controller
                 return redirect(_ADMIN_PREFIX_URL . '/homesettings/');
             }
         }else{
-
-
             $request->validate([
                 'name' => 'required',
-                'Adress' => 'required',
+                'address' => 'required',
                 'ipfilter_alias_exception' => 'required',
             ],
             [
                 'name.required' => 'Please Input Name',
-                'Adress.required' => 'Please Input Address',
+                'address.required' => 'Please Input Address',
                 'ipfilter_alias_exception.required' => 'Please Input Exception Keyword']);
 
 

@@ -2,15 +2,15 @@
 <table class="col-6 table table-bordered m-table">
     <thead>
         <tr>
-            <th>Permission</th>
+            <th>{{ trans('labels.permission')}}</th>
             <th><label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable" id="perm-view" {{$is_admin}}> <span></span>
-                    VIEW </label></th>
+                        {{trans('labels.view')}} </label></th>
             <th><label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable" id="perm-add" {{$is_admin}}> <span></span>
-                    ADD</label></th>
+                        {{trans('labels.add')}}</label></th>
                     <th><label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable" id="perm-edit" {{$is_admin}}> <span></span>
-                    EDIT </label></th>
+                        {{trans('labels.edit')}} </label></th>
                     <th><label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand m-checkbox--state-danger"> <input type="checkbox" value="" class="m-group-checkable" id="perm-delete" {{$is_admin}}> <span></span>
-                    DELETE </label></th>
+                        {{trans('labels.delete')}} </label></th>
         </tr>
     </thead>
     <tbody id="tbody-perm">

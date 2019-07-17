@@ -14,14 +14,20 @@
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
-                    @include('backend.shared._actionform')
+                    {{--  @include('backend.shared._actionform')  --}}
+                    <button type="button" name="btnsaveclose" id="btnsaveclose" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                        <span>
+                            <i class="fa fa-archive"></i>
+                            <span>{{__('trans.btnsave')}}</span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
         <div class="m-portlet__body">
             <input type="hidden" id="id" name="id">
             <div class="form-group m-form__group row @if ($errors->has('market')) has-danger @endif">
-                {!!Form::label('market','Market',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('market', trans('labels.gamemarketname'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     <select class="form-control m-input" name="market" id="market_id">
                         @foreach($market as $item)
@@ -34,7 +40,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('game')) has-danger @endif">
-                {!!Form::label('game','Game',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('game', trans('labels.gamename'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     <select class="form-control m-input" name="game" id="game_id">
                         @foreach($game as $item)
@@ -47,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('discount')) has-danger @endif">
-                {!!Form::label('discount','Discount',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('discount', trans('labels.discount'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     <div class="input-group">
                         {!!Form::text('discount',old('discount'),['class' => 'form-control m-input','id'=>'discount'])!!}
@@ -58,7 +64,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('menang')) has-danger @endif">
-                {!!Form::label('menang','Menang',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang', trans('labels.win'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang',old('menang'),['class' => 'form-control m-input','id'=>'menang'])!!}
                     @if ($errors->has('menang')) <p
@@ -67,7 +73,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_dbl')) has-danger @endif">
-                {!!Form::label('menang_dbl','Menang Double',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_dbl', trans('labels.doublewins'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_dbl',old('menang_dbl'),['class' => 'form-control m-input','id'=>'menang_dbl'])!!}
                     @if ($errors->has('menang')) <p
@@ -76,7 +82,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_triple')) has-danger @endif">
-                {!!Form::label('menang_triple','Menang Triple',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_triple', trans('labels.triplewins'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_triple',old('menang_triple'),['class' => 'form-control m-input','id'=>'menang_triple'])!!}
                     @if ($errors->has('menang_triple')) <p
@@ -85,7 +91,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('menang_quadruple')) has-danger @endif">
-                {!!Form::label('menang_quadruple','Menang Quadruple',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('menang_quadruple', trans('labels.quadruplewins'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('menang_quadruple',old('menang_quadruple'),['class' => 'form-control m-input','id'=>'menang_quadruple'])!!}
                     @if ($errors->has('menang_quadruple')) <p
@@ -97,12 +103,12 @@
                 </div>
                 <div class="col-sm-9 font-size">
                     <span style="width: 133px;"><span class="m-badge m-badge--brand m-badge--wide">Note:</span></span>
-                    <b>Menang, Menang Double, Menang Triple, Menang Quadruple</b> if value is smaller than 2 means that
+                    <b>{{trans('labels.win')}}, {{trans('labels.doublewins')}}, {{trans('labels.triplewins')}}, {{trans('labels.quadruplewins')}}</b> if value is smaller than 2 means that
                     you want to charge as percentage.
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('kei')) has-danger @endif">
-                {!!Form::label('kei','Kei',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('kei', trans('labels.kei'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('kei',old('kei'),['class' => 'form-control m-input','id'=>'kei'])!!}
                     @if ($errors->has('kei')) <p
@@ -114,11 +120,11 @@
                 </div>
                 <div class="col-sm-9 font-size">
                     <span style="width: 133px;"><span class="m-badge m-badge--brand m-badge--wide">Note:</span></span>
-                    <b>Kei</b> can be a discount value if you do not place - (Minus) before your value
+                    <b>{{ trans('labels.kei') }}</b> can be a discount value if you do not place - (Minus) before your value
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('min_bet')) has-danger @endif">
-                {!!Form::label('min_bet','Minimum Bet',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('min_bet', trans('labels.minimumbet'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('min_bet',old('min_bet'),['class' => 'form-control m-input','id'=>'min_bet'])!!}
                     @if ($errors->has('min_bet')) <p
@@ -126,7 +132,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('max_bet')) has-danger @endif">
-                {!!Form::label('max_bet','Maximum Bet',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('max_bet', trans('labels.maximumbet'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('max_bet',old('max_bet'),['class' => 'form-control m-input','id'=>'max_bet'])!!}
                     @if ($errors->has('max_bet')) <p
@@ -134,7 +140,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('bet_mod')) has-danger @endif">
-                {!!Form::label('bet_mod','Bet Modulus',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('bet_mod', trans('labels.betmodulus'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('bet_mod',old('bet_mod'),['class' => 'form-control m-input','id'=>'bet_mod'])!!}
                     @if ($errors->has('bet_mod')) <p
@@ -146,14 +152,14 @@
                 </div>
                 <div class="col-sm-9 font-size">
                     <span style="width: 133px;"><span class="m-badge m-badge--brand m-badge--wide">Note:</span></span>
-                    <b>Bet Modulus</b> is a amount which use to modulus with customer bet amount by the following
+                    <b>{{ trans('labels.betmodulus') }}</b> is a amount which use to modulus with customer bet amount by the following
                     formula
                     <i>{bet_amount MOD bet_modulus}</i>
                     and return the remainder is Zero.
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('bet_times')) has-danger @endif">
-                {!!Form::label('bet_times','Bet Times',['class' => 'col-sm-2 col-form-label'])!!}
+                {!!Form::label('bet_times', trans('labels.bettime'),['class' => 'col-sm-2 col-form-label'])!!}
                 <div class="col-sm-8">
                     {!!Form::text('bet_times',old('bet_times'),['class' => 'form-control m-input','id'=>'bet_times'])!!}
                     @if ($errors->has('bet_times')) <p
@@ -165,7 +171,7 @@
                 </div>
                 <div class="col-sm-9 font-size">
                     <span style="width: 133px;"><span class="m-badge m-badge--brand m-badge--wide">Note:</span></span>
-                    <b> Limit Bet</b> is times of bet which use to limit customer bet times 0 for unlimited.
+                    <b> {{ trans('labels.limitbet')}}</b> is times of bet which use to limit customer bet times 0 for unlimited.
                 </div>
             </div>
             {{--            <div class="form-group m-form__group row">--}}
@@ -227,11 +233,7 @@
                 $("[data-switch=true]").bootstrapSwitch()
             }
         };
-        $(function () {
-            getValue();
-            $('#market_id').change(getValue);
-            $('#game_id').change(getValue);
-        })
+    
 
         function getValue() {
             var market = $("#market_id").val();
@@ -259,15 +261,61 @@
                     $('#bet_mod').val(response[0].bet_mod);
                     $('#bet_times').val(response[0].bet_times);
                     $('#id').val(response[0].id);
-
-                    console.log(response[0]);
-
                 }
             })
         }
 
         jQuery(document).ready(function () {
             BootstrapSwitch.init();
+            getValue();
+            $('#market_id').change(getValue);
+            $('#game_id').change(getValue);
         });
+
+        $(function(){
+            $('body').on('click', '#btnsaveclose', function(){
+                
+                var discount = $('#discount').val();
+                var menang = $('#menang').val();
+                var menang_dbl = $('#menang_dbl').val();
+                var menang_triple = $('#menang_triple').val();
+                var menang_quadruple = $('#menang_quadruple').val();
+                var kei = $('#kei').val();
+                var min_bet = $('#min_bet').val();
+                var max_bet =$('#max_bet').val();
+                var bet_mod = $('#bet_mod').val();
+                var bet_times = $('#bet_times').val();
+                var id = $('#id').val();
+                console.log(discount,menang,menang_dbl);
+                $.ajax({
+                    url: '{{url(_ADMIN_PREFIX_URL."/gamesettings/0")}}',
+                    type: 'PATCH',
+                    dataType: 'JSON',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        discount,
+                        menang,
+                        menang_dbl,
+                        menang_triple,
+                        menang_quadruple,
+                        kei,
+                        min_bet,
+                        max_bet,
+                        bet_mod,
+                        bet_times,
+                        id
+                    },
+                    success: function(response) {
+                        swal({
+                            title: response.title,
+                            html: response.message,
+                            type: response.status,
+                            allowOutsideClick: false,
+                            timer: 1500
+                        });
+                    }
+                })
+            })
+        })
     </script>
 @endpush

@@ -40,12 +40,12 @@ class BanksController extends Controller
             <label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
             <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'bk_thumb', 'name' => 'bk_thumb', 'title' => 'Image', "orderable" => false, "searchable" => false, 'width' => '80'],
-            ['data' => 'bk_name', 'name' => 'bk_name', 'title' => 'Name'],
-            ['data' => 'bk_link', 'name' => 'bk_link', 'title' => 'Link'],
-            ['data' => 'bk_description', 'name' => 'bk_description', 'title' => 'Description'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
+            ['data' => 'bk_thumb', 'name' => 'bk_thumb', 'title' => trans('labels.image'), "orderable" => false, "searchable" => false, 'width' => '80'],
+            ['data' => 'bk_name', 'name' => 'bk_name', 'title' => trans('labels.bankname')],
+            ['data' => 'bk_link', 'name' => 'bk_link', 'title' => trans('labels.link')],
+            ['data' => 'bk_description', 'name' => 'bk_description', 'title' => trans('labels.description')],
+            ['data' => 'status', 'name' => 'status', 'title' => trans('labels.status'), "orderable" => false, "searchable" => false, 'width' => '40'],
+            ['data' => 'action', 'name' => 'action', 'title' => trans('labels.action'), "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
             'pagingType' => 'full_numbers',

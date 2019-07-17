@@ -18,20 +18,20 @@
     </div>
     <div class="m-portlet__body">
         <div class="form-group m-form__group row @if ($errors->has('rolename')) has-danger @endif">
-            {!!Form::label('rolename','Role Name',['class' => 'col-3 col-form-label required'])!!}
+            {!!Form::label('rolename', trans('labels.rolename'),['class' => 'col-3 col-form-label required'])!!}
             <div class="col-7">
                 {!!Form::text('rolename',old('rolename'),['class' => 'form-control m-input'])!!}
                 @if ($errors->has('rolename')) <p class="form-control-feedback">{{ $errors->first('rolename') }}</p> @endif
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('rolename')) has-danger @endif">
-            {!!Form::label('menu','Menu Access',['class' => 'col-3 col-form-label required'])!!}
+            {!!Form::label('menu', trans('labels.menu'),['class' => 'col-3 col-form-label required'])!!}
             <div class="col-7">
                 {!!Form::select('menu[]',$arrMenu,old('menu'),['class' => 'form-control m-input', 'multiple','size' => '15'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('status','Active',['class' => 'col-3 col-form-label'])!!}
+            {!!Form::label('status', trans('labels.active'),['class' => 'col-3 col-form-label'])!!}
             <div class="col-7">
                 <span class="m-switch m-switch--outline m-switch--icon m-switch--danger">
                     <label>

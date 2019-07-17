@@ -19,7 +19,7 @@
 
         <div class="form-group m-form__group row">
 
-            {!!Form::label('filter','Filter:',['class' => 'col-lg-1 col-form-label'])!!}
+            {!!Form::label('filter',trans('labels.filter'),['class' => 'col-lg-1 col-form-label'])!!}
             <div class="col-lg-2">
                 {!!Form::select('status',Config('sysconfig.status'),null,['class' => 'form-control','id' =>'status'])!!}
             </div>
@@ -164,7 +164,7 @@ var tbladmin = 'admin-tbl-zen';
                     data: {'_token': $('meta[name="csrf-token"]').attr('content'), 'pId': getPId},
                     success: function (response) {
                         var balance = response.balance;
-                        var htmlForm = '<div class="form-group m-form__group"><label for="bank-balance-player">Update Balance</label><div class="input-group m-input-group m-input-group--air">' +
+                        var htmlForm = '<div class="form-group m-form__group"><label for="bank-balance-player">{{trans('labels.updatebalance')}}</label><div class="input-group m-input-group m-input-group--air">' +
                                 '<div class="input-group-prepend"><span class="input-group-text"><i class="la la-money"></i></span></div>' +
                                 '<input type="number" class="form-control m-input" value="" placeholder="0.00" id="input-amount">' +
                                 '<select class="form-control m-input" id="operator"><option value="1">Addition</option><option value="2">Subtract </option></select>' +
@@ -174,7 +174,7 @@ var tbladmin = 'admin-tbl-zen';
                                 '<button class="btn btn-primary" id="update-balance" type="button">Update</button>' +
                                 '</div>' +
                                 '</div>';
-                        var tbl = '<div><h5 id="remain-balance">Balance: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
+                        var tbl = '<div><h5 id="remain-balance">{{trans('labels.balance')}}: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
                         var tblBody = '<tbody>';
                         var record = response.record;
                         console.log(record);

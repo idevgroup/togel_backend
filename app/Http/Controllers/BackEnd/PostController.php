@@ -41,10 +41,10 @@ class PostController extends Controller
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'thumb', 'name' => 'thumb', 'title' => 'Banner', "orderable" => false, "searchable" => false, 'width' => '80'],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
+            ['data' => 'thumb', 'name' => 'thumb', 'title' => trans('labels.image'), "orderable" => false, "searchable" => false, 'width' => '80'],
+            ['data' => 'name', 'name' => 'name', 'title' => trans('labels.postname')],
+            ['data' => 'status', 'name' => 'status', 'title' => trans('labels.status'), "orderable" => false, "searchable" => false, 'width' => '40'],
+            ['data' => 'action', 'name' => 'action', 'title' => trans('labels.action'), "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
             'pagingType' => 'full_numbers',

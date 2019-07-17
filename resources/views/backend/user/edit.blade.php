@@ -19,14 +19,14 @@
     <div class="m-portlet__body">
         <!-- Name Form Input -->
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-            {!! Form::label('name', 'Name',['class' => 'col-2 col-form-label required']) !!}
+            {!! Form::label('name', trans('labels.name'),['class' => 'col-2 col-form-label required']) !!}
             <div class="col-5">
                 {!! Form::text('name',old('user',$user->name), ['class' => 'form-control m-input', 'placeholder' => 'Name']) !!}
                 @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
             </div>
         </div>
           <div class="form-group m-form__group row @if ($errors->has('username')) has-danger @endif">
-            {!! Form::label('username', 'User Name',['class' => 'col-2 col-form-label required']) !!}
+            {!! Form::label('username', trans('labels.username'),['class' => 'col-2 col-form-label required']) !!}
             <div class="col-5">
                 {!! Form::text('username',old('username',$user->username), ['class' => 'form-control m-input', 'placeholder' => 'User Name']) !!}
                 @if ($errors->has('username')) <p class="form-control-feedback">{{ $errors->first('username') }}</p> @endif
@@ -34,7 +34,7 @@
         </div>
         <!-- email Form Input -->
         <div class="form-group m-form__group row @if ($errors->has('email')) has-danger @endif">
-            {!! Form::label('email', 'Email',['class' => 'col-2 col-form-label required']) !!}
+            {!! Form::label('email', trans('labels.email'),['class' => 'col-2 col-form-label required']) !!}
             <div class="col-5">
                 {!! Form::text('email',old('email',$user->email), ['class' => 'form-control m-input', 'placeholder' => 'Email']) !!}
                 @if ($errors->has('email')) <p class="form-control-feedback">{{ $errors->first('email') }}</p> @endif
@@ -43,7 +43,7 @@
 
         <!-- password Form Input -->
         <div class="form-group m-form__group row @if ($errors->has('password')) has-danger @endif">
-            {!! Form::label('password', 'Password',['class' => 'col-2 col-form-label required']) !!}
+            {!! Form::label('password', trans('labels.password'),['class' => 'col-2 col-form-label required']) !!}
             <div class="col-5">
                 {!! Form::password('password', ['class' => 'form-control m-input', 'placeholder' => 'Password']) !!}
                 @if ($errors->has('password')) <p class="form-control-feedback">{{ $errors->first('password') }}</p> @endif
@@ -51,7 +51,7 @@
         </div>
         <!-- Roles Form Input -->
         <div class="form-group m-form__group row @if ($errors->has('roles')) has-danger @endif">
-            {!! Form::label('roles[]', 'Roles',['class' => 'col-2 col-form-label required']) !!}
+            {!! Form::label('roles[]', trans('labels.rolename'),['class' => 'col-2 col-form-label required']) !!}
             <div class="col-5">
                 {!! Form::select('roles[]', $roles, isset($user) ? $user->roles->pluck('id')->toArray() : null,  ['class' => 'form-control m-input']) !!}
                 @if ($errors->has('roles')) <p class="form-control-feedback">{{ $errors->first('roles') }}</p> @endif

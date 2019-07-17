@@ -8,9 +8,13 @@ use App\Models\FrontEnd\Member;
 use App\Http\Requests\MemberRegisterRequest;
 use Carbon\Carbon;
 use App\Models\FrontEnd\PlayerBank;
+use App\Models\FrontEnd\FrontSetting;
+use App\Models\FrontEnd\PlayerTransaction;
 class MemberRegisterController extends Controller {
 
     public function register(MemberRegisterRequest $request) {
+        
+            $getRegisterBonus =(float)FrontSetting::getBonus()->reg_bonus;
             $member = new Member;
             $member->reg_name = $request->input('name');
             $member->reg_username = strtolower($request->input('username'));
@@ -23,6 +27,7 @@ class MemberRegisterController extends Controller {
             $member->lastip = \Request::getClientIp();
             $member->status = 1;
             $member->reg_date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $member->reg_remain_balance = $getRegisterBonus;
             $member->save();
             $playerBank = new PlayerBank;
             $playerBank->reg_id = $member->id;
@@ -31,6 +36,19 @@ class MemberRegisterController extends Controller {
             $playerBank->reg_account_number = $request->input('accountid'); 
             $playerBank->reg_bank_acc_date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
             $playerBank->save();
+            
+            $addTransaction = new PlayerTransaction;
+            $addTransaction->invoiceId = 'Register Bonus';
+            $addTransaction->transid = 'CR-' . (int) round(microtime(true) * 1000);
+            $addTransaction->playerid = $member->id;
+            $addTransaction->date = date("Y-m-d H:i:s", strtotime(Carbon::now()));
+            $addTransaction->debet = 0;
+            $addTransaction->kredit = $getRegisterBonus;
+            $addTransaction->saldo = $getRegisterBonus;
+            $addTransaction->descrtion = 'Register bonus';
+            $addTransaction->save();
+
+            
             return response()->json(['success' => true],200);
     }
 

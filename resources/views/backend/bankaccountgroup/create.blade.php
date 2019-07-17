@@ -20,20 +20,20 @@
         </div>
         <div class="m-portlet__body">
             <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-                {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('name',trans('labels.bankaccountgroupname'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('name',old('name'),['class' => 'form-control m-input','id'=>'name'])!!}
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('bank_holder_id')) has-danger @endif">
-                {!!Form::label('bank_holder_id','Bank Holder',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('bank_holder_id',trans('labels.bankholdername'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::select('bank_holder_id',$bank_holder_id,old('bank_holder_id'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('bank_id')) has-danger @endif">
-                {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('bank_id',trans('labels.bankname'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {{--                    <select class="selectpicker form-control m-input" multiple name="bank_id[]" id="bank_id">--}}
                     {{--                        @foreach($bank_id as $item)--}}
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('deposit_min')) has-danger @endif">
-                {!!Form::label('deposit_min','Deposit Minimum',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('deposit_min',trans('labels.depositminimum'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('deposit_min',old('deposit_min'),['class' => 'form-control m-input','id'=>'deposit_min'])!!}
                     @if ($errors->has('deposit_min')) <p
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('deposit_max')) has-danger @endif">
-                {!!Form::label('deposit_max','Deposit Maximum',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('deposit_max', trans('labels.depositmaximum'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('deposit_max',old('deposit_max'),['class' => 'form-control m-input','id'=>'deposit_max'])!!}
                     @if ($errors->has('deposit_max')) <p
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('withdraw_min')) has-danger @endif">
-                {!!Form::label('withdraw_min','Withdraw Minimum',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('withdraw_min', trans('labels.withdrawminimum'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('withdraw_min',old('withdraw_min'),['class' => 'form-control m-input','id'=>'withdraw_min'])!!}
                     @if ($errors->has('withdraw_min')) <p
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('withdraw_max')) has-danger @endif">
-                {!!Form::label('withdraw_max','Withdraw Maximum',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('withdraw_max', trans('labels.withdrawmaximum'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('withdraw_max',old('withdraw_max'),['class' => 'form-control m-input','id'=>'withdraw_max'])!!}
                     @if ($errors->has('withdraw_max')) <p
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success"
                            data-off-color="warning">

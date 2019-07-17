@@ -85,7 +85,7 @@ class BlackListController extends Controller
             'ip' => 'required|ip',
         ],
         [
-            'name.required' => 'Please Input Name']);
+            'ip.required' => 'The IP address cannot be null']);
         // dd($request->all());
         $blackList = new BlackList;
         $blackList->bl_by = $request->userid;

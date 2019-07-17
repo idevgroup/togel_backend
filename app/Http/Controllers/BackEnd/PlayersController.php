@@ -76,13 +76,13 @@ class PlayersController extends Controller {
         $end = request()->get('searchByEnd');
         $start = $start . " 00:00:00";
         $end = $end . " 23:59:59";
-        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end])->orderBy('date','DESC'))
-                ->editColumn('debet', '<span @if($debet < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($debet)}} </span>')
-                ->editColumn('kredit', '<span @if($kredit < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($kredit)}}</span>')
-                ->editColumn('saldo', '<span @if($saldo < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($saldo)}}</span>')
-                ->editColumn('transid', '{{($transid == null)?$invoiceId:$transid}}')
-                ->rawColumns(['debet','kredit','saldo'])
-                ->make(true);
+        return Datatables::of(PlayerTransaction::where('playerid', $id)->whereBetween('date', [$start, $end])->orderBy('date', 'DESC')->orderBy('saldo', 'DESC'))
+                        ->editColumn('debet', '<span @if($debet < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($debet)}} </span>')
+                        ->editColumn('kredit', '<span @if($kredit < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($kredit)}}</span>')
+                        ->editColumn('saldo', '<span @if($saldo < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($saldo)}}</span>')
+                        ->editColumn('transid', '{{($transid == null)?$invoiceId:$transid}}')
+                        ->rawColumns(['debet', 'kredit', 'saldo'])
+                        ->make(true);
     }
 
     /**
@@ -139,8 +139,7 @@ class PlayersController extends Controller {
             $type = $request->input('type');
             $id = explode(',', $request->input('checkedid'));
             if ($type == 'delete') {
-             $playerBank=Player::whereIn('id', $id)->with('getPlayerBank')->delete();
-             $playerBank->getPlayerBank->delete();
+                $playerBank = Player::whereIn('id', $id)->with('getPlayerBank')->delete();
                 $message = trans('trans.player') . trans('trans.messagedeleted');
             } elseif ($type == 'remove') {
                 Player::whereIn('id', $id)->update(['is_trashed' => 1, 'trashed_at' => date('Y-m-d H:i:s', strtotime(Carbon::now()))]);
@@ -197,9 +196,11 @@ class PlayersController extends Controller {
         if ($amount > 0) {
             $player = Player::findOrFail($pid);
             $remainBalance = $player->reg_remain_balance;
+            //Add
             if ($operator == 1) {
                 $player->reg_remain_balance = $player->reg_remain_balance + $amount;
             } elseif ($operator == 2) {
+                //Subtract 
                 $player->reg_remain_balance = $player->reg_remain_balance - $amount;
             }
             $player->save();
@@ -207,10 +208,10 @@ class PlayersController extends Controller {
             $playerTransaction = new PlayerTransaction;
             if ($operator == '1') {
                 $playerTransaction->invoiceId = 'CREDIT';
-                $transid = 'CR-' .(int) round(microtime(true) * 1000);
+                $transid = 'CR-' . (int) round(microtime(true) * 1000);
             } elseif ($operator == '2') {
                 $playerTransaction->invoiceId = 'DEBIT';
-                $transid = 'DE-' .(int) round(microtime(true) * 1000);
+                $transid = 'DE-' . (int) round(microtime(true) * 1000);
             }
             $playerTransaction->transid = $transid;
             $playerTransaction->playerid = $pid;

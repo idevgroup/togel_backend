@@ -1,4 +1,6 @@
-@extends('backend.template.main') @push('title',trans('menu.messagetemplate').'-'.trans('trans.create')) @section('content')
+@extends('backend.template.main') 
+@push('title',trans('menu.messagetemplate').'-'.trans('trans.create')) 
+@section('content')
 
 <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
@@ -440,7 +442,7 @@
                 var register_boMailToCus = $('#register_boMailToCus').val();
                 var register_enable_cus = $('#register_enable_cus').is(":checked") ? 1 : 0;
                 //var register_enable_cus = $('#register_enable_cus').val();
-                console.log(register_enable_admin, register_enable_cus);
+                //console.log(register_enable_admin, register_enable_cus);
                 $.ajax({
                     url: '{{url(_ADMIN_PREFIX_URL."/messagetemplates/0")}}',
                     method: 'PATCH',

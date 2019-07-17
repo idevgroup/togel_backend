@@ -20,7 +20,7 @@
     </div>
     <div class="m-portlet__body">
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-            {!!Form::label('name','Category Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('name',trans('labels.bankname'),['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 {!!Form::text('name',old('name',$record->bk_name),['class' => 'form-control m-input','id'=>'name'])!!}
                 @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
@@ -28,7 +28,7 @@
         </div>
 
         <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-            {!!Form::label('banner','Image',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('banner',trans('labels.image'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
 
                 {!!Form::file('bannerfile',['id' =>'banner'])!!}
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-            {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('link',trans('labels.link'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
                 {!!Form::text('link',old('link', $record->bk_link),['class' => 'form-control m-input','id' => 'link' ])!!}
                 @if ($errors->has('link')) <p
@@ -44,14 +44,14 @@
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('description','Description',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('description',trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-7">
                 {!!Form::textarea('description',old('description',$record->bk_description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
             </div>
         </div>
 
         <div class="form-group m-form__group row">
-            {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('status', trans('labels.status'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
                 <input data-switch="true" type="checkbox" value="{{$record->status}}" {{($record->status == 1)?'checked':''}} name="status" data-on-color="success" data-off-color="warning">
 
