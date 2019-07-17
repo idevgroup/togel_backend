@@ -20,28 +20,28 @@
         </div>
         <div class="m-portlet__body">
             <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-                {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('name', trans('labels.gamename'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('name',old('name'),['class' => 'form-control m-input','id'=>'name'])!!}
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('code')) has-danger @endif">
-                {!!Form::label('code','Code Name',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('code', trans('labels.codename'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('code',old('code'),['class' => 'form-control m-input','id'=>'code'])!!}
                     @if ($errors->has('code')) <p class="form-control-feedback">{{ $errors->first('code') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('description','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('description', trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-7">
                     {!!Form::textarea('description',old('description'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
                 </div>
             </div>
 
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-2">
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 

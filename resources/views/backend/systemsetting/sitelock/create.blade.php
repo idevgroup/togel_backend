@@ -21,7 +21,7 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{{ auth()->user()->id }}" name="userid">
             <div class="form-group m-form__group row @if ($errors->has('from')) has-danger @endif">
-                {!!Form::label('from','From Time',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('from', trans('labels.fromtime'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     <div class="input-group timepicker">
                         {!!Form::text('from',old('from'),['class' => 'form-control m-input','id'=>'m_timepicker_2', 'placeholder' => 'Select Time'])!!}
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('to')) has-danger @endif">
-                {!!Form::label('to','To Time',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('to', trans('labels.totime'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     <div class="input-group timepicker">
                         {!!Form::text('to',old('to'),['class' => 'form-control m-input','id'=>'m_timepicker_2', 'placeholder' => 'Select Time'])!!}
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('market')) has-danger @endif">
-                {!!Form::label('market','Market',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('market', trans('labels.gamemarketname'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <select class="form-control m-input" name="market" id="market_id">
                         <option value="">All Market</option>
@@ -63,14 +63,14 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('desc', trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::textarea('desc',old('desc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
                 </div>
             </div>
 
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-2">
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success"
                            data-off-color="warning">

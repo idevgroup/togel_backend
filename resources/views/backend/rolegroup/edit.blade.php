@@ -18,20 +18,20 @@
     </div>
     <div class="m-portlet__body">
         <div class="form-group m-form__group row @if ($errors->has('rolename')) has-danger @endif">
-            {!!Form::label('rolename','Role Name',['class' => 'col-2 col-form-label required'])!!}
+            {!!Form::label('rolename', trans('labels.rolename'),['class' => 'col-2 col-form-label required'])!!}
             <div class="col-5">
                 {!!Form::text('rolename',old('rolename',$qSelect->name),['class' => 'form-control m-input'])!!}
                 @if ($errors->has('rolename')) <p class="form-control-feedback">{{ $errors->first('rolename') }}</p> @endif
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('rolename')) has-danger @endif">
-            {!!Form::label('menu','Menu Access',['class' => 'col-2 col-form-label required'])!!}
+            {!!Form::label('menu', trans('labels.menuaccess'),['class' => 'col-2 col-form-label required'])!!}
             <div class="col-5">
                 {!!Form::select('menu[]',$arrMenu,old('menu',$menuaccess),['class' => 'form-control m-input', 'multiple','size' => '15'])!!}
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('status','Status',['class' => 'col-2 col-form-label'])!!}
+            {!!Form::label('status',trans('labels.status'),['class' => 'col-2 col-form-label'])!!}
             <div class="col-5">
                 <span class="m-switch m-switch--outline m-switch--icon m-switch--danger">
                     <label>
@@ -49,8 +49,8 @@
                 <div class="col-2">
                 </div>
                 <div class="col-10">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Submit</button>
-                    <button type="reset" class="btn btn-secondary"><i class="fa fa-refresh"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{trans('labels.submit')}}</button>
+                    <button type="reset" class="btn btn-secondary"><i class="fa fa-refresh"></i> {{trans('labels.cancel')}}</button>
                 </div>
             </div>
         </div>

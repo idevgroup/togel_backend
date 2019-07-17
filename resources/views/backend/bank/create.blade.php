@@ -17,14 +17,14 @@
     </div>
     <div class="m-portlet__body">
         <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-            {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
+            {!!Form::label('name',trans('labels.bankname'),['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-5">
                 {!!Form::text('name',old('name'),['class' => 'form-control m-input','id'=>'name'])!!} @if ($errors->has('name'))
                 <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
             </div>
         </div>
         <div class="form-group m-form__group row @if($errors->has('bannerfile')) has-danger @endif">
-            {!!Form::label('bannerfile','Image',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('bannerfile',trans('labels.image'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
 
                 {!!Form::file('bannerfile',['id' =>'banner'])!!} @if ($errors->has('bannerfile'))
@@ -32,27 +32,27 @@
             </div>
         </div>
         <div class="form-group m-form__group row @if ($errors->has('link')) has-danger @endif">
-            {!!Form::label('link','Link',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('link',trans('labels.link'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-5">
                 {!!Form::text('link',old('link'),['class' => 'form-control m-input','id' => 'link' ])!!} @if ($errors->has('link'))
                 <p class="form-control-feedback">{{ $errors->first('link') }}</p> @endif
             </div>
         </div>
         <div class="form-group m-form__group row">
-            {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('desc',trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-7">
                 {!!Form::textarea('desc',old('desc'),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
             </div>
         </div>
 
         <div class="form-group m-form__group row">
-            {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+            {!!Form::label('status',trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-2">
                 <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">
 
             </div>
-            {{-- {!!Form::label('status','Status',['class' => 'col-sm-1 col-form-label'])!!}--}} {{--
-            <div class="col-sm-2">--}} {{-- <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">--}} {{-- </div>--}}
+            {{-- {!!Form::label('status','Status',['class' => 'col-sm-1 col-form-label'])!!}--}} 
+            {{--<div class="col-sm-2">--}} {{-- <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success" data-off-color="warning">--}} {{-- </div>--}}
         </div>
     </div>
 
