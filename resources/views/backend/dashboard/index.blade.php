@@ -57,15 +57,4 @@
 @endpush
 @push('javascript')
 
-<!--begin::Page Scripts -->
-<script src="{{asset('backend/assets/app/js/dashboard.js')}}" type="text/javascript"></script>
-
-<!--begin::Page Vendors -->
-<script src="{{asset('backend/assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
-
-<!--end::Page Vendors -->
-<!--begin::Page Scripts -->
-<script src="{{asset('backend/assets/demo/default/custom/crud/datatables/search-options/advanced-search.js')}}" type="text/javascript"></script>
-
-<!--end::Page Scripts -->
 @endpush
