@@ -19,8 +19,11 @@ class MemberController extends Controller {
     public function __construct(JWTAuth $auth) {
         $this->auth = $auth;
     }
-
+     protected function guard() {
+        return Auth::guard('api');
+    }
     public function dashBoard(Request $request) {
+        //\Log::info($request->all());
         $memberid = $request->input('memberid');
         $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id','DESC')->get();
         $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId',['DEPOSIT','WITHDRAW'])->orderBy('id', 'DESC')->get();
@@ -34,7 +37,7 @@ class MemberController extends Controller {
         }
 
 
-        return response()->json($dataJson);
+        return response()->json(['data' => $dataJson,'total' => count($dataJson)]);
     }
 
     public function getMarket() {
@@ -140,7 +143,7 @@ class MemberController extends Controller {
     }
 
     public function getBankMember(Request $request) {
-        $memberId = $request->input('memberid');
+        $memberId = $this->guard()->user()->id;
         try {
             $query = PlayerBank::where('reg_id', $memberId)->with(['getBank'])->get();
             $memberBankList = array(['id' => null, 'bank' => "Select One"]);
@@ -156,8 +159,8 @@ class MemberController extends Controller {
         return response()->json($memberBankList);
     }
 
-    public function getBankOperator() {
-        $memberBankId = request()->get('bankmember');
+    public function getBankOperator(Request $request) {
+        $memberBankId = $request->input('memberBankId');
         $bankOperator = array(['id' => null, 'bank' => 'Select One']);
         try {
             $getBankId = PlayerBank::where('id', $memberBankId)->first();
