@@ -17,8 +17,8 @@ class GeneralSettingController extends Controller
      */
     public function index()
     {
-        $generalSetting = GeneralSetting::all();
-        $mailConfig = MailConfig::all();
+        $generalSetting = GeneralSetting::first();
+        $mailConfig = MailConfig::first();
         return view('backend.systemsetting.generalsetting.create')
         ->with('generalSetting', $generalSetting)
         ->with('mailConfig', $mailConfig);
@@ -132,7 +132,9 @@ class GeneralSettingController extends Controller
             if ($request->has('btnsavecloseGeneral')) {
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
-        }else{
+        }
+        /*
+        else{
             $generalSetting = new GeneralSetting;
             $generalSetting->currency = $request->input('currency');
             $generalSetting->timezone = $request->input('timezone');
@@ -149,7 +151,7 @@ class GeneralSettingController extends Controller
             } 
         }
         // dd($request->all());
-        /*
+        
          "mailFromName" => "lyhuoth"
         "mailFromAddress" => "kov.lyhuoth@outlook.com"
         "smtp" => "POP3"
@@ -160,22 +162,26 @@ class GeneralSettingController extends Controller
         "timezone" => "tls"
         "btnsavecloseGeneral" => null
         */
-        
-        $mailconfig = new MailConfig;
-        $mailconfig->mail_name = $request->input('mailFromName');
-        $mailconfig->mail_address = $request->input('mailFromAddress');
-        $mailconfig->mail_smtp = $request->input('smtp');
-        $mailconfig->mail_host = $request->input('mailHost');
-        $mailconfig->mail_port = $request->input('mailPort');
-        $mailconfig->mail_username = $request->input('mailUserName');
-        $mailconfig->mail_password = $request->input('mailPassword');
-        $mailconfig->mail_encryption = $request->input('mailEncryption');
-        $mailconfig->save();
-        \Alert::success(trans('menu.mailconfig') . trans('trans.messageupdatesuccess'), trans('trans.success'));
-            if ($request->has('btnsavecloseMailConfig')) {
-                return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
-            } 
+        // dd($request->mailConfig_id);
+        $mailConfig_id = $request->input('mailConfig_id');
+        if($mailConfig_id){
+            $mailconfig = MailConfig::find($mailConfig_id);
+            $mailconfig->mail_name = $request->input('mailFromName');
+            $mailconfig->mail_address = $request->input('mailFromAddress');
+            $mailconfig->mail_smtp = $request->input('smtp');
+            $mailconfig->mail_host = $request->input('mailHost');
+            $mailconfig->mail_port = $request->input('mailPort');
+            $mailconfig->mail_username = $request->input('mailUserName');
+            $mailconfig->mail_password = $request->input('mailPassword');
+            $mailconfig->mail_encryption = $request->input('mailEncryption');
+            $mailconfig->save();
+            \Alert::success(trans('menu.mailconfig') . trans('trans.messageupdatesuccess'), trans('trans.success'));
+                if ($request->has('btnsavecloseMailConfig')) {
+                    return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
+                } 
+            }
         }
+        
 
     /**
      * Remove the specified resource from storage.

@@ -76,15 +76,17 @@ class MemberAuthController extends Controller {
     }
 
     public function refresh() {
-      //  return $this->respondWithToken($this->guard()->user());
-
+        try{
        $id =$this->guard()->user()->id;
        $memeber= Member::with(['getPlayerBank'=>function($query){
             return $query->with('getBank');
         }])->where('id',$id)->first();
         //return $this->guard()->user();
         $memeber->reg_remain_balance = \CommonFunction::_CurrencyFormat($memeber->reg_remain_balance);
-         return response()->json(['member' => $memeber], 200);
+         return response()->json(['user'=>$memeber],200);
+        } catch(\Exception $e){
+            \Log::info($e);
+        }
     }   
 
     protected function attemptLogin(Request $request) {

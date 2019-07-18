@@ -20,21 +20,14 @@
         </div>
         <div class="m-portlet__body">
             <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
-                {!!Form::label('name','Name',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('name', trans('labels.bankholdername'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('name',old('name'),['class' => 'form-control m-input','id'=>'name'])!!}
                     @if ($errors->has('name')) <p class="form-control-feedback">{{ $errors->first('name') }}</p> @endif
                 </div>
-            </div>
-            {{--            <div class="form-group m-form__group row">--}}
-            {{--                {!!Form::label('bank_id','Bank',['class' => 'col-sm-3 col-form-label required'])!!}--}}
-            {{--                <div class="col-sm-5">--}}
-            {{--                    {!!Form::select('bank_id',$bank,old('bank_id'),['class'=>'form-control m-input'])!!}--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-
+            </div> 
             <div class="form-group m-form__group row @if ($errors->has('email')) has-danger @endif">
-                {!!Form::label('email','Email',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('email', trans('labels.email'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::email('email',old('email'),['class' => 'form-control m-input','id'=>'email'])!!}
                     @if ($errors->has('email')) <p
@@ -42,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('phone')) has-danger @endif">
-                {!!Form::label('phone','Phone Number',['class' => 'col-sm-3 col-form-label required'])!!}
+                {!!Form::label('phone', trans('labels.phone'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('phone',old('phone'),['class' => 'form-control m-input','id'=>'phone'])!!}
                     @if ($errors->has('phone')) <p
@@ -50,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('position')) has-danger @endif">
-                {!!Form::label('position','Position',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('position', trans('labels.position'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::text('position',old('position'),['class' => 'form-control m-input','id'=>'position'])!!}
                     @if ($errors->has('position')) <p
@@ -58,13 +51,13 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('gender','Gender',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('gender', trans('labels.gender'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::select('gender',[''=> 'Select','male' => 'Male', 'female' => 'Female'],old('gender'),['class'=>'form-control m-input'])!!}
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('dob')) has-danger @endif">
-                {!!Form::label('dob','Date of Birth',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('dob',trans('labels.dateofbirth'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <div class="input-group date">
                         {!!Form::text('dob',old('dob'),['class' => 'form-control m-input','id'=>'dob'])!!}
@@ -78,7 +71,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row @if($errors->has('photo')) has-danger @endif">
-                {!!Form::label('photo','Profile Picture',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('photo', trans('labels.profilepicture'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
 
                     {!!Form::file('photo',['id' =>'banner'])!!}
@@ -87,7 +80,7 @@
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     <input data-switch="true" type="checkbox" value="0" name="status" data-on-color="success"
                            data-off-color="warning">
