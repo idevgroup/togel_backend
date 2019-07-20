@@ -4,11 +4,11 @@ namespace App\Http\Controllers\BackEnd;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Html\Builder;
-use Yajra\DataTables\Facades\DataTables;
 use App\Models\BackEnd\BlackList;
 use Carbon\Carbon;
 use App\Models\BackEnd\Authorizable;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Facades\DataTables;
 
 class BlackListController extends Controller
 {
@@ -41,12 +41,12 @@ class BlackListController extends Controller
         $html = $builder->columns([
             ['data' => 'check', 'name' => 'check', 'title' => '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"> <input type="checkbox" value="" class="m-group-checkable"> <span></span>
                     </label>', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'bl_ip', 'name' => 'bl_ip', 'title' => 'IP Address'],
-            ['data' => 'bl_description', 'name' => 'bl_description', 'title' => 'Description'],
-            ['data' => 'bl_date', 'name' => 'bl_date', 'title' => 'Date'],
-            ['data' => 'bl_by', 'name' => 'bl_by', 'title' => 'Added By'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status', "orderable" => false, "searchable" => false, 'width' => '40'],
-            ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '60'],
+            ['data' => 'bl_ip', 'name' => 'bl_ip', 'title' => trans('labels.ip_address')],
+            ['data' => 'bl_description', 'name' => 'bl_description', 'title' => trans('labels.description')],
+            ['data' => 'bl_date', 'name' => 'bl_date', 'title' => trans('labels.date')],
+            ['data' => 'bl_by', 'name' => 'bl_by', 'title' => trans('labels.addedby')],
+            ['data' => 'status', 'name' => 'status', 'title' => trans('labels.status'), "orderable" => false, "searchable" => false, 'width' => '40'],
+            ['data' => 'action', 'name' => 'action', 'title' => trans('labels.action'), "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([
             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
             'pagingType' => 'full_numbers',

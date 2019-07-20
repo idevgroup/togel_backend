@@ -21,21 +21,21 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{{ auth()->user()->id }}" name="userid">
             <div class="form-group m-form__group row">
-                {!! Form::label('ip', 'IP Address', ['class' => 'col-sm-3 col-form-label required']) !!}
+                {!! Form::label('ip', trans('labels.ip_address'), ['class' => 'col-sm-3 col-form-label required']) !!}
                 <div class="col-sm-5">
                     {!! Form::text('ip', old('ip', $record->bl_ip), ['class' => 'form-control m-input','id'=>'ip']) !!}
                     @if ($errors->has('ip')) <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row">
-                {!!Form::label('desc','Description',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('desc', trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
                     {!!Form::textarea('desc',old('desc',$record->bl_description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
                 </div>
             </div>
 
             <div class="form-group m-form__group row">
-                {!!Form::label('status','Active',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-2">
                     <input data-switch="true" type="checkbox" value="{{ $record->status}}" {{($record->status == 1)?'checked':''}} name="status" data-on-color="success"
                            data-off-color="warning">

@@ -1,6 +1,15 @@
 <?php
 return [
+
     // Start names
+    'notification_name' => 'Notification Name',
+    'notification_sound' => 'Notification Sound',
+    'bank_name' => 'Bank Name',
+    'player_name' => 'Player Name',
+    'accName' => 'accName',
+    'account_name' => 'Account Name',
+    'msg' => 'msg',
+    'message' => 'Message',
     'name' => 'Name',
     'username' => 'User Name',
     'email' => 'Email',
@@ -19,15 +28,64 @@ return [
     'gamename' => 'Game Name',
     'codename' => 'Code Name',
     'mailfromname' => 'Mail From Name',
-    'mail' => 'Mail',
+    'customer_name' => 'Customer Name',
     // End name
-
+    //Start social media
+    'game' => 'game',
+    'game_product' => 'Game / Product',
+    'pinbb' => 'Pin BB',
+    'wechat' => 'WeChat',
+    'line' => 'Line',
+    'facebook' => 'Facebook',
+    'twitter' => 'Twitter',
+    'google' => 'Google',
+    'mail' => 'Mail',
+    'yahoo' => 'yahoo',
+    'yahoo_id' => 'Yahoo ID',
+    'reference' => 'Reference',
+    //End social media
     // Start Tabs
     'generalsetting' => 'General Setting',
     'mailconfiguration' => 'Mail Configuration',
+    'bonus&referralssystem' => 'Bonus & Referrals System',
+    'referraldepositbonus' => 'Referral Deposit Bonus',
+    'referralbetbonus' => 'Referral Bet Bonus',
+    'register_mail_templates' => 'Register Mail Templates',
+    'deposit_mail_templates' => 'Deposit Mail Templates',
+    'withdraw_mail_templates' => 'Withdraw Mail Templates',
     // End Tab
-
     // Start Labels
+    'csv' => 'CSV',
+    'excel' => 'Excel',
+    'pdf' => 'PDF',
+    'copy' => 'Copy',
+    'print' => 'Print',
+    'account_id' => 'Account ID',
+    'debit' => 'Debit',
+    'credit' => 'Credit',
+    'date_time' => 'Date/Time',
+    'trans_id' => 'Trans-ID',
+    'date' => 'Date',
+    'addedby' => 'Added By',
+    'parameters_guids' => 'Parameters Guids',
+    'accNum' => 'accNum',
+    'account_number' => 'Account Number',
+    'ip' => 'ip',
+    'ip_address' => 'IP Address',
+    'Bank' => 'Bank',
+    'bank' => 'bank',
+    'phone' => 'Phone',
+    'ref' => 'ref',
+    'exception_keyword' => 'Exception Keyword',
+    'title' => 'Title',
+    'keywords' => 'Keywords',
+    'sms' => 'SMS',
+    'level1' => 'Level 1',
+    'level2' => 'Level 2',
+    'level3' => 'Level 3',
+    'level4' => 'Level 4',
+    'registrationbonus'=>'Registration Bonus',
+    'depositbonus' => 'Deposit Bonus',
     'mailpassword' => 'Mail Password',
     'mailencryption' => 'Mail Encryption',
     'mailusername' => 'Mail Username',
@@ -41,11 +99,10 @@ return [
     'timezone' => 'Timezone',
     'password' => 'Password',
     'confirmpassword' => 'Confirm Password',
-    'email' => 'Email',
     'dateofbirth' => 'Date of Birth',
     'profilepicture' => 'Profile Picture',
     'address' => 'Address',
-    'phone' => 'Phone Number',
+    'phone_number' => 'Phone Number',
     'position' => 'Position',
     'gender' => 'Gender',
     'filter' => 'Filter:',
@@ -85,7 +142,20 @@ return [
     'permission' => 'Permission',
     'fromtime' => 'From Time',
     'totime' => 'To Time',
+    'from' => 'From',
+    'enable' => 'Enable',
+    'send_mail_to_administrator' => 'Send mail to Administrator',
+    'subject_to_administrator' => 'Subject To Administrator',
+    'body_email_to_administrator' => 'Body Email To Administrator',
+    'send_mailto_customer' => 'Send mail to Customer',
+    'subject_to_customer' => 'Subject To Customer',
+    'body_email_to_customer' => 'Body Email To Customer',
     // End Label
+
+    //start tooltip
+    'bonustoaddtouserwhentheyareregistertheiraccount.' => 'Bonus to add to user when they are register their account.',
+    'bonustoaddtouserwhentheyaredeposited.' => 'Bonus to add to user when they are deposited.',
+    //
 
     // Start Buttoms
     'submit' => 'Submit',
@@ -108,6 +178,6 @@ return [
         <li>Scroll down to <strong>Less secure app access </strong> and set it <strong>ON</strong></li>' => '<strong>Important Note :</strong> IF you are using <strong>GMAIl</strong> for Mail configuration, make sure you have completed following process before updating:
         <li>Go to <a href="https://myaccount.google.com/security">My Account</a> from your Google Account you want to configure and Login</li>
         <li>Scroll down to <strong>Less secure app access </strong> and set it <strong>ON</strong></li>',
-    '' => '',
+    'you_can_config_your_mail_body_with_the_following_commands' => 'You can config your mail body with the following commands:',
     // End Sentence
 ];
