@@ -1,7 +1,7 @@
 @extends('backend.template.main')
-@push('title',trans('menu.ipfiter').'-'.trans('trans.create'))
+@push('title',trans('menu.notification').'-'.trans('trans.create'))
 @section('content')
-    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/ipfilters/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
+    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/notifications/'.$notification->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
 
         <div class="m-portlet__head" style="">
@@ -9,38 +9,43 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{trans('trans.add') .' '.trans('menu.ipfiter')}}
+                            {{trans('trans.edit') .' '.trans('menu.notification')}}
                         </h3>
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
-                    @include('backend.shared._actionform')
+                    @include('backend.systemsetting.notification.inc._actionform')
                 </div>
             </div>
         </div>
         <div class="m-portlet__body">
             <div class="form-group m-form__group row">
-                {!! Form::label('ip', trans('labels.ip_address'), ['class' => 'col-sm-3 col-form-label required']) !!}
+                {!! Form::label('nt_name', trans('labels.notification_name'), ['class' => 'col-sm-3 col-form-label required']) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('ip', old('ip', $record->ip), ['class' => 'form-control m-input','id'=>'ip']) !!}
+                    {!! Form::text('nt_name', old('nt_name', $notification->nt_name), ['class' => 'form-control m-input','id'=>'nt_name']) !!}
                     @if ($errors->has('ip')) <p class="form-control-feedback">{{ $errors->first('ip') }}</p> @endif
                 </div>
             </div>
-            <div class="form-group m-form__group row">
-                {!!Form::label('desc', trans('labels.description'),['class' => 'col-sm-3 col-form-label'])!!}
+            <div class="form-group m-form__group row @if($errors->has('sound')) has-danger @endif">
+                {!!Form::label('sound',trans('labels.image'),['class' => 'col-sm-3 col-form-label'])!!}
                 <div class="col-sm-5">
-                    {!!Form::textarea('desc',old('desc',$record->description),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                    {!!Form::file('sound',['id' =>'sound'])!!}
+                        @if ($errors->has('sound')) <p class="form-control-feedback">{{ $errors->first('sound') }}</p> @endif
                 </div>
             </div>
-
-            <div class="form-group m-form__group row">
-                {!!Form::label('status', trans('labels.active'),['class' => 'col-sm-3 col-form-label'])!!}
-                <div class="col-sm-2">
-                    <input data-switch="true" type="checkbox" value="{{ $record->status}}" {{($record->status == 1)?'checked':''}} name="status" data-on-color="success"
-                           data-off-color="warning">
-
+            <div class="form-group m-form__group row @if($errors->has('sound')) has-danger @endif">
+                <div class="col-sm-3 col-form-label"></div>
+                <div class="col-sm-5">
+                    <audio controls>
+                        <source src="{!! asset('uploads/audio/'. $notification->nt_sound) !!}" type="audio/wav" id="sound2">
+                    </audio>
                 </div>
             </div>
+            {{--  <div class="12">
+                    <audio controls>
+                        <source src="{!! asset('audio/register.wav') !!}" type="audio/wav">
+                    </audio>
+                </div>  --}}
         </div>
 
     </div>
@@ -92,8 +97,30 @@
                 $("[data-switch=true]").bootstrapSwitch()
             }
         };
+
+        $('#sound').on("change", function(){
+            var s = $(this).val();
+            
+           
+            if(s.indexOf("mp3")!==-1||s.indexOf("wav")!==-1||s.indexOf("ogg")!==-1){
+                var c=(this.files[0].size/1024);
+                console.log(s);
+                $('#btnsaveclose').removeAttr("disabled");
+                $('#btnsaverefresh').removeAttr("disabled");
+            }
+            {{--  messsages("Error","Only Mp3, Wav and Ogg file type are allowed!")  --}}
+        })
+
         jQuery(document).ready(function () {
             BootstrapSwitch.init()
+            {{--  var sound = $('#sound').val();
+            console.log(sound);  --}}
+          
+
+            $('#sound').ace_file_input('show_file_list', [{
+                type: 'image',
+                name: '{{asset($notification->nt_sound)}}'
+            }]);
 
             //validation
             var ip = $("#ip").val();
@@ -104,6 +131,9 @@
                     console.log('working');
                 }      
             });
+
+
+
         });
     </script>
 @endpush

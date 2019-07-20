@@ -24,8 +24,8 @@ class BonusRefController extends Controller
     {
         $game = Game::where('status', 1)->where('is_trashed', 0)->get();
         $market = GameMarket::where('status', 1)->where('is_trashed', 0)->get();
-        $regdep = RegisterDoposit::get();
-        $refdep = RefDepBonus::get();
+        $regdep = RegisterDoposit::first();
+        $refdep = RefDepBonus::first();
         return view('backend.systemsetting.bonusref.create')->with('game', $game)->with('market', $market)->with('regdep', $regdep)->with('refdep', $refdep);
     }
 

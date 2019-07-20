@@ -11,18 +11,18 @@
                 <ul class="nav nav-tabs m-tabs-line m-tabs-line--danger m-tabs-line--2x m-tabs-line--right" role="tablist">
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_portlet_base_demo_2_1_tab_content" role="tab">
-                                    Register Mail Templates
-                            </a>
+                            {!! trans('labels.register_mail_templates') !!}           
+                        </a>
                     </li>
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_2_2_tab_content" role="tab">
-                                    Deposit Mail Templates
-                            </a>
+                            {!! trans('labels.deposit_mail_templates') !!}
+                        </a>
                     </li>
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_2_3_tab_content" role="tab">
-                                Withdraw Mail Templates
-                            </a>
+                            {!! trans('labels.withdraw_mail_templates') !!}
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -35,7 +35,7 @@
                         <div class="col-sm-12 col-md-8">
                             <input type="hidden" name="register_id" id="register_id" value="{{$register->id}}">
                             <div class="form-group m-form__group row @if ($errors->has('register_from')) has-danger @endif">
-                                {!!Form::label('register_from','From',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('register_from', trans('labels.from'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('register_from',old('register_from',$register->msg_from),['class' => 'form-control m-input','id'=>'register_from'])!!} @if ($errors->has('register_from'))
@@ -46,11 +46,13 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
-                                    <label> <input type="checkbox" value="{{$register->enable_admin}}"  name="register_enable_admin" id="register_enable_admin"><span style="color: #ce8483">Enable</span> Send mail to Administrator</label>
+                                    <label> <input type="checkbox" value="{{$register->enable_admin}}"  name="register_enable_admin" id="register_enable_admin">
+                                        <span style="color: #ce8483">{!! trans('labels.enable') !!}</span> {!! trans('labels.send_mail_to_administrator') !!}
+                                    </label>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('register_subToAdmin')) has-danger @endif">
-                                {!!Form::label('register_subToAdmin','Subject To Administrator',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('register_subToAdmin', trans('labels.subject_to_administrator'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('register_subToAdmin',old('register_subToAdmin',$register->msg_subject_admin),['class' => 'form-control m-input','id'=>'register_subToAdmin'])!!} @if ($errors->has('register_subToAdmin'))
@@ -59,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('register_boMailToAdmin')) has-danger @endif">
-                                {!!Form::label('register_boMailToAdmin','Body Email To Administrator',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('register_boMailToAdmin', trans('labels.body_email_to_administrator'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {{-- ,$register->msg_body_admin )?old('register_boMailToAdmin') : (!empty($register)? $register->msg_body_admin : null --}} {!!Form::textarea('register_boMailToAdmin',old($register->msg_body_admin,$register->msg_body_admin),['rows' => 8,'class' => 'form-control
@@ -71,11 +73,13 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
-                                    <label> <input type="checkbox" value="{{$register->enable_cus}}"  name="register_enable_cus" id="register_enable_cus" ><span style="color: #ce8483">Enable</span> Send mail to Customer</label>
+                                    <label> <input type="checkbox" value="{{$register->enable_cus}}"  name="register_enable_cus" id="register_enable_cus" >
+                                        <span style="color: #ce8483">{!! trans('labels.enable') !!}</span> {{ trans('labels.send_mailto_customer')}}
+                                    </label>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('register_subToCus')) has-danger @endif">
-                                {!!Form::label('register_subToCus','Subject To Customer',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('register_subToCus', trans('labels.subject_to_customer'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('register_subToCus',old('register_subToCus',$register->msg_subject_cus),['class' => 'form-control m-input','id'=>'register_subToCus'])!!} @if ($errors->has('register_subToCus'))
@@ -84,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('register_boMailToCus')) has-danger @endif">
-                                {!!Form::label('register_boMailToCus','Body Email To Customer',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('register_boMailToCus', trans('labels.body_email_to_customer'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::textarea('register_boMailToCus',old('register_boMailToCus',$register->msg_body_cus),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!} @if ($errors->has('register_boMailToCus'))
@@ -111,21 +115,21 @@
                             </div>
                         </div>
                         <div class="col-md-4 d-none d-sm-none d-md-block">
-                            <h3 style="text-align: center;">Parameters Guids</h3>
+                            <h3 style="text-align: center;">{!! trans('labels.parameters_guids') !!}</h3>
                             <hr>
-                            <p>You can config your mail body with the following commands:</p>
+                            <p>{!! trans('labels.you_can_config_your_mail_body_with_the_following_commands') !!}</p>
                             <ul>
-                                <li class="li-bottom"><strong>{name}</strong> : Customer Name</li>
-                                <li class="li-bottom"><strong>{yahoo}</strong> : Yahoo ID</li>
-                                <li class="li-bottom"><strong>{email}</strong> : E-mail</li>
-                                <li class="li-bottom"><strong>{phone}</strong> : Phone Number</li>
-                                <li class="li-bottom"><strong>{ref}</strong> : Reference</li>
-                                <li class="li-bottom"><strong>{game}</strong> : Game / Product</li>
-                                <li class="li-bottom"><strong>{bank}</strong> : Bank</li>
-                                <li class="li-bottom"><strong>{accName}</strong> : Account Name</li>
-                                <li class="li-bottom"><strong>{accNum}</strong> : Account Number</li>
-                                <li class="li-bottom"><strong>{msg}</strong> : Message</li>
-                                <li class="li-bottom"><strong>{ip}</strong> : IP Address</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.name') !!} }</strong> : {!! trans('labels.customer_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.yahoo') !!} }</strong> : {!! trans('labels.yahoo_id') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.email') !!} }</strong> : {!! trans('labels.email') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.phone') !!} }</strong> : {!! trans('labels.phone_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ref') !!} }</strong> : {!! trans('labels.reference') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.game') !!} }</strong> : {!! trans('labels.game_product') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.bank') !!} }</strong> : {!! trans('labels.Bank') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accName') !!} }</strong> : {!! trans('labels.account_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accNum') !!} }</strong> : {!! trans('labels.account_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.msg') !!} }</strong> : {!! trans('labels.message') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ip') !!} }</strong> : {!! trans('labels.ip_address') !!}</li>
                             </ul>
                         </div>
                     </div>
@@ -138,7 +142,7 @@
                         <div class="col-sm-12 col-md-8">
                             <input type="hidden" name="deposit_id" id="deposit_id" value="{{$deposit->id}}">
                             <div class="form-group m-form__group row @if ($errors->has('deposit_from')) has-danger @endif">
-                                {!!Form::label('deposit_from','From',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('deposit_from', trans('labels.from'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('deposit_from',old('deposit_from', $deposit->msg_from),['class' => 'form-control m-input','id'=>'deposit_from'])!!} @if ($errors->has('deposit_from'))
@@ -150,12 +154,12 @@
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
                                     <label> <input type="checkbox" value="{{$deposit->enable_admin}}" {{($deposit->enable_admin) ? 'checked' : ''}} name="deposit_enable_admin" id="deposit_enable_admin">
-                                            <span style="color: #ce8483">Enable</span> Send mail to Administrator
+                                            <span style="color: #ce8483">{!! trans('labels.enable') !!}</span> {!! trans('labels.send_mail_to_administrator') !!}
                                         </label>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('deposit_subToAdmin')) has-danger @endif">
-                                {!!Form::label('deposit_subToAdmin','Subject To Administrator',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('deposit_subToAdmin', trans('labels.subject_to_administrator'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('deposit_subToAdmin',old('deposit_subToAdmin',$deposit->msg_subject_admin),['class' => 'form-control m-input','id'=>'deposit_subToAdmin'])!!} @if ($errors->has('deposit_subToAdmin'))
@@ -164,7 +168,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('deposit_boMailToAdmin')) has-danger @endif">
-                                {!!Form::label('deposit_boMailToAdmin','Body Email To Administrator',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('deposit_boMailToAdmin', trans('labels.body_email_to_administrator'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::textarea('deposit_boMailToAdmin',old('deposit_boMailToAdmin',$deposit->msg_body_admin),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!} @if ($errors->has('deposit_boMailToAdmin'))
@@ -177,12 +181,12 @@
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
                                     <label> <input type="checkbox" name="deposit_enable_cus" id="deposit_enable_cus" value="{{$deposit->enable_cus}}" {{($deposit->enable_cus) ? 'checked' : ''}}>
-                                            <span style="color: #ce8483">Enable</span> Send mail to Customer
+                                            <span style="color: #ce8483">{!! trans('labels.enable') !!}</span> {!! trans('labels.send_mailto_customer') !!}
                                         </label>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('deposit_subToCus')) has-danger @endif">
-                                {!!Form::label('deposit_subToCus','Subject To Customer',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('deposit_subToCus', trans('labels.subject_to_customer'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('deposit_subToCus',old('deposit_subToCus',$deposit->msg_subject_cus),['class' => 'form-control m-input','id'=>'deposit_subToCus'])!!} @if ($errors->has('deposit_subToCus'))
@@ -191,7 +195,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('deposit_boMailToCus')) has-danger @endif">
-                                {!!Form::label('deposit_boMailToCus','Body Email To Customer',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('deposit_boMailToCus',trans('labels.subject_to_customer'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::textarea('deposit_boMailToCus',old('deposit_boMailToCus',$deposit->msg_body_cus),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!} @if ($errors->has('deposit_boMailToCus'))
@@ -218,21 +222,21 @@
                             </div>
                         </div>
                         <div class="col-md-4 d-none d-sm-none d-md-block">
-                            <h3 style="text-align: center;">Parameters Guids</h3>
+                            <h3 style="text-align: center;">{!! trans('labels.parameters_guids') !!}</h3>
                             <hr>
-                            <p>You can config your mail body with the following commands:</p>
+                            <p>{!! trans('labels.you_can_config_your_mail_body_with_the_following_commands') !!}</p>
                             <ul>
-                                <li class="li-bottom"><strong>{name}</strong> : Customer Name</li>
-                                <li class="li-bottom"><strong>{yahoo}</strong> : Yahoo ID</li>
-                                <li class="li-bottom"><strong>{email}</strong> : E-mail</li>
-                                <li class="li-bottom"><strong>{phone}</strong> : Phone Number</li>
-                                <li class="li-bottom"><strong>{ref}</strong> : Reference</li>
-                                <li class="li-bottom"><strong>{game}</strong> : Game / Product</li>
-                                <li class="li-bottom"><strong>{bank}</strong> : Bank</li>
-                                <li class="li-bottom"><strong>{accName}</strong> : Account Name</li>
-                                <li class="li-bottom"><strong>{accNum}</strong> : Account Number</li>
-                                <li class="li-bottom"><strong>{msg}</strong> : Message</li>
-                                <li class="li-bottom"><strong>{ip}</strong> : IP Address</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.name') !!} }</strong> : {!! trans('labels.customer_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.yahoo') !!} }</strong> : {!! trans('labels.yahoo_id') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.email') !!} }</strong> : {!! trans('labels.email') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.phone') !!} }</strong> : {!! trans('labels.phone_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ref') !!} }</strong> : {!! trans('labels.reference') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.game') !!} }</strong> : {!! trans('labels.game_product') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.bank') !!} }</strong> : {!! trans('labels.Bank') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accName') !!} }</strong> : {!! trans('labels.account_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accNum') !!} }</strong> : {!! trans('labels.account_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.msg') !!} }</strong> : {!! trans('labels.message') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ip') !!} }</strong> : {!! trans('labels.ip_address') !!}</li>
                             </ul>
                         </div>
                     </div>
@@ -249,7 +253,7 @@
                         <div class="col-sm-12 col-md-8">
                             <input type="hidden" name="withdraw_id" id="withdraw_id" value="{{$withdraw->id}}">
                             <div class="form-group m-form__group row @if ($errors->has('withdraw_from')) has-danger @endif">
-                                {!!Form::label('withdraw_from','From',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('withdraw_from', trans('labels.from'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('withdraw_from',old('withdraw_from',$withdraw->msg_from),['class' => 'form-control m-input','id'=>'withdraw_from'])!!} @if ($errors->has('withdraw_from'))
@@ -264,7 +268,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('withdraw_subToAdmin')) has-danger @endif">
-                                {!!Form::label('withdraw_subToAdmin','Subject To Administrator',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('withdraw_subToAdmin', trans('labels.subject_to_administrator'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('withdraw_subToAdmin',old('withdraw_subToAdmin',$withdraw->msg_subject_admin),['class' => 'form-control m-input','id'=>'withdraw_subToAdmin'])!!} @if ($errors->has('withdraw_subToAdmin'))
@@ -273,7 +277,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('withdraw_boMailToAdmin')) has-danger @endif">
-                                {!!Form::label('withdraw_boMailToAdmin','Body Email To Administrator',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('withdraw_boMailToAdmin', trans('labels.body_email_to_administrator'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::textarea('withdraw_boMailToAdmin',old('withdraw_boMailToAdmin',$withdraw->msg_body_admin),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!} @if ($errors->has('withdraw_boMailToAdmin'))
@@ -286,11 +290,11 @@
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9">
                                     <label> <input type="checkbox" name="withdraw_enable_cus" id="withdraw_enable_cus" value="{{$withdraw->enable_cus}}" {{($withdraw->enable_cus) ? 'checked' : ''}}>
-                                            <span style="color: #ce8483">Enable</span> Send mail to Customer</label>
+                                            <span style="color: #ce8483">{!! trans('labels.enable') !!}</span> {!! trans('labels.send_mailto_customer') !!}</label>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('withdraw_subToCus')) has-danger @endif">
-                                {!!Form::label('withdraw_subToCus','Subject To Customer',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('withdraw_subToCus', trans('labels.subject_to_customer'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::text('withdraw_subToCus',old('withdraw_subToCus',$withdraw->msg_subject_cus),['class' => 'form-control m-input','id'=>'withdraw_subToCus'])!!} @if ($errors->has('withdraw_subToCus'))
@@ -299,7 +303,7 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('withdraw_boMailToCus')) has-danger @endif">
-                                {!!Form::label('withdraw_boMailToCus','Body Email To Customer',['class' => 'col-sm-3 col-form-label '])!!}
+                                {!!Form::label('withdraw_boMailToCus',trans('labels.subject_to_customer'),['class' => 'col-sm-3 col-form-label '])!!}
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         {!!Form::textarea('withdraw_boMailToCus',old('withdraw_boMailToCus',$withdraw->msg_body_cus),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!} @if ($errors->has('withdraw_boMailToCus'))
@@ -326,21 +330,21 @@
                             </div>
                         </div>
                         <div class="col-md-4 d-none d-sm-none d-md-block">
-                            <h3 style="text-align: center;">Parameters Guids</h3>
+                            <h3 style="text-align: center;">{!! trans('labels.parameters_guids') !!}</h3>
                             <hr>
-                            <p>You can config your mail body with the following commands:</p>
+                            <p>{!! trans('labels.you_can_config_your_mail_body_with_the_following_commands') !!}</p>
                             <ul>
-                                <li class="li-bottom"><strong>{name}</strong> : Customer Name</li>
-                                <li class="li-bottom"><strong>{yahoo}</strong> : Yahoo ID</li>
-                                <li class="li-bottom"><strong>{email}</strong> : E-mail</li>
-                                <li class="li-bottom"><strong>{phone}</strong> : Phone Number</li>
-                                <li class="li-bottom"><strong>{ref}</strong> : Reference</li>
-                                <li class="li-bottom"><strong>{game}</strong> : Game / Product</li>
-                                <li class="li-bottom"><strong>{bank}</strong> : Bank</li>
-                                <li class="li-bottom"><strong>{accName}</strong> : Account Name</li>
-                                <li class="li-bottom"><strong>{accNum}</strong> : Account Number</li>
-                                <li class="li-bottom"><strong>{msg}</strong> : Message</li>
-                                <li class="li-bottom"><strong>{ip}</strong> : IP Address</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.name') !!} }</strong> : {!! trans('labels.customer_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.yahoo') !!} }</strong> : {!! trans('labels.yahoo_id') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.email') !!} }</strong> : {!! trans('labels.email') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.phone') !!} }</strong> : {!! trans('labels.phone_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ref') !!} }</strong> : {!! trans('labels.reference') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.game') !!} }</strong> : {!! trans('labels.game_product') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.bank') !!} }</strong> : {!! trans('labels.Bank') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accName') !!} }</strong> : {!! trans('labels.account_name') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.accNum') !!} }</strong> : {!! trans('labels.account_number') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.msg') !!} }</strong> : {!! trans('labels.message') !!}</li>
+                                <li class="li-bottom"><strong>{ {!! trans('labels.ip') !!} }</strong> : {!! trans('labels.ip_address') !!}</li>
                             </ul>
                         </div>
                     </div>

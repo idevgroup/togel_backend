@@ -9,20 +9,11 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        {{trans('menu.bonusreferalssystem').' / '.trans('trans.create')}}
+                        {!! trans('menu.bonusreferalssystem').' / '.trans('trans.create') !!}
                     </h3>
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                {{-- <div class="m-demo__preview m-demo__preview--btn">
-                    <button type="submit" name="btnsaveclose" id="btnsaveclose" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
-                            <span>
-                                <i class="fa fa-archive"></i>
-                                <span>{{__('trans.btnsave')}}</span>
-                            </span>
-                        </button>
-
-                </div> --}}
             </div>
         </div>
     </div>
@@ -34,17 +25,17 @@
                     <ul class="nav nav-tabs m-tabs-line m-tabs-line--danger m-tabs-line--2x m-tabs-line--right" role="tablist">
                         <li class="nav-item m-tabs__item">
                             <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_portlet_base_demo_2_1_tab_content" role="tab">
-                                Bonus & Referrals System
+                                {!! trans('labels.bonus&referralssystem') !!}
                             </a>
                         </li>
                         <li class="nav-item m-tabs__item">
                             <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_2_2_tab_content" role="tab">
-                                Referral Deposit Bonus
+                                {!! trans('labels.referraldepositbonus') !!}
                             </a>
                         </li>
                         <li class="nav-item m-tabs__item">
                             <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_2_3_tab_content" role="tab">
-                                Referral Bet Bonus
+                                {!! trans('labels.referralbetbonus') !!}
                             </a>
                         </li>
                     </ul>
@@ -53,21 +44,20 @@
             <div class="m-portlet__body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="m_portlet_base_demo_2_1_tab_content" role="tabpanel">
-                        @foreach($regdep as $item)
-                            <input type="hidden" name="regdep_id" id="regdep_id" value="{{ $item->id }}">
+                            <input type="hidden" name="regdep_id" id="regdep_id" value="{{ $regdep->id }}">
                             <div class="form-group m-form__group row @if ($errors->has('reg_bonus')) has-danger @endif">
                                 <label class="col-sm-3 col-form-label">
-                                    Registration Bonus
+                                    {!! trans('labels.registrationbonus') !!}
                                     <a href="#" data-toggle="m-tooltip"
                                        title="" data-html="true"
-                                       data-original-title="Bonus to add to user when they are register their account.">[?]</a>
+                                       data-original-title="{!! trans('labels.bonustoaddtouserwhentheyareregistertheiraccount.') !!}">[?]</a>
                                 </label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
                                         <!-- <div class="input-group-prepend">
                                             <button class="btn btn-secondary" type="button">Rp.</button>
                                         </div> -->
-                                        {!!Form::text('reg_bonus',old('reg_bonus',$item->reg_bonus),['class' => 'form-control m-input','id'=>'reg_bonus'])!!}
+                                        {!!Form::text('reg_bonus',old('reg_bonus',$regdep->reg_bonus),['class' => 'form-control m-input','id'=>'reg_bonus'])!!}
                                         @if ($errors->has('reg_bonus'))
                                             <p class="form-control-feedback">{{ $errors->first('reg_bonus') }}</p> @endif
                                     </div>
@@ -75,13 +65,13 @@
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('dep_bonus')) has-danger @endif">
                                 <label class="col-sm-3 col-form-label">
-                                    Deposit Bonus
+                                    {!! trans('labels.depositbonus') !!}
                                     <a href="#" data-toggle="m-tooltip"
-                                       title="" data-html="true" data-original-title="Bonus to add to user when they are deposited.">[?]</a>
+                                       title="" data-html="true" data-original-title=" {!! trans('labels.bonustoaddtouserwhentheyaredeposited.') !!} ">[?]</a>
                                 </label>
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        {!!Form::text('dep_bonus',old('dep_bonus',$item->dep_bonus),['class' => 'form-control m-input','id'=>'dep_bonus'])!!}
+                                        {!!Form::text('dep_bonus',old('dep_bonus',$regdep->dep_bonus),['class' => 'form-control m-input','id'=>'dep_bonus'])!!}
                                         <div class="input-group-append"><span class="input-group-text" id="basic-addon1">%</span></div>
                                         @if ($errors->has('dep_bonus'))
                                             <p class="form-control-feedback">{{ $errors->first('dep_bonus') }}</p> @endif
@@ -99,16 +89,14 @@
                                                             </button>
                                 </div>
                             </div>
-                        @endforeach
                     </div>
                     <div class="tab-pane" id="m_portlet_base_demo_2_2_tab_content" role="tabpanel">
-                        @foreach($refdep as $item)
-                            <input type="hidden" name="refdep_id" id="refdep_id" value="{{ $item->id }}">
+                            <input type="hidden" name="refdep_id" id="refdep_id" value="{{ $refdep->id }}">
                             <div class="form-group m-form__group row @if ($errors->has('ref_dep1')) has-danger @endif">
-                                {!!Form::label('ref_dep1','Level 1',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('ref_dep1', trans('labels.level1'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        {!!Form::text('ref_dep1',old('ref_dep1', $item->ref_dep1),['class' => 'form-control m-input','id'=>'ref_dep1'])!!}
+                                        {!!Form::text('ref_dep1',old('ref_dep1', $refdep->ref_dep1),['class' => 'form-control m-input','id'=>'ref_dep1'])!!}
                                         <div class="input-group-append"><span class="input-group-text" id="basic-addon1">%</span></div>
                                         @if ($errors->has('ref_dep1'))
                                             <p class="form-control-feedback">{{ $errors->first('ref_dep1') }}</p> @endif
@@ -116,10 +104,10 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('ref_dep2')) has-danger @endif">
-                                {!!Form::label('ref_dep2','Level 2',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('ref_dep2', trans('labels.level2'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        {!!Form::text('ref_dep2',old('ref_dep2',$item->ref_dep2),['class' => 'form-control m-input','id'=>'ref_dep2'])!!}
+                                        {!!Form::text('ref_dep2',old('ref_dep2',$refdep->ref_dep2),['class' => 'form-control m-input','id'=>'ref_dep2'])!!}
                                         <div class="input-group-append"><span class="input-group-text" id="basic-addon1">%</span></div>
                                         @if ($errors->has('ref_dep2'))
                                             <p class="form-control-feedback">{{ $errors->first('ref_dep2') }}</p> @endif
@@ -127,10 +115,10 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('ref_dep3')) has-danger @endif">
-                                {!!Form::label('ref_dep3','Level 3',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('ref_dep3',trans('labels.level3'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        {!!Form::text('ref_dep3',old('ref_dep3',$item->ref_dep3),['class' => 'form-control m-input','id'=>'ref_dep3'])!!}
+                                        {!!Form::text('ref_dep3',old('ref_dep3',$refdep->ref_dep3),['class' => 'form-control m-input','id'=>'ref_dep3'])!!}
                                         <div class="input-group-append"><span class="input-group-text" id="basic-addon1">%</span></div>
                                         @if ($errors->has('ref_dep3'))
                                             <p class="form-control-feedback">{{ $errors->first('ref_dep3') }}</p> @endif
@@ -138,10 +126,10 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row @if ($errors->has('ref_dep4')) has-danger @endif">
-                                {!!Form::label('ref_dep4','Level 4',['class' => 'col-sm-3 col-form-label'])!!}
+                                {!!Form::label('ref_dep4',trans('labels.level4'),['class' => 'col-sm-3 col-form-label'])!!}
                                 <div class="col-sm-7">
                                     <div class="input-group">
-                                        {!!Form::text('ref_dep4',old('ref_dep4',$item->ref_dep4),['class' => 'form-control m-input','id'=>'ref_dep4'])!!}
+                                        {!!Form::text('ref_dep4',old('ref_dep4',$refdep->ref_dep4),['class' => 'form-control m-input','id'=>'ref_dep4'])!!}
                                         <div class="input-group-append"><span class="input-group-text" id="basic-addon1">%</span></div>
                                         @if ($errors->has('ref_dep4'))
                                             <p class="form-control-feedback">{{ $errors->first('ref_dep4') }}</p> @endif
@@ -159,12 +147,11 @@
                                                             </button>
                                 </div>
                             </div>
-                        @endforeach
                     </div>
                     <div class="tab-pane" id="m_portlet_base_demo_2_3_tab_content" role="tabpanel">
                     <input type="hidden" id="game_setting_id" name="game_setting_id">
                         <div class="form-group m-form__group row @if ($errors->has('market')) has-danger @endif">
-                            {!!Form::label('market','Market',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('market', trans('labels.gamemarketname'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <select class="form-control m-input" name="market" id="market_id">
                                     @foreach($market as $item)
@@ -175,7 +162,7 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row @if ($errors->has('game')) has-danger @endif">
-                            {!!Form::label('game','Game',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('game', trans('labels.gamename'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <select class="form-control m-input" name="game" id="game_id">
                                     @foreach($game as $item)
@@ -187,7 +174,7 @@
                         </div>
 
                         <div class="form-group m-form__group row @if ($errors->has('ref_bet1')) has-danger @endif">
-                            {!!Form::label('ref_bet1','Level 1',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('ref_bet1', trans('labels.level1'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     {!!Form::text('ref_bet1',old('ref_bet1'),['class' => 'form-control m-input','id'=>'ref_bet1'])!!}
@@ -198,7 +185,7 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row @if ($errors->has('ref_bet2')) has-danger @endif">
-                            {!!Form::label('ref_bet2','Level 2',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('ref_bet2', trans('labels.level2'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     {!!Form::text('ref_bet2',old('ref_bet2'),['class' => 'form-control m-input','id'=>'ref_bet2'])!!}
@@ -209,7 +196,7 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row @if ($errors->has('ref_bet3')) has-danger @endif">
-                            {!!Form::label('ref_bet3','Level 3',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('ref_bet3', trans('labels.level3'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     {!!Form::text('ref_bet3',old('ref_bet3'),['class' => 'form-control m-input','id'=>'ref_bet3'])!!}
@@ -220,7 +207,7 @@
                             </div>
                         </div>
                         <div class="form-group m-form__group row @if ($errors->has('ref_bet4')) has-danger @endif">
-                            {!!Form::label('ref_bet4','Level 4',['class' => 'col-sm-3 col-form-label'])!!}
+                            {!!Form::label('ref_bet4', trans('labels.level4'),['class' => 'col-sm-3 col-form-label'])!!}
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     {!!Form::text('ref_bet4',old('ref_bet4'),['class' => 'form-control m-input','id'=>'ref_bet4'])!!}
@@ -333,6 +320,16 @@
 
     jQuery(document).ready(function () {
         BootstrapSwitch.init();
+
+        /*
+        function createCounter() {
+            var counter = 0;
+          return ++counter;
+        }
+        const test = createCounter();
+
+        console.log(test);
+        */
     });
     $(function(){
         //Bonus & Refferrals System

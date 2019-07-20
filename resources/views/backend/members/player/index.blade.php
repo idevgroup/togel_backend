@@ -86,14 +86,14 @@
                 <table class="table table-bordered" id="tableTransation">
                     <thead>
                         <tr>
-                            <th>Trans-ID</th>
-                            <th>Description</th>
-                            <th>Game Name</th>
-                            <th>Market</th>
-                            <th>Date/Time</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                            <th>Balance</th>
+                            <th>{!! trans('labels.trans_id') !!}</th>
+                            <th>{!! trans('labels.description') !!}</th>
+                            <th>{!! trans('labels.gamename') !!}</th>
+                            <th>{!! trans('labels.gamemarketname') !!}</th>
+                            <th>{!! trans('labels.date_time') !!}</th>
+                            <th>{!! trans('labels.debit') !!}</th>
+                            <th>{!! trans('labels.credit') !!}</th>
+                            <th>{!! trans('labels.balance') !!}</th>
                         </tr>
                     </thead>
                 </table>
@@ -154,7 +154,7 @@ var tbladmin = 'admin-tbl-zen';
 
             });
             $('body').on('click', '.player-banking', function () {
-                var pname = "Player Name << " + $(this).data("pname") + " >>";
+                var pname = "{!! trans('labels.player_name') !!} << " + $(this).data("pname") + " >>";
                 var getPId = $(this).data('id');
                 $('#playerBankTitle').text(pname);
                 $.ajax({
@@ -174,7 +174,7 @@ var tbladmin = 'admin-tbl-zen';
                                 '<button class="btn btn-primary" id="update-balance" type="button">Update</button>' +
                                 '</div>' +
                                 '</div>';
-                        var tbl = '<div><h5 id="remain-balance">{{trans('labels.balance')}}: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>Bank Name</th><th>Account Name</th><th>Account ID</th></tr></thead>';
+                        var tbl = '<div><h5 id="remain-balance">{{trans('labels.balance')}}: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>{!! trans('labels.bankname') !!}</th><th>{!! trans('labels.account_name') !!}</th><th>{!! trans('labels.account_id') !!}</th></tr></thead>';
                         var tblBody = '<tbody>';
                         var record = response.record;
                         console.log(record);
@@ -250,28 +250,28 @@ var tbladmin = 'admin-tbl-zen';
                     dom: 'Bfrtlip',
                     "buttons": [{
                             "extend": "csvHtml5",
-                            "text": "<i class=\"fa fa-file-alt\"><\/i><span>CSV<\/span>",
+                            "text": "<i class=\"fa fa-file-alt\"><\/i><span>{!! trans('labels.csv') !!}<\/span>",
                             "className": " m-btn--icon"
                         }
                         , {
                             "extend": "excelHtml5",
-                            "text": "<i class=\"fa fa-file-excel\"><\/i><span>Excel<\/span>",
+                            "text": "<i class=\"fa fa-file-excel\"><\/i><span>{!! trans('labels.excel') !!}<\/span>",
                             "className": " m-btn--icon"
                         }
                         , {
                             "extend": "pdfHtml5",
                             "pageSize": "A4",
                             "download": "open",
-                            "text": "<i class=\"fa fa-file-pdf\"><\/i><span>PDF<\/span>",
+                            "text": "<i class=\"fa fa-file-pdf\"><\/i><span>{!! trans('labels.pdf') !!}<\/span>",
                             "className": " m-btn--icon",
                         }
                         , {
                             "extend": "copyHtml5",
-                            "text": "<i class=\"fa fa-copy\"><\/i><span>Copy<\/span>", "className": " m-btn--icon"
+                            "text": "<i class=\"fa fa-copy\"><\/i><span>{!! trans('labels.copy') !!}<\/span>", "className": " m-btn--icon"
                         }
                         , {
                             "extend": "print", "pageSize": "A4",
-                            "text": "<i class=\"fa fa-print\"><\/i><span>Print<\/span>",
+                            "text": "<i class=\"fa fa-print\"><\/i><span>{!! trans('labels.print') !!}<\/span>",
                             "className": " m-btn--icon"
                         }
                     ],

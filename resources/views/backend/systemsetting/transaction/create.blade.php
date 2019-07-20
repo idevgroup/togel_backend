@@ -28,7 +28,7 @@
         <div class="m-portlet__body">
             <input type="hidden" value="{{ $transaction->id }}" name="id">
             <div class="form-group m-form__group row @if ($errors->has('with_min')) has-danger @endif">
-                {!!Form::label('with_min','Withdraw Minimum *',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('with_min', trans('labels.withdrawminimum'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-6">
                     {!!Form::text('with_min',old('with_min',$transaction->with_min),['class' => 'form-control m-input','id'=>'with_min'])!!} @if ($errors->has('with_min'))
                     <p class="form-control-feedback">{{ $errors->first('with_min') }}</p> @endif
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group m-form__group row @if ($errors->has('with_max')) has-danger @endif">
-                {!!Form::label('with_max','Withdraw Maximum *',['class' => 'col-sm-3 col-form-label'])!!}
+                {!!Form::label('with_max', trans('labels.withdrawmaximum'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-6">
                     {!!Form::text('with_max',old('with_max',$transaction->with_max),['class' => 'form-control m-input','id'=>'with_max'])!!} @if ($errors->has('with_max'))
                     <p class="form-control-feedback">{{ $errors->first('with_max') }}</p> @endif
