@@ -9,7 +9,7 @@ use Response;
 use App\Models\FrontEnd\FrontSetting;
 use Config;
 use Illuminate\Support\Arr;
-
+use App\Models\FrontEnd\Market;
 class FrontEndController extends Controller {
 
     public function getBank() {
@@ -30,8 +30,8 @@ class FrontEndController extends Controller {
             'symbol' => $getSymbol
         ];
         //\Log::info($setGeneralSetting);
-
-        return response()->json(['general' => $setGeneralSetting]);
+        $market = Market::getAllRecord(0, 1)->get();
+        return response()->json(['general' => $setGeneralSetting,'market' =>$market->jsonSerialize() ],200);
     }
 
 }

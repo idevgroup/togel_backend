@@ -34,5 +34,5 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' =
     Route::post('deposit', 'MemberController@doDeposit')->name('deposit');
     Route::post('withdraw', 'MemberController@doWithdraw')->name('withdraw');
     Route::post('getmemberbank', 'MemberController@getBankMember')->name('getmemberbank');
-    Route::get('get-bank-operator', 'MemberController@getBankOperator')->name('get.bank.operator');
+    Route::post('getdepositbank', 'MemberController@getBankOperator')->name('get.bank.operator');
 });

@@ -19,11 +19,14 @@ class MemberController extends Controller {
     public function __construct(JWTAuth $auth) {
         $this->auth = $auth;
     }
-
+     protected function guard() {
+        return Auth::guard('api');
+    }
     public function dashBoard(Request $request) {
+        //\Log::info($request->all());
         $memberid = $request->input('memberid');
-        $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id','DESC')->get();
-        $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId',['DEPOSIT','WITHDRAW'])->orderBy('id', 'DESC')->get();
+        $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id','DESC')->limit(50)->get();
+        $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId',['DEPOSIT','WITHDRAW'])->orderBy('id', 'DESC')->limit(50)->get();
         $dataJson = [];
         foreach ($getPlayTrans as $row) {
                 $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transid, 'transactiondate' => $row->date, 'amount' => ($row->debet > 0) ? '- ' . \CommonFunction::_CurrencyFormat($row->debet) : \CommonFunction::_CurrencyFormat($row->kredit), 'status' => 1, 'transtype' => $row->invoiceId];
@@ -34,7 +37,7 @@ class MemberController extends Controller {
         }
 
 
-        return response()->json($dataJson);
+        return response()->json(['data' => $dataJson,'total' => count($dataJson)]);
     }
 
     public function getMarket() {
@@ -43,9 +46,11 @@ class MemberController extends Controller {
     }
 
     public function doDeposit(Request $request) {
+        
+        $memberId = $this->guard()->user()->id;
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $request->input('memberid'), 'note' => $request->input('note')));
-        $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $request->input('memberid'))->first();
+        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $memberId, 'note' => $request->input('note'),'memberbank'=>$request->input('memberbank'),'debank'=>$request->input('debank')));
+        $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $memberId)->first();
         if (!$checkDeposit) {
             $getBankId = $request->input('debank');
             $getDepositBank = $request->input('memberbank');
@@ -87,9 +92,9 @@ class MemberController extends Controller {
             $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
             $tempTransaction->transactid = 'DEP-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
-            return response()->json(['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['data'=>['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
-            return response()->json(['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['data' => ['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]]);
         }
     }
 
@@ -140,7 +145,7 @@ class MemberController extends Controller {
     }
 
     public function getBankMember(Request $request) {
-        $memberId = $request->input('memberid');
+        $memberId = $this->guard()->user()->id;
         try {
             $query = PlayerBank::where('reg_id', $memberId)->with(['getBank'])->get();
             $memberBankList = array(['id' => null, 'bank' => "Select One"]);
@@ -156,8 +161,8 @@ class MemberController extends Controller {
         return response()->json($memberBankList);
     }
 
-    public function getBankOperator() {
-        $memberBankId = request()->get('bankmember');
+    public function getBankOperator(Request $request) {
+        $memberBankId = $request->input('memberBankId');
         $bankOperator = array(['id' => null, 'bank' => 'Select One']);
         try {
             $getBankId = PlayerBank::where('id', $memberBankId)->first();

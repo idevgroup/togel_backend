@@ -70,19 +70,23 @@ class MemberAuthController extends Controller {
         return response()->json([
                     'token' => $token,
                     'token_type' => 'bearer',
-                    //'data' => $this->guard()->user(),
+                    'user' => $this->guard()->user(),
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 
     public function refresh() {
+        try{
        $id =$this->guard()->user()->id;
        $memeber= Member::with(['getPlayerBank'=>function($query){
             return $query->with('getBank');
         }])->where('id',$id)->first();
         //return $this->guard()->user();
         $memeber->reg_remain_balance = \CommonFunction::_CurrencyFormat($memeber->reg_remain_balance);
-         return response()->json($memeber);
+         return response()->json(['user'=>$memeber],200);
+        } catch(\Exception $e){
+            \Log::info($e);
+        }
     }   
 
     protected function attemptLogin(Request $request) {
