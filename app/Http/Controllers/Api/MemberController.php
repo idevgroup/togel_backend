@@ -99,10 +99,10 @@ class MemberController extends Controller {
     }
 
     public function doWithdraw(Request $request) {
-        $member = Member::findOrFail($request->input('memberid'));
+        $member = Member::findOrFail($this->guard()->user()->id);
         $getCurrentBalance =  $member->reg_remain_balance;
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $request->input('memberid'),'balance' => preg_replace('/[^0-9-.]+/', '',$getCurrentBalance)));
+        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $this->guard()->user()->id, 'note' => $request->input('note'),'memberbank'=>$request->input('memberbank'),'balance' => preg_replace('/[^0-9-.]+/', '',$getCurrentBalance)));
         $checkWithdraw = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $request->input('memberid'))->first();
         if (!$checkWithdraw) {
             $getWithdrawBank = $request->input('memberbank');
@@ -138,9 +138,9 @@ class MemberController extends Controller {
             $member->reg_remain_balance = (float)$member->reg_remain_balance - (float)$request->input('amount');
             $member->save();
             
-            return response()->json(['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['data' => ['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
-            return response()->json(['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]);
+            return response()->json(['data' => ['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]]);
         }
     }
 
