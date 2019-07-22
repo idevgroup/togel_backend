@@ -45,14 +45,14 @@ class MemberAuthController extends Controller {
             }
             if (!$token = $this->guard()->login($memberAuth, $token_remember)) {
                 $this->incrementLoginAttempts($request);
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['errors' =>['userlog'=>'These credentials do not match our records.'] ], 422);
             }
             $this->clearLoginAttempts($request);
             $memberAuth->rollApiKey($token);
             return $this->respondWithToken($token);
         } else {
             $this->incrementLoginAttempts($request);
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['errors' =>['userlog'=>'These credentials do not match our records.'] ], 422);
         }
     }
 
