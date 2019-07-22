@@ -55,6 +55,12 @@ return [
     'withdraw_mail_templates' => 'Withdraw Mail Templates',
     // End Tab
     // Start Labels
+    'customers' => 'Customers',
+    'profit' => 'Profit',
+    'customers_balance' => 'Customer\'s Balance',
+    'deposit_pending' => 'Deposit Pending',
+    'withdraw_pending' => 'Withdraw Pending',
+    'tranfer_pending' => 'Tranfer Pending',
     'csv' => 'CSV',
     'excel' => 'Excel',
     'pdf' => 'PDF',

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackEnd\Authorizable;
 use Auth;
+use App\Models\BackEnd\Player;
+use Illuminate\Support\Facades\DB;
+use App\Models\FrontEnd\TempTransaction;
+
 class DashBoardController extends Controller
 {
     use Authorizable;
@@ -16,7 +20,17 @@ class DashBoardController extends Controller
      */
     public function index()
     {
-        return view('backend.dashboard.index');
+        $player = Player::where('status' ,1)->where('is_trashed', 0)->get();
+        $tempTransactionDeposit = TempTransaction::where('proc_type', 'deposit')->where('status',0)->get();
+        $tempTransactionWithdraw = TempTransaction::where('proc_type', 'WITHDRAW')->where('status',0)->get();
+        // where('proc_type', 'deposit')->
+        // $tempTransactionCount = $tempTransaction->count();
+        // dd($tempTransactionCount);
+        // withCount('reg_username')->get();
+        return view('backend.dashboard.index')
+        ->with('player', $player)
+        ->with('tempTransactionDeposit', $tempTransactionDeposit)
+        ->with('tempTransactionWithdraw',$tempTransactionWithdraw);
     }
 
     /**

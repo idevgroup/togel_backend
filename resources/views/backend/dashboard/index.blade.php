@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-xl-12">
             @include('backend.dashboard.inc.total')
+
+            <!-- start Deposit -->
+            @include('backend.dashboard.inc.deposit')
+            <!-- End Deposit -->
         </div>
     </div>
-    <div class="row">
-        <!-- start Deposit -->
-        @include('backend.dashboard.inc.deposit')
-        <!-- End Deposit -->
-
+    {{--  <div class="row">
         <!-- start Withdraw -->
         @include('backend.dashboard.inc.withdraw')
         <!-- End Withdraw -->
@@ -18,7 +18,7 @@
         @include('backend.dashboard.inc.transfer')
         <!-- End Transfer -->
 
-    </div>
+    </div>  --}}
    {{-- <div class="row">
         <div class="col-xl-12">
             @include('backend.dashboard.inc.bankReport')
@@ -33,6 +33,9 @@
     .dboard-number{
         font-size: 25px !important;
         font-weight: 600;
+    }
+    .dboard-number a{
+        text-decoration: none;
     }
     .widget-title{
         text-align: center;
