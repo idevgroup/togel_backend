@@ -21,14 +21,8 @@ class DashBoardController extends Controller
     public function index()
     {
         $player = Player::where('status' ,1)->where('is_trashed', 0)->get();
-        $tempTransaction = TempTransaction::where('status',0)->get();
-//        $tempTransactionDeposit = TempTransaction::where('proc_type', 'deposit')->where('status',0)->get();
-//        $tempTransactionWithdraw = TempTransaction::where('proc_type', 'WITHDRAW')->where('status',0)->get();
-//        
-        // where('proc_type', 'deposit')->
-        // $tempTransactionCount = $tempTransaction->count();
-        // dd($tempTransactionCount);
-        // withCount('reg_username')->get();
+        $tempTransaction = TempTransaction::all();
+        // dd($tempTransaction);
         return view('backend.dashboard.index')
         ->with('player', $player)
         ->with('tempTransaction', $tempTransaction)
