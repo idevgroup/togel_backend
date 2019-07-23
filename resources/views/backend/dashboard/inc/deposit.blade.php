@@ -11,13 +11,12 @@
                                             </span>
                                         </div>
                                         <div class="col-7 col-total">
-                                            {{--  @php($process = Config('sysconfig.process'))  --}}
                                             <div>
                                                 <h4 class="widget-title">
                                                     {!! trans('labels.deposit_pending') !!}
                                                 </h4>
                                                 <span class="dboard-number">
-                                                    <a href="#" class="text-primary"> {!! $tempTransactionDeposit->count() !!} Person </a>
+                                                    <a href="#" class="text-primary"> {!! $tempTransaction->where('proc_type','deposit')->count() !!} Person(s) </a>
                                                 </span>
                                             </div>
                                         </div>
@@ -36,13 +35,12 @@
                                         </span>
                                     </div>
                                     <div class="col-7 col-total">
-                                        {{--  @php($process = Config('sysconfig.process'))  --}}
                                         <div>
                                             <h4 class="widget-title">
                                                 {!! trans('labels.withdraw_pending') !!}
                                             </h4>
                                             <span class="dboard-number">
-                                                <a href="#" class="text-info"> {!! $tempTransactionWithdraw->count() !!} Person</a>
+                                                <a href="#" class="text-info"> {!! $tempTransaction->where('proc_type','WITHDRAW')->count() !!} Person(s)</a>
                                             </span>
                                         </div>
 
