@@ -1,0 +1,303 @@
+//
+// Variables and Mixins
+//
+
+@import "variables.multipage-education";
+@import "../../../../assets/include/scss/unify";
+
+body {
+	background-color: $g-color-white;
+}
+
+/*------------------------------------
+  Headings
+------------------------------------*/
+.h1, .h2, .h3, .h4, .h5, .h6, .h7,
+h1, h2, h3, h4, h5, h6 {
+  font-family: $g-font-secondary;
+}
+
+p {
+	font-size: 16px;
+	line-height: 1.6;
+  color: $g-color-text;
+}
+
+span {
+	font-family: $g-font-primary;
+}
+
+a,
+.btn {
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+/*------------------------------------
+  Font Family
+------------------------------------*/
+.g-font-primary {
+	font-family: $g-font-primary;
+}
+
+.g-font-secondary {
+	font-family: $g-font-secondary;
+}
+
+/*------------------------------------
+  Colors
+------------------------------------*/
+.g-color-primary-dark-v1 {
+	color: $g-color-primary-dark-v1;
+}
+
+.g-color-text {
+	color: $g-color-text;
+
+	&-light {
+		&-v1 {
+			color: $g-color-text-light-v1 !important;
+		}
+	}
+}
+
+.g-color-main {
+	color: $g-color-main;
+
+	&-dark {
+		&-v1 {
+			color: $g-color-main-dark-v1 !important;
+		}
+
+		&-v3 {
+			color: $g-color-main-dark-v3 !important;
+		}
+	}
+}
+
+.u-block-hover:hover .g-color-main--hover {
+	color: $g-color-main !important;
+}
+
+.g-color-secondary {
+	color: $g-color-secondary !important;
+
+	&-light {
+		&-v1 {
+			color: $g-color-secondary-light-v1 !important;
+		}
+
+		&-v2 {
+			color: $g-color-secondary-light-v2 !important;
+		}
+	}
+
+	&-dark {
+		&-v1 {
+			color: $g-color-secondary-dark-v1 !important;
+		}
+	}
+}
+
+.g-color-footer-links {
+	color: $g-color-footer-links;
+}
+
+/*------------------------------------
+  Background Colors
+------------------------------------*/
+.g-bg-primary-light-v1--hover:hover {
+	background-color: $g-color-primary-light-v1 !important;
+}
+
+.g-bg-main {
+	background-color: $g-color-main !important;
+
+	&--hover:hover {
+		background-color: $g-color-main !important;
+	}
+
+	&-light-v1 {
+		background-color: $g-color-main-light-v1;
+	}
+
+	&-light-v2 {
+		background-color: $g-color-main-light-v2;
+	}
+}
+
+.u-block-hover:hover .g-bg-main--hover {
+	background-color: $g-color-main !important;
+}
+
+.g-bg-secondary {
+	background-color: $g-color-secondary !important;
+
+	&-dark {
+		&-v1 {
+			background-color: $g-color-secondary-dark-v1;
+
+			&--focus:focus {
+				background-color: $g-color-secondary-dark-v1 !important;
+			}
+		}
+
+		&-v2 {
+			background-color: $g-color-secondary-dark-v2;
+
+			&--hover:hover {
+				background-color: $g-color-secondary-dark-v2;
+			}
+		}
+	}
+}
+
+/* Secondary Gradient v1 */
+.g-bg-secondary-gradient-v1,
+.g-bg-secondary-gradient-v1--after::after {
+  @include gradient-y-top($start-color: rgba($g-color-secondary, 0), $end-color: rgba($g-color-secondary, 1));
+}
+
+/* Secondary Gradient v2 */
+.g-bg-secondary-gradient-v2,
+.g-bg-secondary-gradient-v2--after::after {
+  @include gradient-y-top($start-color: rgba($g-color-secondary, 1), $end-color: rgba($g-color-secondary, 0));
+}
+
+/*------------------------------------
+  Border Colors
+------------------------------------*/
+.g-brd-secondary {
+	border-color: $g-color-secondary !important;
+
+	&-light-v2 {
+		border-color: $g-color-secondary-light-v2 !important;
+	}
+}
+
+.g-brd-main {
+	border-color: $g-color-main !important;
+
+	&-opacity-0_1 {
+		border-color: rgba($g-color-main, .1) !important;
+	}
+}
+
+/*------------------------------------
+  Mega Menu
+------------------------------------*/
+.hs-has-sub-menu > a::after,
+.hs-icon-arrow-bottom:before {
+  font-size: 9px;
+}
+
+/*------------------------------------
+  Bootstrap
+------------------------------------*/
+@media (min-width: $g-lg) {
+	.navbar-toggler {
+	  display: none;
+	}
+}
+
+/*------------------------------------
+  Box Shadows
+------------------------------------*/
+.u-shadow {
+	&-v31 {
+	  box-shadow: 0 5px 5px 0 rgba($g-color-main, .075);
+	}
+
+	&-v34 {
+	  box-shadow: 0 3px 30px 0 rgba($g-color-main, .1);
+	}
+
+	&-v35 {
+	  box-shadow: 0 4px 7px 0 rgba($g-color-main, .045);
+
+	  &--active.active {
+	  	box-shadow: 0 4px 7px 0 rgba($g-color-main, .045);
+	  	transition-duration: .2s;
+	  }
+	}
+
+	&-v36 {
+	  box-shadow: 0 10px 15px 0 rgba($g-color-main, .14);
+	}
+
+	&-v39 {
+	  box-shadow: 0 8px 20px 0 rgba($g-color-main, .1);
+	}
+
+	&-v40 {
+	  box-shadow: -9px -9px 20px -9px rgba($g-color-main, .1);
+	}
+}
+
+/*------------------------------------
+  Carousel indicators v35
+------------------------------------*/
+.u-carousel-indicators-v35--main li {
+	span {
+  	background-color: $g-color-main;
+  }
+
+  &.slick-active {
+		span {
+	    border-color: $g-color-main;
+	  }
+	}
+}
+
+/*------------------------------------
+  Info v11-1
+------------------------------------*/
+.u-info-v11-1-img {
+	border: 0 solid $g-color-secondary-dark-v1;
+}
+
+/*------------------------------------
+  Datepicker v1
+------------------------------------*/
+.u-datepicker-v1 {
+	.ui-datepicker-header {
+		border-color: $g-color-secondary-light-v2;
+	}
+
+	.ui-datepicker-prev {
+		border-top-left-radius: 3px;
+	}
+
+	.ui-datepicker-next {
+		border-top-right-radius: 3px;
+	}
+
+	.ui-datepicker-prev,
+	.ui-datepicker-prev:hover,
+	.ui-datepicker-next,
+	.ui-datepicker-next:hover {
+		border-color: $g-color-secondary-light-v2;
+	}
+
+	.ui-datepicker-prev:hover,
+	.ui-datepicker-next:hover {
+		background-color: $g-color-primary;
+	}
+
+	.ui-datepicker-prev:hover > span,
+	.ui-datepicker-next:hover > span {
+		color: $g-color-white;
+	}
+
+	.ui-datepicker-calendar th span,
+	.ui-datepicker-calendar th a {
+		color: $g-color-secondary-light-v1;
+	}
+}
+
+/*------------------------------------
+  Select v2
+------------------------------------*/
+.u-select-v2 .chosen-results > li.result-selected {
+	color: $g-color-white !important;
+}

@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e631bcbb-560d-4b66-bfb6-9bcbf316e9eb" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>animationType</find>
+      <find>filters</find>
+      <find>cube</find>
+      <find>cbp</find>
+      <find>setCaptionAnimation</find>
+      <find>layoutMode</find>
+      <find>data-dropdown-target</find>
+      <find>dropdownType</find>
+      <find>mr</find>
+      <find>dropdownEvent</find>
+      <find>hover</find>
+      <find>dropdownDuration</find>
+      <find>dropdownHideOnBlur</find>
+      <find>blur</find>
+      <find>activeItemClass</find>
+      <find>easing</find>
+      <find>jQuery.easing</find>
+      <find>dropdownEasing</find>
+      <find>duration</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/vendor/hs-megamenu/src/hs.megamenu.js" />
+        <option value="$PROJECT_DIR$/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.js" />
+        <option value="$PROJECT_DIR$/../../../front.cc/html/portfolio/boxed-masonry-1.html" />
+        <option value="$PROJECT_DIR$/js/components/hs.dropdown.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="820" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="assets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="assets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="assets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="assets" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="jquery.easing.min.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="jquery.easing.min.js" working-dir="$PROJECT_DIR$/vendor/jquery.easing/js" />
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.jquery.easing.min.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e631bcbb-560d-4b66-bfb6-9bcbf316e9eb" name="Default" comment="" />
+      <created>1523344815701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1523344815701</updated>
+      <workItem from="1523344817601" duration="402000" />
+      <workItem from="1523367445428" duration="5048000" />
+      <workItem from="1523428286918" duration="4704000" />
+      <workItem from="1523878850369" duration="449000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="10603000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="820" extended-state="0" />
+    <layout>
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23815462" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26037195" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Learn" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/components/hs.cubeportfolio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="90" column="20" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24030">
+          <caret line="1588" column="25" selection-start-line="1588" selection-start-column="18" selection-end-line="1588" selection-end-column="25" />
+          <caret line="1589" column="26" selection-start-line="1589" selection-start-column="18" selection-end-line="1589" selection-end-column="26" />
+          <caret line="1590" column="30" selection-start-line="1590" selection-start-column="18" selection-end-line="1590" selection-end-column="30" />
+          <caret line="1591" column="27" selection-start-line="1591" selection-start-column="18" selection-end-line="1591" selection-end-column="27" />
+          <caret line="1592" column="28" selection-start-line="1592" selection-start-column="18" selection-end-line="1592" selection-end-column="28" />
+          <caret line="1593" column="27" selection-start-line="1593" selection-start-column="18" selection-end-line="1593" selection-end-column="27" />
+          <caret line="1594" column="31" selection-start-line="1594" selection-start-column="18" selection-end-line="1594" selection-end-column="31" />
+          <caret line="1595" column="35" selection-start-line="1595" selection-start-column="18" selection-end-line="1595" selection-end-column="35" />
+          <caret line="1596" column="37" selection-start-line="1596" selection-start-column="18" selection-end-line="1596" selection-end-column="37" />
+          <caret line="1597" column="36" selection-start-line="1597" selection-start-column="18" selection-end-line="1597" selection-end-column="36" />
+          <caret line="1598" column="35" selection-start-line="1598" selection-start-column="18" selection-end-line="1598" selection-end-column="35" />
+          <caret line="1599" column="25" selection-start-line="1599" selection-start-column="18" selection-end-line="1599" selection-end-column="25" />
+          <caret line="1600" column="24" selection-start-line="1600" selection-start-column="18" selection-end-line="1600" selection-end-column="24" />
+          <caret line="1601" column="22" selection-start-line="1601" selection-start-column="18" selection-end-line="1601" selection-end-column="22" />
+          <caret line="1602" column="25" selection-start-line="1602" selection-start-column="18" selection-end-line="1602" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.dropdown.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="69" column="39" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../front.cc/html/portfolio/boxed-masonry-1.html" />
+    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114675">
+          <caret line="7645" column="1" lean-forward="true" selection-start-line="7645" selection-start-column="1" selection-end-line="7645" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/hs-megamenu/src/hs.megamenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3180">
+          <caret line="212" column="40" lean-forward="true" selection-start-line="212" selection-start-column="40" selection-end-line="212" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/hs-megamenu/src/hs.megamenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="217" column="60" selection-start-line="217" selection-start-column="60" selection-end-line="217" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../front.cc/oleg/cubeportfolio-load-more-on-scroll.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1588" column="25" selection-start-line="1588" selection-start-column="18" selection-end-line="1588" selection-end-column="25" />
+          <caret line="1589" column="26" selection-start-line="1589" selection-start-column="18" selection-end-line="1589" selection-end-column="26" />
+          <caret line="1590" column="30" selection-start-line="1590" selection-start-column="18" selection-end-line="1590" selection-end-column="30" />
+          <caret line="1591" column="27" selection-start-line="1591" selection-start-column="18" selection-end-line="1591" selection-end-column="27" />
+          <caret line="1592" column="28" selection-start-line="1592" selection-start-column="18" selection-end-line="1592" selection-end-column="28" />
+          <caret line="1593" column="27" selection-start-line="1593" selection-start-column="18" selection-end-line="1593" selection-end-column="27" />
+          <caret line="1594" column="31" selection-start-line="1594" selection-start-column="18" selection-end-line="1594" selection-end-column="31" />
+          <caret line="1595" column="35" selection-start-line="1595" selection-start-column="18" selection-end-line="1595" selection-end-column="35" />
+          <caret line="1596" column="37" selection-start-line="1596" selection-start-column="18" selection-end-line="1596" selection-end-column="37" />
+          <caret line="1597" column="36" selection-start-line="1597" selection-start-column="18" selection-end-line="1597" selection-end-column="36" />
+          <caret line="1598" column="35" selection-start-line="1598" selection-start-column="18" selection-end-line="1598" selection-end-column="35" />
+          <caret line="1599" column="25" selection-start-line="1599" selection-start-column="18" selection-end-line="1599" selection-end-column="25" />
+          <caret line="1600" column="24" selection-start-line="1600" selection-start-column="18" selection-end-line="1600" selection-end-column="24" />
+          <caret line="1601" column="22" selection-start-line="1601" selection-start-column="18" selection-end-line="1601" selection-end-column="22" />
+          <caret line="1602" column="25" selection-start-line="1602" selection-start-column="18" selection-end-line="1602" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.cubeportfolio.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="90" column="20" selection-start-line="90" selection-start-column="10" selection-end-line="90" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="7645" column="1" selection-start-line="7645" selection-start-column="1" selection-end-line="7645" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../front.cc/html/portfolio/boxed-masonry-1.html" />
+    <entry file="file://$PROJECT_DIR$/js/components/hs.header-fullscreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="40" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jquery/jquery.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="2" column="24757" selection-start-line="2" selection-start-column="24751" selection-end-line="2" selection-end-column="24757" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jquery-2.2.0/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="6433" lean-forward="true" selection-start-line="6433" selection-end-line="6433" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jquery.easing/js/jquery.easing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="40" column="25" lean-forward="true" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.dropdown.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-644">
+          <caret line="22" column="36" lean-forward="true" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.scroll-nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-730">
+          <caret line="24" column="30" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="24" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/ajax/autocomplete-data-1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.autocomplete.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="89" column="26" lean-forward="true" selection-start-line="89" selection-start-column="26" selection-end-line="89" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/components/hs.autocomplete-local-search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="45" column="47" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
