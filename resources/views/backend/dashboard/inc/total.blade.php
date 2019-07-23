@@ -15,10 +15,11 @@
                             <div class="col-7 col-total">
                                 <div>
                                     <h4 class="widget-title">
-                                        Customers
+                                        {!! trans('labels.customers') !!}
                                     </h4>
                                     <span class="dboard-number text-primary">
-                                        440
+                                        {!! CommonFunction::_CurrencyFormat($player->count('id'),1) !!}
+                                        {{--  {!! $player->count('id'); !!} Person  --}}
                                     </span>    
                                 </div> 
 
@@ -48,10 +49,12 @@
                             <div class="col-7 col-total">
                                 <div>
                                     <h4 class="widget-title">
-                                        Customer's Balance
+                                        {!! trans('labels.customers_balance') !!}
                                     </h4>
                                     <span class="dboard-number text-info">
-                                       {{CommonFunction::_CurrencyFormat(542555)}}
+                                       {{--  {{CommonFunction::_CurrencyFormat(542555)}}  --}}
+                                       {{--  {!! $player->sum('reg_remain_balance') !!}  --}}
+                                       {!! CommonFunction::_CurrencyFormat($player->sum('reg_remain_balance')) !!}
                                     </span>    
                                 </div> 
 
@@ -80,7 +83,7 @@
                             <div class="col-6 col-total">
                                 <div>
                                     <h4 class="widget-title">
-                                        Profit
+                                        {!! trans('labels.profit') !!}
                                     </h4>
                                     <span class="dboard-number text-success">
                                          {{CommonFunction::_CurrencyFormat(254)}}
