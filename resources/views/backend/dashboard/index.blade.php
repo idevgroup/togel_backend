@@ -31,7 +31,7 @@
 @push('style')
 <style>
     .dboard-number{
-        font-size: 25px !important;
+        font-size: 23px !important;
         font-weight: 600;
     }
     .dboard-number a{
@@ -40,7 +40,7 @@
     .widget-title{
         text-align: center;
         margin-top: 10px;
-        font-size: 22px;
+        font-size: 16px;
     }
     .col-total{
         text-align: center;

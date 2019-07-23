@@ -24,29 +24,32 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="m_portlet_base_demo_2_1_tab_content" role="tabpanel">
                     {{-- 'url' =>url(_ADMIN_PREFIX_URL.'/messagetemplates/0'), ,'method'=> 'PATCH' --}} {{-- @php($getCurrentCode =Config('sysconfig.currency_code')) {{-- {{dd($getCurrentCode)}} --}}
-                    <?php $getCurrentCode = Config('sysconfig.currency_code')?> @php($timezones = Config('sysconfig.timezones')) {{-- {{dd($timezones)}} --}} {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/generalsettings/0'), 'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method'=>
+                    <?php $getCurrentCode = Config('sysconfig.currency_code')?> 
+                    @php($timezones = Config('sysconfig.timezones')) {{-- {{dd($timezones)}} --}} 
+                    {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/generalsettings/0'), 'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method'=>
                     'PATCH'])!!}
                     <input type="hidden" name="general_id" id="general_id" value="{{$generalSetting->id}}">
                     <div class="form-group m-form__group row @if ($errors->has('currency')) has-danger @endif">
                         {!!Form::label('currency', trans('labels.currency'),['class' => 'col-sm-3 col-form-label'])!!}
                         <div class="col-sm-5">
                             <select class="form-control m-input" name="currency" id="currency">
-                                                    @foreach ($getCurrentCode as $key=>$value)
-                                                        @if($generalSetting->currency == null)
-                                                            @if ($key == 'USD')
-                                                                <option class="form-control m-input" selected value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
-                                                            @else
-                                                                <option class="form-control m-input" value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
-                                                            @endif
-                                                        @else
-                                                            @if ($key == $generalSetting->currency)
-                                                                <option class="form-control m-input" selected value="{{$key}}">{{$value['name'] .' - '. $value['symbol']}}</option>
-                                                            @else
-                                                                <option class="form-control m-input" value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                </select> @if ($errors->has('currency'))
+                                @foreach ($getCurrentCode as $key=>$value)
+                                    @if($generalSetting->currency == null)
+                                        @if ($key == 'USD')
+                                            <option class="form-control m-input" selected value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
+                                        @else
+                                            <option class="form-control m-input" value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
+                                        @endif
+                                    @else
+                                        @if ($key == $generalSetting->currency)
+                                            <option class="form-control m-input" selected value="{{$key}}">{{$value['name'] .' - '. $value['symbol']}}</option>
+                                        @else
+                                            <option class="form-control m-input" value="{{$key}}">{{$value['name'] .'-'. $value['symbol']}}</option>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </select> 
+                            @if ($errors->has('currency'))
                             <p class="form-control-feedback">{{ $errors->first('currency') }}</p> @endif
                         </div>
                     </div>
