@@ -8,35 +8,6 @@
                     2019 &copy; IDG
                 </span>
             </div>
-            {{--  <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-                <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">About</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">Privacy</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">T&C</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="#" class="m-nav__link">
-                            <span class="m-nav__link-text">Purchase</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__item m-nav__item">
-                        <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="Support Center" data-placement="left">
-                            <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>  --}}
         </div>
     </div>
 </footer>
@@ -57,7 +28,44 @@
 <script src="{{asset('backend/assets/demo/default/base/scripts.bundle.js')}}" type="text/javascript"></script>
 
 <!--end::Global Theme Bundle -->
+<!-----Pusher------->
+<script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+ 
+   <script>
+       @if (app()->environment() !== 'production')
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+       @endif 
+            var pusher = new Pusher('a8eaccc69a2429346e3d', {
+                cluster: 'eu',
+                forceTLS: true
+            });
 
+            var channel = pusher.subscribe('member-channel');
+            channel.bind('member-event', function (data) {
+                    var dataJSON = data
+                    if(dataJSON.datamember.proc_type === 'deposit'){
+                    notifytype = 'success';
+                    notifyicon = 'la la-info-circle';
+                    notifytitle = "{{trans('labels.deposit')}}";
+                    }else if(dataJSON.datamember.proc_type === 'withdraw'){
+                    notifytype = 'warning';
+                    notifyicon = 'la la-warning';
+                    notifytitle = "{{trans('labels.withdraw')}}";
+                    }
+                    var html = '<p>ID: '+ dataJSON.datamember.memberId +' <br/>Name: '+ dataJSON.datamember.memberName +' <br/> Amount: '+dataJSON.datamember.amount+'</p>'
+                   $.notify({
+                    title: notifytitle,
+                    // icon: notifyicon,
+                    message: html
+                    }, {
+                    type: notifytype,
+                    autoHide: false,
+                    clickToHide: false,
+                    style: 'bootstrap'
+                });
+            });
+        </script>
 <!--end::Page Vendors -->
       
         <script type="text/javascript">

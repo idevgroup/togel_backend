@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MemberEvent
+class MemberEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,10 @@ class MemberEvent
      *
      * @return void
      */
-    public function __construct()
+    public $datamember;
+    public function __construct($datamember)
     {
-        //
+         $this->datamember = $datamember;
     }
 
     /**
@@ -31,6 +32,10 @@ class MemberEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('member-chanel');
+        //return new PrivateChannel('member-chanel');
+         return ['member-channel'];
+    }
+    public function broadcastAs(){
+         return 'member-event'; 
     }
 }

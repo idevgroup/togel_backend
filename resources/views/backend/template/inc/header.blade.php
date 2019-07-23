@@ -36,7 +36,6 @@
         <!--end::Page Vendors Styles -->
         <link rel="shortcut icon" href="{{asset('images/fav.png')}}" />
         @stack('style') 
-      
     </head>
 
     <!-- end::Head -->

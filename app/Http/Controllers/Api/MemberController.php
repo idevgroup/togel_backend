@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Models\FrontEnd\PlayerBank;
 use App\Models\FrontEnd\PlayerTransaction;
 use App\Models\FrontEnd\Member;
+use App\Events\MemberEvent;
 class MemberController extends Controller {
 
     public function __construct(JWTAuth $auth) {
@@ -92,6 +93,16 @@ class MemberController extends Controller {
             $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
             $tempTransaction->transactid = 'DEP-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
+            
+            //Pusher Event 
+            $dataPusher= [
+                'memberId' => $memberId,
+                'memberName' => $this->guard()->user()->reg_name,
+                'amount' => \CommonFunction::_CurrencyFormat($request->input('amount')),
+                'proc_type' => 'deposit'
+            ];            
+            event(new MemberEvent($dataPusher));
+            
             return response()->json(['data'=>['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
             return response()->json(['data' => ['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]]);
@@ -137,7 +148,14 @@ class MemberController extends Controller {
             //update balance member
             $member->reg_remain_balance = (float)$member->reg_remain_balance - (float)$request->input('amount');
             $member->save();
-            
+              //Pusher Event 
+            $dataPusher= [
+                'memberId' => $this->guard()->user()->id,
+                'memberName' => $this->guard()->user()->reg_name,
+                'amount' => \CommonFunction::_CurrencyFormat($request->input('amount')),
+                'proc_type' => 'withdraw'
+            ];            
+            event(new MemberEvent($dataPusher));
             return response()->json(['data' => ['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
             return response()->json(['data' => ['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]]);
