@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\FrontEnd\Bank;
-use Response;
 use App\Models\FrontEnd\FrontSetting;
 use Config;
-use Illuminate\Support\Arr;
+use App\Models\FrontEnd\Game;
 use App\Models\FrontEnd\Market;
 class FrontEndController extends Controller {
 
@@ -31,7 +30,9 @@ class FrontEndController extends Controller {
         ];
         //\Log::info($setGeneralSetting);
         $market = Market::getAllRecord(0, 1)->get();
-        return response()->json(['general' => $setGeneralSetting,'market' =>$market->jsonSerialize() ],200);
+        $getBankList = Bank::getAllRecord(0, 1)->get();
+        $getGameList = Game::getAllRecord(0)->get();
+        return response()->json(['general' => $setGeneralSetting,'market' =>$market->jsonSerialize(),'bank' =>$getBankList->jsonSerialize(),'gameitem' => $getGameList->jsonSerialize() ],200);
     }
 
 }
