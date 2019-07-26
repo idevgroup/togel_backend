@@ -25,7 +25,7 @@ class GameMarketRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2',
-            'code' => 'required|min:2|max:8|unique:game_market,code'
+            'code' => 'required|min:2|max:8|unique:game_market,code,'.$this->segment(3).',id'
         ];
     }
     public function messages()
