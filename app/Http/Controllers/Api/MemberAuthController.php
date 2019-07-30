@@ -82,7 +82,7 @@ class MemberAuthController extends Controller {
             return $query->with('getBank');
         }])->where('id',$id)->first();
         //return $this->guard()->user();
-        $memeber->reg_remain_balance = \CommonFunction::_CurrencyFormat($memeber->reg_remain_balance);
+       // $memeber->reg_remain_balance = \CommonFunction::_CurrencyFormat($memeber->reg_remain_balance);
          return response()->json(['user'=>$memeber],200);
         } catch(\Exception $e){
             \Log::info($e);
