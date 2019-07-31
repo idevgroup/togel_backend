@@ -195,5 +195,9 @@ class MemberController extends Controller {
         }
         return response()->json($bankOperator);
     }
+    public function betGameAllDigit(Request $request){
+            
+         return response()->json(['success' => true]);
+    }
 
 }

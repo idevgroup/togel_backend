@@ -35,5 +35,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' =
     Route::post('withdraw', 'MemberController@doWithdraw')->name('withdraw');
     Route::post('getmemberbank', 'MemberController@getBankMember')->name('getmemberbank');
     Route::post('getdepositbank', 'MemberController@getBankOperator')->name('get.bank.operator');
+    Route::post('dobetgame','MemberController@betGameAllDigit')->name('do.bet.game');
     Route::post('getmarketgamesetting','FrontEndController@getMarketGameSetting')->name('get.market.game.setting');
 });
