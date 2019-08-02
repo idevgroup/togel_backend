@@ -15,30 +15,34 @@ use App\Models\FrontEnd\PlayerBank;
 use App\Models\FrontEnd\PlayerTransaction;
 use App\Models\FrontEnd\Member;
 use App\Events\MemberEvent;
+use App\Models\FrontEnd\BetTransaction;
+use App\Models\FrontEnd\GameResult;
+
 class MemberController extends Controller {
 
     public function __construct(JWTAuth $auth) {
         $this->auth = $auth;
     }
-     protected function guard() {
+
+    protected function guard() {
         return Auth::guard('api');
     }
+
     public function dashBoard(Request $request) {
         //\Log::info($request->all());
         $memberid = $request->input('memberid');
-        $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id','DESC')->limit(50)->get();
-        $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId',['DEPOSIT','WITHDRAW'])->orderBy('id', 'DESC')->limit(50)->get();
+        $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id', 'DESC')->limit(50)->get();
+        $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId', ['DEPOSIT', 'WITHDRAW'])->orderBy('id', 'DESC')->limit(50)->get();
         $dataJson = [];
         foreach ($getPlayTrans as $row) {
-                $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transid, 'transactiondate' => $row->date, 'amount' => ($row->debet > 0) ? '- ' . \CommonFunction::_CurrencyFormat($row->debet) : \CommonFunction::_CurrencyFormat($row->kredit), 'status' => 1, 'transtype' => $row->invoiceId];
-           
+            $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transid, 'transactiondate' => $row->date, 'amount' => ($row->debet > 0) ? '- ' . \CommonFunction::_CurrencyFormat($row->debet) : \CommonFunction::_CurrencyFormat($row->kredit), 'status' => '', 'transtype' => $row->invoiceId];
         }
         foreach ($getTrans as $row) {
-            $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transactid, 'transactiondate' => $row->request_at, 'amount' =>($row->proc_type !=='WITHDRAW')?\CommonFunction::_CurrencyFormat($row->amount):'- '.\CommonFunction::_CurrencyFormat($row->amount), 'status' => $row->status, 'transtype' => $row->proc_type];
+            $dataJson[] = ['id' => $row->id, 'transactionid' => $row->transactid, 'transactiondate' => $row->request_at, 'amount' => ($row->proc_type !== 'WITHDRAW') ? \CommonFunction::_CurrencyFormat($row->amount) : '- ' . \CommonFunction::_CurrencyFormat($row->amount), 'status' => $row->status, 'transtype' => $row->proc_type];
         }
 
 
-        return response()->json(['data' => $dataJson,'total' => count($dataJson)]);
+        return response()->json(['data' => $dataJson, 'total' => count($dataJson)]);
     }
 
     public function getMarket() {
@@ -47,10 +51,10 @@ class MemberController extends Controller {
     }
 
     public function doDeposit(Request $request) {
-        
+
         $memberId = $this->guard()->user()->id;
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $memberId, 'note' => $request->input('note'),'memberbank'=>$request->input('memberbank'),'debank'=>$request->input('debank')));
+        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $memberId, 'note' => $request->input('note'), 'memberbank' => $request->input('memberbank'), 'debank' => $request->input('debank')));
         $checkDeposit = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $memberId)->first();
         if (!$checkDeposit) {
             $getBankId = $request->input('debank');
@@ -93,17 +97,17 @@ class MemberController extends Controller {
             $tempTransaction->request_at = date('Y-m-d H:i:s', strtotime(Carbon::now()));
             $tempTransaction->transactid = 'DEP-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
-            
+
             //Pusher Event 
-            $dataPusher= [
+            $dataPusher = [
                 'memberId' => $memberId,
                 'memberName' => $this->guard()->user()->reg_name,
                 'amount' => \CommonFunction::_CurrencyFormat($request->input('amount')),
                 'proc_type' => 'deposit'
-            ];            
+            ];
             event(new MemberEvent($dataPusher));
-            
-            return response()->json(['data'=>['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
+
+            return response()->json(['data' => ['success' => true, 'alert' => ['title' => 'Deposit is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
             return response()->json(['data' => ['success' => false, 'alert' => ['title' => 'Processe is pending', 'message' => 'Please wait untill our operator processed your request first!']]]);
         }
@@ -111,9 +115,9 @@ class MemberController extends Controller {
 
     public function doWithdraw(Request $request) {
         $member = Member::findOrFail($this->guard()->user()->id);
-        $getCurrentBalance =  $member->reg_remain_balance;
+        $getCurrentBalance = $member->reg_remain_balance;
         $numberAmount = preg_replace('/[^0-9-.]+/', '', $request->input('amount'));
-        $request->merge(array('amount' => $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $this->guard()->user()->id, 'note' => $request->input('note'),'memberbank'=>$request->input('memberbank'),'balance' => preg_replace('/[^0-9-.]+/', '',$getCurrentBalance)));
+        $request->merge(array('amount' => (float) $numberAmount, 'recaptcha' => $request->input('recaptcha'), 'memberid' => $this->guard()->user()->id, 'note' => $request->input('note'), 'memberbank' => $request->input('memberbank'), 'balance' => (float) $getCurrentBalance));
         $checkWithdraw = TempTransaction::whereIn('proc_type', ['deposit', 'withdraw'])->where('status', 0)->where('player_id', $request->input('memberid'))->first();
         if (!$checkWithdraw) {
             $getWithdrawBank = $request->input('memberbank');
@@ -130,7 +134,7 @@ class MemberController extends Controller {
                 'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
                 'amount.max' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
                 'amount.numeric' => 'Withdraw Amount can only be numeric!',
-                'amount.lte' => 'Sorry this amount have insufficient balance, please try again !!!'        
+                'amount.lte' => 'Sorry this amount have insufficient balance, please try again !!!'
             ]);
             $tempTransaction = new TempTransaction;
             $tempTransaction->player_id = $request->input('memberid');
@@ -146,15 +150,15 @@ class MemberController extends Controller {
             $tempTransaction->transactid = 'WD-' . (int) round(microtime(true) * 1000);
             $tempTransaction->save();
             //update balance member
-            $member->reg_remain_balance = (float)$member->reg_remain_balance - (float)$request->input('amount');
+            $member->reg_remain_balance = (float) $member->reg_remain_balance - (float) $request->input('amount');
             $member->save();
-              //Pusher Event 
-            $dataPusher= [
+            //Pusher Event 
+            $dataPusher = [
                 'memberId' => $this->guard()->user()->id,
                 'memberName' => $this->guard()->user()->reg_name,
                 'amount' => \CommonFunction::_CurrencyFormat($request->input('amount')),
                 'proc_type' => 'withdraw'
-            ];            
+            ];
             event(new MemberEvent($dataPusher));
             return response()->json(['data' => ['success' => true, 'alert' => ['title' => 'Withdraw is successfully', 'message' => 'Please wait untill our operator processed your request first!']]]);
         } else {
@@ -195,9 +199,67 @@ class MemberController extends Controller {
         }
         return response()->json($bankOperator);
     }
-    public function betGameAllDigit(Request $request){
-            
-         return response()->json(['success' => true]);
+
+    public function betGameAllDigit(Request $request) {
+        $member = Member::findOrFail($this->guard()->user()->id);
+        $getCurrentBalance = $member->reg_remain_balance;
+        $getBetItem = $request->input('betitem');
+        $getBetMarket = $request->input('market');
+        $getBetPay = $request->input('totalpay');
+        $getCodeGame = $request->input('gamecode');
+        $request->merge(array(
+            'memberid' => $this->guard()->user()->id,
+            'totalpay' => (float) $getBetPay,
+            'balance' => (float) $getCurrentBalance,
+            'gamecode' => $getCodeGame,
+        ));
+        $this->validate($request, [
+            'memberid' => 'required',
+            'totalpay' => 'required|lte:balance',
+            'balance' => 'required',
+                ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
+
+        //Period my market
+        $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+
+        //Save Transaction Bet
+        $playerTransaction = new PlayerTransaction;
+        $playerTransaction->invoiceId = 'Debit Bet Game';
+        $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
+        $playerTransaction->playerid = $this->guard()->user()->id;
+        $playerTransaction->gameName = $getCodeGame;
+        $playerTransaction->market = $getBetMarket;
+        $playerTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+        $playerTransaction->period = $getPeriod + 1;
+        $playerTransaction->debet = $getBetPay;
+        $playerTransaction->kredit = 0;
+        $playerTransaction->saldo = (float) $getCurrentBalance - (float) $getBetPay;
+        $playerTransaction->save();
+
+        //Bet Transaction
+        $getGame = \App\Models\FrontEnd\Game::where('code', $getCodeGame)->first()->id;
+        foreach ($getBetItem as $item) {
+            $betTransaction = new BetTransaction;
+            $betTransaction->gameId = $getGame;
+            $betTransaction->market = $getBetMarket;
+            $betTransaction->period = $getPeriod + 1;
+            $betTransaction->guess = $item['betnumber'];
+            $betTransaction->discount = $item['betdiscount'];
+            $betTransaction->buy = $item['betprice'];
+            $betTransaction->pay = $item['betpay'];
+            $betTransaction->win = (float) $item['betpay'] * (-1);
+            $betTransaction->invoiceId = $playerTransaction->id;
+            $betTransaction->userid = $this->guard()->user()->id;
+            $betTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $betTransaction->ip = $request->getClientIp();
+            $betTransaction->save();
+        }
+
+        //update balance member
+        $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetPay;
+        ;
+        $member->save();
+        return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
     }
 
 }

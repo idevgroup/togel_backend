@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
     Route::get('banklist', 'FrontEndController@getBank')->name('get.bank.list');
     Route::post('getsetting', 'FrontEndController@getSetting')->name('get.setting.system');
+    Route::post('getperiod','FrontEndController@getPeriodMarket')->name('get.period.market');
 });
 Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
@@ -37,4 +38,5 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' =
     Route::post('getdepositbank', 'MemberController@getBankOperator')->name('get.bank.operator');
     Route::post('dobetgame','MemberController@betGameAllDigit')->name('do.bet.game');
     Route::post('getmarketgamesetting','FrontEndController@getMarketGameSetting')->name('get.market.game.setting');
+    Route::post('checklimitnumerberbet','FrontEndController@checkLimitNumberBet');
 });

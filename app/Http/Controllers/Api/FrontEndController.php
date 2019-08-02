@@ -11,7 +11,7 @@ use App\Models\FrontEnd\Game;
 use App\Models\FrontEnd\Market;
 use App\Models\FrontEnd\MarketGameSetting;
 use Auth;
-
+use App\Models\FrontEnd\GameResult;
 class FrontEndController extends Controller {
 
     public function getBank() {
@@ -47,5 +47,16 @@ class FrontEndController extends Controller {
          $game = $request->input('game');
          $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
          return response()->json($getMarketGameSetting->jsonSerialize());
+    }
+    public function getPeriodMarket(Request $request){
+         $getBetMarket= $request->input('marketcode');
+         $getPeriod = 1;
+         $getPeriod += GameResult::where('market', $getBetMarket)->max('period');
+         return response()->json(['period' => $getPeriod ]);
+    }
+    public function checkLimitNumberBet(Request $request){
+        $getPeriod = 1;
+        $getPeriod += GameResult::where('market', $getBetMarket)->max('period');
+        
     }
 }
