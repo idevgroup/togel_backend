@@ -51,12 +51,17 @@ class FrontEndController extends Controller {
     public function getPeriodMarket(Request $request){
          $getBetMarket= $request->input('marketcode');
          $getPeriod = 1;
-         $getPeriod += GameResult::where('market', $getBetMarket)->max('period');
+         $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked','Y')->max('period');
          return response()->json(['period' => $getPeriod ]);
     }
     public function checkLimitNumberBet(Request $request){
         $getPeriod = 1;
-        $getPeriod += GameResult::where('market', $getBetMarket)->max('period');
+        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked','Y')->max('period');
+        $numberbet = $request->input('numberbet');
+        $marketcode = $request->input('marketcode');
+        $gamecode = $request->input('gamecode');
+        
+        
         
     }
 }
