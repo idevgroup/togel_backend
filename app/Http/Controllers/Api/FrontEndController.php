@@ -12,6 +12,7 @@ use App\Models\FrontEnd\Market;
 use App\Models\FrontEnd\MarketGameSetting;
 use Auth;
 use App\Models\FrontEnd\GameResult;
+
 class FrontEndController extends Controller {
 
     public function getBank() {
@@ -42,26 +43,32 @@ class FrontEndController extends Controller {
 
         return response()->json(['general' => $setGeneralSetting, 'market' => $market->jsonSerialize(), 'bank' => $getBankList->jsonSerialize(), 'gameitem' => $getGameList->jsonSerialize()], 200);
     }
-    public function getMarketGameSetting(Request $request){
-         $market = $request->input('market');
-         $game = $request->input('game');
-         $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
-         return response()->json($getMarketGameSetting->jsonSerialize());
+
+    public function getMarketGameSetting(Request $request) {
+        $market = $request->input('market');
+        $game = $request->input('game');
+        $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+        return response()->json($getMarketGameSetting->jsonSerialize());
     }
-    public function getPeriodMarket(Request $request){
-         $getBetMarket= $request->input('marketcode');
-         $getPeriod = 1;
-         $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked','Y')->max('period');
-         return response()->json(['period' => $getPeriod ]);
-    }
-    public function checkLimitNumberBet(Request $request){
+
+    public function getPeriodMarket(Request $request) {
+        $getBetMarket = $request->input('marketcode');
         $getPeriod = 1;
-        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked','Y')->max('period');
+        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
+        return response()->json(['period' => $getPeriod]);
+    }
+
+    public function checkLimitNumberBet(Request $request) {
+        $getPeriod = 1;
+        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
         $numberbet = $request->input('numberbet');
         $marketcode = $request->input('marketcode');
-        $gamecode = $request->input('gamecode');
-        
-        
+        $getGame = $request->input('gamecode');
+        //Bet Transaction
+        $gamecode = \App\Models\FrontEnd\Game::where('code', $gamecode)->first()->id;
+
+        $countBetNumber = \App\Models\FrontEnd\BetTransaction::where('gameId', $gamecode)->where('market',$marketcode)->where('period',$getPeriod)->where('guess',$numberbet)->count();
         
     }
+
 }
