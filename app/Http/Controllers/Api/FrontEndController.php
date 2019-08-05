@@ -45,6 +45,7 @@ class FrontEndController extends Controller {
     }
 
     public function getMarketGameSetting(Request $request) {
+        \Log::info($request->all());
         $market = $request->input('market');
         $game = $request->input('game');
         $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
@@ -59,16 +60,17 @@ class FrontEndController extends Controller {
     }
 
     public function checkLimitNumberBet(Request $request) {
+        $getBetMarket = $request->input('marketcode');
         $getPeriod = 1;
         $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
         $numberbet = $request->input('numberbet');
         $marketcode = $request->input('marketcode');
         $getGame = $request->input('gamecode');
         //Bet Transaction
-        $gamecode = \App\Models\FrontEnd\Game::where('code', $gamecode)->first()->id;
+        $gamecode = \App\Models\FrontEnd\Game::where('name', $getGame)->first()->id;
 
         $countBetNumber = \App\Models\FrontEnd\BetTransaction::where('gameId', $gamecode)->where('market',$marketcode)->where('period',$getPeriod)->where('guess',$numberbet)->count();
-        
+         return response()->json(['count' => $countBetNumber]);
     }
 
 }

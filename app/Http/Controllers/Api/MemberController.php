@@ -237,7 +237,7 @@ class MemberController extends Controller {
         $playerTransaction->save();
 
         //Bet Transaction
-        $getGame = \App\Models\FrontEnd\Game::where('code', $getCodeGame)->first()->id;
+        $getGame = \App\Models\FrontEnd\Game::where('name', $getCodeGame)->first()->id;
         foreach ($getBetItem as $item) {
             $betTransaction = new BetTransaction;
             $betTransaction->gameId = $getGame;
@@ -257,7 +257,6 @@ class MemberController extends Controller {
 
         //update balance member
         $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetPay;
-        ;
         $member->save();
         return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
     }
