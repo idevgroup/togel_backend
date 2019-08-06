@@ -224,7 +224,7 @@ class MemberController extends Controller {
 
         //Save Transaction Bet
         $playerTransaction = new PlayerTransaction;
-        $playerTransaction->invoiceId = 'Debit Bet Game';
+        $playerTransaction->invoiceId = 'Bet Game';
         $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
         $playerTransaction->playerid = $this->guard()->user()->id;
         $playerTransaction->gameName = $getCodeGame;
