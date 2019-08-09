@@ -39,4 +39,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' =
     Route::post('dobetgame','MemberController@betGameAllDigit')->name('do.bet.game');
     Route::post('getmarketgamesetting','FrontEndController@getMarketGameSetting')->name('get.market.game.setting');
     Route::post('checklimitnumerberbet','FrontEndController@checkLimitNumberBet');
+    Route::post('transperiodlist','MemberController@transactinPeriod')->name('get.period.transaction');
+    Route::post('transgamelist','MemberController@transactionGameList')->name('get.transaction.game.list');
 });

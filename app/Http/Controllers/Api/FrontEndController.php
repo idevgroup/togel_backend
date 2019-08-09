@@ -40,8 +40,8 @@ class FrontEndController extends Controller {
         $market = Market::getAllRecord(0, 1)->get();
         $getBankList = Bank::getAllRecord(0, 1)->get();
         $getGameList = Game::getAllRecord(0)->get();
-
-        return response()->json(['general' => $setGeneralSetting, 'market' => $market->jsonSerialize(), 'bank' => $getBankList->jsonSerialize(), 'gameitem' => $getGameList->jsonSerialize()], 200);
+        $getSiteLock = FrontSetting::getSiteLock();
+        return response()->json(['general' => $setGeneralSetting, 'market' => $market->jsonSerialize(), 'bank' => $getBankList->jsonSerialize(), 'gameitem' => $getGameList->jsonSerialize(),'sitelock' => $getSiteLock->jsonSerialize()], 200);
     }
 
     public function getMarketGameSetting(Request $request) {

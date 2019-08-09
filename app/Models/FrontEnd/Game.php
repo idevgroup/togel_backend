@@ -11,4 +11,7 @@ class Game extends Model
     {
         return self::where('is_trashed', $is_trashed)->orderBy('name', 'ASC');
     }
+    public function listBetTransaction(){
+         return $this->hasMany('App\Models\FrontEnd\BetTransaction','gameId','id');
+    }
 }

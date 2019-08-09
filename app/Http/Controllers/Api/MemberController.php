@@ -17,6 +17,7 @@ use App\Models\FrontEnd\Member;
 use App\Events\MemberEvent;
 use App\Models\FrontEnd\BetTransaction;
 use App\Models\FrontEnd\GameResult;
+use App\Models\FrontEnd\Game;
 
 class MemberController extends Controller {
 
@@ -29,7 +30,6 @@ class MemberController extends Controller {
     }
 
     public function dashBoard(Request $request) {
-        //\Log::info($request->all());
         $memberid = $request->input('memberid');
         $getTrans = TempTransaction::getTemTransaction($memberid)->orderBy('id', 'DESC')->limit(50)->get();
         $getPlayTrans = PlayerTransaction::where('playerid', $memberid)->whereNotIn('invoiceId', ['DEPOSIT', 'WITHDRAW'])->orderBy('id', 'DESC')->limit(50)->get();
@@ -259,6 +259,41 @@ class MemberController extends Controller {
         $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetPay;
         $member->save();
         return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
+    }
+
+    public function transactinPeriod(Request $request) {
+        $marketcode = $request->input('marketcode');
+        $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->get();
+        $period = (int) $getPeriod->max('period') + (int) 1;
+
+        $periodListOption = [0 => ['key' => "$marketcode-$period", 'value' => strtoupper("$marketcode-$period")]];
+        foreach ($getPeriod as $row) {
+            $periodListOption[] = ['key' => "$marketcode-$row->period", 'value' => strtoupper("$marketcode-$row->period / $row->date")];
+        }
+        return response()->json($periodListOption);
+    }
+
+    public function transactionGameList(Request $request) {
+        $getRequest = $request->input('period');
+        $slipValue = explode('-', $getRequest);
+//        $getListTransaction = BetTransaction::where('market',$slipValue[0])->where('period',$slipValue[1])->where('userid',$this->guard()->user()->id)->get();
+//        
+        $getListTransaction = Game::with(['listBetTransaction' => function($query) use($slipValue) {
+                        return $query->where('market', $slipValue[0])->where('period', $slipValue[1])->where('userid', $this->guard()->user()->id);
+                    }])->where('is_trashed',0)->get();
+                    
+        $listGameTransaction = [];
+        foreach($getListTransaction as $item){
+            $listGameTransaction[] = [
+                'gameid' => $item->id,
+                'gamename' => $item->name,
+                'buy' => $item->listBetTransaction->sum('buy'),
+                'paid' => $item->listBetTransaction->sum('pay'),
+                'win' => $item->listBetTransaction->sum('win'),
+                'invoicedetail' => $item->listBetTransaction
+            ];
+        }
+        return response()->json($listGameTransaction);
     }
 
 }
