@@ -51,7 +51,7 @@ class Member extends Authenticatable implements JWTSubject {
         $this->save();
     }
       public function getPlayerBank() {
-        return $this->hasOne('App\Models\FrontEnd\PlayerBank', 'reg_id', 'id');
+        return $this->hasMany('App\Models\FrontEnd\PlayerBank', 'reg_id', 'id');
     }
 
 //    public function setPasswordAttribute($password) {

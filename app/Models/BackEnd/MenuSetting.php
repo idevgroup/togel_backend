@@ -15,6 +15,4 @@ class MenuSetting extends Model
     public function getParents(){
       return $this->hasMany('App\Models\BackEnd\MenuSetting', 'parents', 'id');
     }
-
-  
 }

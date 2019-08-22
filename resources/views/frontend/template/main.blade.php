@@ -1,6 +1,6 @@
 @include('frontend.template.inc.head')
+<main>
 @include('frontend.template.inc.nav')
-<main class="py-4">
-    @yield('content')
+@yield('content')
 </main>
 @include('frontend.template.inc.footer')
