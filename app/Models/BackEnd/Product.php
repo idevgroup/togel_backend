@@ -36,4 +36,8 @@ class Product extends Model
     static function getAllRecord($is_trashed){
         return self::where('is_trashed',$is_trashed)->orderBy('id', 'DESC');
     }
+    // public function category()
+    // {
+    //     return $this->belongsTo('App\Models\BackEnd\Category', 'category_id');
+    // }
 }

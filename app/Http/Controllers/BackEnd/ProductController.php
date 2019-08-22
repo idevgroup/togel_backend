@@ -30,11 +30,12 @@ class ProductController extends Controller
                 $entity = 'products';
                 return view('backend.shared._actions', compact("id", "entity"));
             })->editColumn('name', '<a href="' . url(_ADMIN_PREFIX_URL . '/products') . '/{{$id}}/edit">{{ $name }}</a><br/><small>Slug: {{ $slug }}</small>')
+                ->editColumn('description','{!! $description!!}')
                 ->editColumn('status', '<div id="action_{{$id}}">{!!_CheckStatus($status,$id)!!}</div>')->setRowData([
                     'data-id' => '{{$id}}'
                 ])->editColumn('thumb', '{!!_CheckImage($thumb,_IMG_DEFAULT,["class" => "img-fluid"])!!}')->addColumn('check', '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand">
                     <input type="checkbox" name="cbo_selected" value="{{ $id }}" class="m-checkable"/><span></span>
-                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'action', 'thumb', 'status', 'check'])->addIndexColumn();
+                    </label>')->setRowClass('row-ordering')->setRowAttr(['data-id' => '{{$id}}'])->rawColumns(['name', 'description','action', 'thumb', 'status', 'check'])->addIndexColumn();
             return $datatables->make(true);
 
         }
@@ -46,6 +47,7 @@ class ProductController extends Controller
             </label>', 'orderable' => false, "searchable" => false, 'width' => '40'],
             ['data' => 'thumb', 'name' => 'thumb', 'title' => trans('labels.image'), 'orderable' => false, 'searchable' => false, 'width' => '80'],
             ['data' => 'name', 'name' => 'name', 'title' => trans('labels.productname')],
+            ['data' => 'description', 'name' => 'description', 'title' => trans('labels.description')],
             ['data' => 'status', 'name' => 'status', 'title' => trans('labels.status'), "orderable" => false, "searchable" => false, 'width' => '40'],
             ['data' => 'action', 'name' => 'action', 'title' => trans('labels.action'), "orderable" => false, "searchable" => false, 'width' => '60'],
         ])->parameters([

@@ -11,6 +11,20 @@ class Category extends Model
     use HasImageUploads;
     protected $table = 'category';
 
+    public function getParents(){
+        return $this->hasMany('App\Models\BackEnd\Category', 'parent_id', 'id');
+    }
+    
+    public function posts(){
+        return $this->hasMany('App\Models\BackEnd\Post', 'category_id', 'id');
+    }
+  
+    public function products(){
+        return $this->hasMany('App\Models\BackEnd\Product', 'category_id', 'id');
+    }
+    public function dreambooks(){
+        return $this->hasMany('App\Models\BackEnd\DreamBooks', 'category_id', 'id');
+    }
     protected static $imageFields = [
         'banner' => [
             'width' => _IMG_CATE_W,

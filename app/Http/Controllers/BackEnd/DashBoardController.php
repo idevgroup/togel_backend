@@ -9,6 +9,8 @@ use Auth;
 use App\Models\BackEnd\Player;
 use Illuminate\Support\Facades\DB;
 use App\Models\FrontEnd\TempTransaction;
+use Carbon\Carbon;
+use DateTimeZone;
 
 class DashBoardController extends Controller
 {
@@ -20,12 +22,15 @@ class DashBoardController extends Controller
      */
     public function index()
     {
-        $player = Player::where('status' ,1)->where('is_trashed', 0)->get();
-        $tempTransaction = TempTransaction::all();
-        // dd($tempTransaction);
+        $player = Player::where('status' , 1)->where('is_trashed', 0)->get();
+        $playerReg = Player::whereBetween('reg_date', [Carbon::today(new DateTimeZone('Asia/Phnom_Penh')),Carbon::tomorrow(new DateTimeZone('Asia/Phnom_Penh'))])->where('status' ,1)->where('is_trashed', 0)->get();
+       
+        $tempTransaction = TempTransaction::where('status', 0)->get();
+        // dd($tempTransaction->count());
         return view('backend.dashboard.index')
         ->with('player', $player)
         ->with('tempTransaction', $tempTransaction)
+        ->with('playerReg',$playerReg)
         ;
     }
 

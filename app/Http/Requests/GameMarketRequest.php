@@ -24,7 +24,7 @@ class GameMarketRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2',
+            'name' => 'required|min:2|unique:game_market,name',
             'code' => 'required|min:2|max:8|unique:game_market,code'
         ];
     }
