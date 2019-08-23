@@ -71,7 +71,6 @@
             </div>
             <div class="modal-body" >
                 <div class="form-group m-form__group row">
-                    
                     <div class="col-lg-4 col-sm-12 mx-auto">
                         <div class="input-daterange input-group" id="date-transaction">
                             <input type="text" class="form-control m-input" name="start">
@@ -216,6 +215,10 @@ var tbladmin = 'admin-tbl-zen';
                });
                
             });
+
+
+
+
             function getTransaction(pId) {
                 var table = $('#tableTransation').DataTable({
                     processing: true,
@@ -285,6 +288,12 @@ var tbladmin = 'admin-tbl-zen';
                 });
             }
 
+
+
+
+
+
+            
             $('body').on('click', '.player_block', function () {
                 var pId = $(this).data('id');
                 var pStatus = $(this).data('status');

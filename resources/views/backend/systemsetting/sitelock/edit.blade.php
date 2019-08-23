@@ -116,10 +116,13 @@
 @push('javascript')
 
 
-    {{--<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
+    {{{--<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
 
     <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
     <script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
+    <!--begin::Page Scripts -->
+    <script src="{{ asset('backend/assets/demo/default/custom/crud/forms/widgets/bootstrap-timepicker.js') }}"
+            type="text/javascript"></script>
     {{--{!!JsValidator::formRequest('App\Http\Requests\CategoriesRequest', '#idev-form')!!}--}}
     @include('backend.shared._selectimg',['selectElement' => '#banner'])
     @include('backend.shared._tinymce',['elements' => '.cms-editor'])

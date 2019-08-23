@@ -6,24 +6,35 @@
                     <div class="m-widget24__item">
 
                         <div class="row">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <span class="m-widget24__desc">
                                     <i class="la la-group la-size-130 text-primary"></i>
                                 </span>
 
                             </div>
-                            <div class="col-7 col-total">
+                            <div class="col-4 col-total">
+                                <div>
+                                    <h4 class="widget-title">
+                                        {!! trans('labels.newregister') !!}
+                                    </h4>
+                                    <span class="dboard-number text-primary">
+                                        {!! $playerReg->count(); !!} Person(s)                             
+                                    </span>    
+                                </div> 
+
+                            </div>
+                            <div class="col-4 col-total">
                                 <div>
                                     <h4 class="widget-title">
                                         {!! trans('labels.customers') !!}
                                     </h4>
                                     <span class="dboard-number text-primary">
-                                        {!! CommonFunction::_CurrencyFormat($player->count('id'),1) !!}
-                                        {{--  {!! $player->count('id'); !!} Person  --}}
+                                        {!! $player->count('id'); !!} Person
                                     </span>    
                                 </div> 
 
                             </div>
+                          
                         </div>
 
 
@@ -52,9 +63,8 @@
                                         {!! trans('labels.customers_balance') !!}
                                     </h4>
                                     <span class="dboard-number text-info">
-                                       {{--  {{CommonFunction::_CurrencyFormat(542555)}}  --}}
-                                       {{--  {!! $player->sum('reg_remain_balance') !!}  --}}
-                                       {!! CommonFunction::_CurrencyFormat($player->sum('reg_remain_balance')) !!}
+                                       {{--  {!! CommonFunction::_CurrencyFormat($player->sum('reg_remain_balance')) !!}  --}}
+                                       {!! CommonFunction::_CurrencyFormat($player->where('reg_remain_balance', '>=', 0)->sum('reg_remain_balance')) !!}
                                     </span>    
                                 </div> 
 

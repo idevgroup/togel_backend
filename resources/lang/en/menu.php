@@ -19,6 +19,8 @@ return [
     'gamemarket' => 'Game Market',
     'game' => 'Game',
     'games' => 'Games',
+    'frontmenu' => 'Front Menu',
+    'mainmenu' => 'Main Menu',
     '4D' => '4D',
     'systemsetting' => 'System Setting',
     'gamesetting' => 'Game Setting',

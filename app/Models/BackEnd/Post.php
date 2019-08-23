@@ -41,4 +41,7 @@ class Post extends Model
     {
         return self::where('is_trashed', $is_trashed)->orderBy('name', 'ASC');
     }
+    public function posts(){
+        return $this->belongsTo('App\Models\BackEnd\Category', 'id', 'category_id');
+    }
 }

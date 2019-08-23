@@ -39,4 +39,9 @@ class DreamBooks extends Model
     {
         return self::where('is_trashed', $is_trashed)->orderBy('name', 'ASC');
     }
+
+    // public function category()
+    // {
+    //     return $this->belongsTo('App\Models\BackEnd\Category', 'category_id');
+    // }
 }
