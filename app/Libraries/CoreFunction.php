@@ -84,6 +84,22 @@ function _strip_html_tags($text) {
 
 function _covertStringX($str) {
     $strLen = strlen($str);
-    $getStr = substr($str,-4);
-    return 'XXXXXXXX'.$getStr;
+    $getStr = substr($str, -4);
+    return 'XXXXXXXX' . $getStr;
+}
+
+function _SiteLock($fromTime,$endTime) {
+    $current_time = date("h:i a");
+    $begin = $fromTime;
+    $end = $endTime;
+
+    $date1 = DateTime::createFromFormat('H:i a', $current_time);
+    $date2 = DateTime::createFromFormat('H:i a', $begin);
+    $date3 = DateTime::createFromFormat('H:i a', $end);
+
+    if ($date1 > $date2 && $date1 < $date3) {
+        return true;
+    } else {
+        return false;
+    }
 }

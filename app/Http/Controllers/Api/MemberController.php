@@ -224,7 +224,7 @@ class MemberController extends Controller {
 
         //Save Transaction Bet
         $playerTransaction = new PlayerTransaction;
-        $playerTransaction->invoiceId = 'Bet Game';
+        $playerTransaction->invoiceId = 'Bet Game ' + $getCodeGame;
         $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
         $playerTransaction->playerid = $this->guard()->user()->id;
         $playerTransaction->gameName = $getCodeGame;
@@ -260,7 +260,72 @@ class MemberController extends Controller {
         $member->save();
         return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
     }
+    public function doBetGame50(Request $request){
+        $member = Member::findOrFail($this->guard()->user()->id);
+        $getCurrentBalance = $member->reg_remain_balance;
+        
+        $oddeven = $request->input('betOddEven');
+        $bigsmall = $request->input('betSmallLarge');
+        $getBetTotalPay = $request->input('betTotalPay');
+        $getBetMarket = $request->input('market');
+        $arrayMerge = array_merge($oddeven,$bigsmall);
+        
+        $request->merge(array(
+            'memberid' => $this->guard()->user()->id,
+            'totalpay' => (float) $getBetTotalPay,
+            'balance' => (float) $getCurrentBalance,
+            'gamecode' => '50-50',
+        ));
+          $this->validate($request, [
+            'memberid' => 'required',
+            'totalpay' => 'required|lte:balance',
+            'balance' => 'required',
+                ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
+        
+            //Period my market
+        $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
 
+        //Save Transaction Bet
+        $playerTransaction = new PlayerTransaction;
+        $playerTransaction->invoiceId = 'Bet Game '+$request->input('gamecode');
+        $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
+        $playerTransaction->playerid = $this->guard()->user()->id;
+        $playerTransaction->gameName = $request->input('gamecode');
+        $playerTransaction->market = $getBetMarket;
+        $playerTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+        $playerTransaction->period = $getPeriod + 1;
+        $playerTransaction->debet = $getBetTotalPay;
+        $playerTransaction->kredit = 0;
+        $playerTransaction->saldo = (float) $getCurrentBalance - (float) $getBetTotalPay;
+        $playerTransaction->save();
+        
+        $getGame = \App\Models\FrontEnd\Game::where('name', $request->input('gamecode'))->first()->id;
+        foreach($arrayMerge as $item){
+            if($item['bet'] > 0){
+            $betTransaction = new BetTransaction;
+            $betTransaction->gameId = $getGame;
+            $betTransaction->market = $getBetMarket;
+            $betTransaction->period = $getPeriod + 1;
+            $betTransaction->guess = $item['Selected'];
+            $betTransaction->kei = $item['kei'];
+            $betTransaction->param1= $item['key'];
+            $betTransaction->discount = $item['discount'];
+            $betTransaction->buy = $item['bet'];
+            $betTransaction->pay = $item['pay'];
+            $betTransaction->win = (float) $item['pay'] * (-1);
+            $betTransaction->invoiceId = $playerTransaction->id;
+            $betTransaction->userid = $this->guard()->user()->id;
+            $betTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $betTransaction->ip = $request->getClientIp();
+            $betTransaction->save();
+            }
+        }
+        
+         //update balance member
+        $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetTotalPay;
+        $member->save();
+        return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
+    }
     public function transactinPeriod(Request $request) {
         $marketcode = $request->input('marketcode');
         $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->get();

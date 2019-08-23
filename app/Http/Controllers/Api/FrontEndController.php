@@ -39,19 +39,24 @@ class FrontEndController extends Controller {
         //\Log::info($setGeneralSetting);
         $market = Market::getAllRecord(0, 1)->get();
         $getBankList = Bank::getAllRecord(0, 1)->get();
-        $getGameList = Game::getAllRecord(0)->get();
+        $getGameList = Game::getAllRecord(0)->whereNotIn('id',[12,13,15])->get();
         $getSiteLock = FrontSetting::getSiteLock();
         return response()->json(['general' => $setGeneralSetting, 'market' => $market->jsonSerialize(), 'bank' => $getBankList->jsonSerialize(), 'gameitem' => $getGameList->jsonSerialize(),'sitelock' => $getSiteLock->jsonSerialize()], 200);
     }
 
     public function getMarketGameSetting(Request $request) {
-        \Log::info($request->all());
+       // \Log::info($request->all());
         $market = $request->input('market');
         $game = $request->input('game');
-        $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+        if(is_array($game)){
+            $getMarketGameSetting = MarketGameSetting::where('market', $market)->whereIn('game_name', $game)->orderBy('id','ASC')->get();
+        }else{
+            $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+        }
+        
         return response()->json($getMarketGameSetting->jsonSerialize());
     }
-
+    
     public function getPeriodMarket(Request $request) {
         $getBetMarket = $request->input('marketcode');
         $getPeriod = 1;
