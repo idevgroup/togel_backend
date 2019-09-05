@@ -39,7 +39,7 @@ class FrontEndController extends Controller {
         //\Log::info($setGeneralSetting);
         $market = Market::getAllRecord(0, 1)->get();
         $getBankList = Bank::getAllRecord(0, 1)->get();
-        $getGameList = Game::getAllRecord(0)->whereNotIn('id',[12,13,15])->get();
+        $getGameList = Game::getAllRecord(0)->get();
         $getSiteLock = FrontSetting::getSiteLock();
         return response()->json(['general' => $setGeneralSetting, 'market' => $market->jsonSerialize(), 'bank' => $getBankList->jsonSerialize(), 'gameitem' => $getGameList->jsonSerialize(),'sitelock' => $getSiteLock->jsonSerialize()], 200);
     }
