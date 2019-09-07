@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' =
     Route::post('dobetgamekembang','MemberController@doBetGameKembang')->name('do.bet.game.kembang');
     Route::post('dobetgamekombinasi','MemberController@doBetGameKombinasi')->name('do.bet.game.kombinasi');
     Route::post('dobetgameshio','MemberController@doBetGameShio')->name('do.bet.game.shoio');
+    Route::post('dobetgamequick','MemberController@doBetQuickGame')->name('do.bet.game.quick');
     Route::post('getgameshio','MemberController@getShioString')->name('get.game.shio');
     Route::post('getmarketgamesetting','FrontEndController@getMarketGameSetting')->name('get.market.game.setting');
     Route::post('checklimitnumerberbet','FrontEndController@checkLimitNumberBet');

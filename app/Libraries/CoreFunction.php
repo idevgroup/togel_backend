@@ -88,7 +88,7 @@ function _covertStringX($str) {
     return 'XXXXXXXX' . $getStr;
 }
 
-function _SiteLock($fromTime,$endTime) {
+function _SiteLock($fromTime, $endTime) {
     $current_time = date("h:i a");
     $begin = $fromTime;
     $end = $endTime;
@@ -102,4 +102,27 @@ function _SiteLock($fromTime,$endTime) {
     } else {
         return false;
     }
+}
+
+function permute($arg) {
+    $arg = str_replace("0", "~", $arg);
+    $array = is_string($arg) ? str_split($arg) : $arg;
+    if (1 === count($array))
+        return $array;
+    $r = array();
+    foreach ($array as $key => $item)
+        foreach ($this->permute(array_diff_key($array, array($key => $item))) as $p)
+            $r[] = $item . $p;
+
+    $result = array();
+    $index = 0;
+    foreach ($r as $key => $val) {
+        if (in_array($val, $result) == false) {
+            $result[$index] = $val;
+            //$result[$index] = str_replace("_", "0", $val);
+            $index++;
+        }
+    }
+
+    return $result;
 }

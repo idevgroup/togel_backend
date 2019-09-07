@@ -540,8 +540,9 @@ class MemberController extends Controller {
             \Log::error($e);
         }
     }
-    public function  doBetGameKembang(Request $request){
-         try {
+
+    public function doBetGameKembang(Request $request) {
+        try {
             DB::beginTransaction();
             $member = Member::findOrFail($this->guard()->user()->id);
             $getCurrentBalance = $member->reg_remain_balance;
@@ -646,7 +647,7 @@ class MemberController extends Controller {
                     $betTransaction->save();
                 }
             }
-            
+
             //update balance member
             $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetTotalPay;
             $member->save();
@@ -658,12 +659,10 @@ class MemberController extends Controller {
             \Log::info(\URL::current());
             \Log::error($e);
         }
-        
-        
     }
 
-    public function doBetGameKombinasi(Request $request){
-         try {
+    public function doBetGameKombinasi(Request $request) {
+        try {
             DB::beginTransaction();
             $member = Member::findOrFail($this->guard()->user()->id);
             $getCurrentBalance = $member->reg_remain_balance;
@@ -733,6 +732,7 @@ class MemberController extends Controller {
             \Log::error($e);
         }
     }
+
     public function doBetGameColokBebas(Request $request) {
         try {
             DB::beginTransaction();
@@ -875,7 +875,8 @@ class MemberController extends Controller {
             \Log::error($e);
         }
     }
-     public function doBetGameShio(Request $request) {
+
+    public function doBetGameShio(Request $request) {
         try {
             DB::beginTransaction();
             $member = Member::findOrFail($this->guard()->user()->id);
@@ -921,7 +922,7 @@ class MemberController extends Controller {
                 $betTransaction->market = $getBetMarket;
                 $betTransaction->period = $getPeriod + 1;
                 $betTransaction->guess = $item['selected'];
-               // $betTransaction->param1 = $item['betposition'];
+                // $betTransaction->param1 = $item['betposition'];
                 $betTransaction->discount = $item['discount'];
                 $betTransaction->buy = $item['bet'];
                 $betTransaction->pay = $item['pay'];
@@ -945,15 +946,16 @@ class MemberController extends Controller {
             \Log::error($e);
         }
     }
+
     public function doBetGameTepiTangah(Request $request) {
-         $GameTepiTangah = ['1' => 'Tepi', '2' => 'Tengah'];
+        $GameTepiTangah = ['1' => 'Tepi', '2' => 'Tengah'];
         try {
             DB::beginTransaction();
             $member = Member::findOrFail($this->guard()->user()->id);
             $getCurrentBalance = $member->reg_remain_balance;
 
             $betTepiTangah = $request->input('betTepiTangah');
-        
+
             $getBetTotalPay = $request->input('betTotalPay');
             $getBetMarket = $request->input('market');
             $getIpClient = $request->input('ip');
@@ -1005,7 +1007,7 @@ class MemberController extends Controller {
                     $betTransaction->save();
                 }
             }
-        
+
             //update balance member
             $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetTotalPay;
             $member->save();
@@ -1055,6 +1057,89 @@ class MemberController extends Controller {
         return response()->json($listGameTransaction);
     }
 
+    public function doBetQuickGame(Request $request) {
+        
+        try {
+            DB::beginTransaction();
+            $member = Member::findOrFail($this->guard()->user()->id);
+            $getCurrentBalance = $member->reg_remain_balance;
+            $getBetItem = $request->input('betitem');
+            $getBetMarket = $request->input('market');
+            $getBetPay = $request->input('totalpay');
+            $getCodeGame = $request->input('gamecode');
+            $getIpClient = $request->input('ip');
+            $request->merge(array(
+                'memberid' => $this->guard()->user()->id,
+                'totalpay' => (float) $getBetPay,
+                'balance' => (float) $getCurrentBalance,
+                'gamecode' => $getCodeGame,
+            ));
+            $this->validate($request, [
+                'memberid' => 'required',
+                'totalpay' => 'required|lte:balance',
+                'balance' => 'required',
+                    ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
+
+            //Period my market
+            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+
+            //Save Transaction Bet
+            
+            $playerTransaction = new PlayerTransaction;
+            $playerTransaction->invoiceId = 'Bet Game quick bet';
+            $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
+            $playerTransaction->playerid = $this->guard()->user()->id;
+            $playerTransaction->gameName = $getCodeGame;
+            $playerTransaction->market = $getBetMarket;
+            $playerTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $playerTransaction->period = $getPeriod + 1;
+            $playerTransaction->debet = $getBetPay;
+            $playerTransaction->kredit = 0;
+            $playerTransaction->saldo = (float) $getCurrentBalance - (float) $getBetPay;
+            $playerTransaction->save();
+
+            //Bet Transaction
+            
+            foreach ($getBetItem as $item) {
+                $gamecode = '';
+                if(strlen($item['numberXd']) == 4){
+                    $gamecode = '4D';
+                }elseif(strlen($item['numberXd']) == 3){
+                    $gamecode = '3D';
+                }elseif(strlen($item['numberXd']) == 2){
+                    $gamecode = '2D';
+                }
+                $getGame = \App\Models\FrontEnd\Game::where('name', $gamecode)->first()->id;
+                
+                $betTransaction = new BetTransaction;
+                $betTransaction->gameId = $getGame;
+                $betTransaction->market = $getBetMarket;
+                $betTransaction->period = $getPeriod + 1;
+                $betTransaction->guess = $item['numberXd'];
+                $betTransaction->discount = $item['discount'];
+                $betTransaction->buy = $item['betvalue'];
+                $betTransaction->pay = $item['betpay'];
+                $betTransaction->win = (float) $item['betpay'] * (-1);
+                $betTransaction->invoiceId = $playerTransaction->id;
+                $betTransaction->userid = $this->guard()->user()->id;
+                $betTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+                $betTransaction->ip = $getIpClient;
+                $betTransaction->save();
+            }
+
+            //update balance member
+            $member->reg_remain_balance = (float) $getCurrentBalance - (float) $getBetPay;
+            $member->save();
+            DB::commit();
+            return response()->json(['success' => true, 'alert' => ['title' => 'Process is successfully', 'message' => 'Thank you !!!']]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Do Bet Game Digit quick game');
+            \Log::info(\URL::current());
+            \Log::error($e);
+        }
+    }
+
     function getShioString(Request $request) {
         $date = $request->input('date');
         if ($date == null)
@@ -1094,12 +1179,11 @@ class MemberController extends Controller {
             unset($g[$i]);
         }
         $item = [];
-        foreach($g as $key => $value){
-            $item[] =['value' => $key + 1,'text' => ($key + 1).'. '.$value]; 
+        foreach ($g as $key => $value) {
+            $item[] = ['value' => $key + 1, 'text' => ($key + 1) . '. ' . $value];
         }
-       
-       return response()->json($item);
-        
+
+        return response()->json($item);
     }
 
 }
