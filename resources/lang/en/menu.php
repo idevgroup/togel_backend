@@ -48,6 +48,13 @@ return [
     'withdraw' => 'Withdraw',
     'onhold' => 'On Hold',
     'historytransaction' => 'History Transaction',
-    'manualbalance' => 'Manual Balance'
+    'manualbalance' => 'Manual Balance',
+    '4dresult' => '4D Result',
+    'result' => 'Result',
+    'resultcurrection' => 'Result Correction',
+    'resultdatecurrection' => 'Result Date Correction',
+    'betlist' => 'Bet List',
+    'report' => 'Reports',
+    'customerreport' => 'Customer Report'
     
 ];

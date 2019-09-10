@@ -69,13 +69,14 @@ class PlayerDatatable extends DataTable {
         return $this->builder()
                         ->columns($this->getColumns())
                         //->addCheckbox()
-                        ->ajax([
+                        ->postAjax([
                             'data' => "function(d){
                                   d.status = $('select[name=status]').val();
                             }"
                                 ]
                         )
                         ->parameters([
+                            //'drawCallback' => 'function() { $(this).clear() }',
                             'lengthMenu' => \Config::get('sysconfig.lengthMenu'),
                             //'pagingType' => 'full_numbers',
                             'bFilter' => true,
