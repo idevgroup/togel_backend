@@ -33,6 +33,14 @@ class Recaptcha implements Rule
         ])->json()['success'];
     }
 
+    public static function isInTestMode()
+    {
+        return Zttp::asFormParams()->post(static::URL, [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => 'test',
+            'remoteip' => request()->ip()
+        ])->json()['success'];
+    }
     /**
      * Get the validation error message.
      *
@@ -42,4 +50,5 @@ class Recaptcha implements Rule
     {
         return 'The recaptcha verification failed. Try again.';
     }
+
 }

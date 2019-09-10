@@ -19,12 +19,12 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
     Route::post('getsetting', 'FrontEndController@getSetting')->name('get.setting.system');
     Route::post('getperiod','FrontEndController@getPeriodMarket')->name('get.period.market');
 });
-Route::group(['middleware' => 'guest:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
+Route::group(['middleware' => ['guest:api','cors'], 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
     Route::post('register', 'MemberRegisterController@register')->name('register');
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function() {
+Route::group(['middleware' => ['auth:api','cors'], 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function() {
     /* Route::get('refresh', function (Request $request) {
       return $request->user();
       }); */
