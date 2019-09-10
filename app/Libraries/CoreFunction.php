@@ -84,6 +84,45 @@ function _strip_html_tags($text) {
 
 function _covertStringX($str) {
     $strLen = strlen($str);
-    $getStr = substr($str,-4);
-    return 'XXXXXXXX'.$getStr;
+    $getStr = substr($str, -4);
+    return 'XXXXXXXX' . $getStr;
+}
+
+function _SiteLock($fromTime, $endTime) {
+    $current_time = date("h:i a");
+    $begin = $fromTime;
+    $end = $endTime;
+
+    $date1 = DateTime::createFromFormat('H:i a', $current_time);
+    $date2 = DateTime::createFromFormat('H:i a', $begin);
+    $date3 = DateTime::createFromFormat('H:i a', $end);
+
+    if ($date1 > $date2 && $date1 < $date3) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function permute($arg) {
+    $arg = str_replace("0", "~", $arg);
+    $array = is_string($arg) ? str_split($arg) : $arg;
+    if (1 === count($array))
+        return $array;
+    $r = array();
+    foreach ($array as $key => $item)
+        foreach ($this->permute(array_diff_key($array, array($key => $item))) as $p)
+            $r[] = $item . $p;
+
+    $result = array();
+    $index = 0;
+    foreach ($r as $key => $val) {
+        if (in_array($val, $result) == false) {
+            $result[$index] = $val;
+            //$result[$index] = str_replace("_", "0", $val);
+            $index++;
+        }
+    }
+
+    return $result;
 }

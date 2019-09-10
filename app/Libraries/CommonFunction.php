@@ -13,8 +13,6 @@ class CommonFunction {
             }else{
                 return number_format($number,2);
             }
-            
-
         }else{
             return '0';
         }

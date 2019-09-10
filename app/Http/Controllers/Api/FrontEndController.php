@@ -45,13 +45,18 @@ class FrontEndController extends Controller {
     }
 
     public function getMarketGameSetting(Request $request) {
-        \Log::info($request->all());
+       // \Log::info($request->all());
         $market = $request->input('market');
         $game = $request->input('game');
-        $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+        if(is_array($game)){
+            $getMarketGameSetting = MarketGameSetting::where('market', $market)->whereIn('game_name', $game)->orderBy('id','ASC')->get();
+        }else{
+            $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+        }
+        
         return response()->json($getMarketGameSetting->jsonSerialize());
     }
-
+    
     public function getPeriodMarket(Request $request) {
         $getBetMarket = $request->input('marketcode');
         $getPeriod = 1;
