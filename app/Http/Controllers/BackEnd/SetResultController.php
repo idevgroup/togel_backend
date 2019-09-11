@@ -5,17 +5,49 @@ namespace App\Http\Controllers\BackEnd;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\BackEnd\Authorizable;
-class SetResultController extends Controller
-{
+use App\Models\BackEnd\GameResult;
+use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\Html\Builder;
+use App\Models\BackEnd\GameMarket;
+
+class SetResultController extends Controller {
+
     use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('backend.game4dresult.set_result');
+    public function index(Builder $builder, Request $request) {
+        $marketGame = GameMarket::getAllRecord(0)->pluck('name', 'code')->prepend('All Market', '0');
+        if (request()->ajax()) {
+            $filter = $request->input('filter');
+            if ($filter == '0' || !$request->has('filter') || $filter == null) {
+                $gameResult = GameResult::with('marketName')->orderBy('date', 'DESC');
+            } else {
+                $gameResult = GameResult::with('marketName')->where('market',$filter)->orderBy('date', 'DESC');
+            }
+            
+            $datatables = Datatables::of($gameResult)->editColumn('balance', '<span @if($balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($balance)}}</span>')->addColumn('action', '@if($isChecked == "N")<button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-warning btn-sm" data-id="{{$result_id}}" data-period="{{$market}}-{{$period}}"><i class="flaticon-edit-1"></i></button>  <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-danger btn-sm" data-id="{{$result_id}}" data-period="{{$market}}-{{$period}}"><i class="flaticon-interface-5"></i></button> @endif')->editColumn('period','{{strtoupper($market)}} - {{$period}}')->rawColumns(['balance','action']);
+            return $datatables->make(true);
+        }
+        $html = $builder->columns([
+                    ['data' => 'market_name.name', 'name' => 'market_name.name', 'title' => 'Market', "orderable" => false, "searchable" => true, 'width' => '120'],
+                    ['data' => 'period', 'name' => 'period', 'title' => 'Period', "orderable" => false, "searchable" => true, 'width' => '80'],
+                    ['data' => 'result', 'name' => 'result', 'title' => 'Result', "orderable" => false, "searchable" => true, 'width' => '80', 'class' => 'text-center'],
+                    ['data' => 'balance', 'name' => 'balance', 'title' => 'Win', "orderable" => false, "searchable" => true,  'class' => 'text-right'],
+                    ['data' => 'insDate', 'name' => 'insDate', 'title' => 'Issue Date', "orderable" => false, "searchable" => true, 'width' => '180', 'class' => 'text-center'],
+            ['data' => 'calDate', 'name' => 'calDate', 'title' => 'Calc-Date', "orderable" => false, "searchable" => true, 'width' => '180', 'class' => 'text-center'],
+                    ['data' => 'action', 'name' => 'action', 'title' => 'Action', "orderable" => false, "searchable" => false, 'width' => '160','class' => 'text-center']
+                ])->parameters([
+                    'lengthMenu' => \Config::get('sysconfig.lengthMenu')
+                ])->postAjax([
+            'data' => "function(d){
+                                  d.filter = $('select[name=market]').val();
+                            }"
+        ]);
+        return view('backend.game4dresult.set_result', compact('html', 'marketGame'));
     }
 
     /**
@@ -23,8 +55,7 @@ class SetResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -34,8 +65,7 @@ class SetResultController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
@@ -45,8 +75,7 @@ class SetResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -56,8 +85,7 @@ class SetResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -68,8 +96,7 @@ class SetResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -79,8 +106,8 @@ class SetResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }
