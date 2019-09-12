@@ -176,7 +176,6 @@ var tbladmin = 'admin-tbl-zen';
                         var tbl = '<div><h5 id="remain-balance">{{trans('labels.balance')}}: ' + balance + ' </h5> </div> <table class="table table-bordered"><thead><tr><th>{!! trans('labels.bankname') !!}</th><th>{!! trans('labels.account_name') !!}</th><th>{!! trans('labels.account_id') !!}</th></tr></thead>';
                         var tblBody = '<tbody>';
                         var record = response.record;
-                        console.log(record);
                         for (i = 0; i < record.length; i++) {
                             tblBody += '<tr>' + '<td>' + record[i]['get_bank']['bk_name'] + '</td>' + '<td>' + record[i]['reg_account_name'] + '</td>' + '<td>' + record[i]['reg_account_number'] + '</td>' + '</tr>';
                         }

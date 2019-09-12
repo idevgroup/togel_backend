@@ -9,7 +9,7 @@ use App\Models\BackEnd\GameResult;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Models\BackEnd\GameMarket;
-
+use App\Http\Requests\SetGameResultRequest;
 class SetResultController extends Controller {
 
     use Authorizable;
@@ -20,7 +20,7 @@ class SetResultController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Builder $builder, Request $request) {
-        $marketGame = GameMarket::getAllRecord(0)->pluck('name', 'code')->prepend('All Market', '0');
+        $marketGame = GameMarket::getAllRecord(0)->pluck('name', 'code')->prepend('Select Market', '0');
         if (request()->ajax()) {
             $filter = $request->input('filter');
             if ($filter == '0' || !$request->has('filter') || $filter == null) {
@@ -65,8 +65,8 @@ class SetResultController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        //
+    public function store(SetGameResultRequest $request) {
+        
     }
 
     /**
@@ -109,5 +109,14 @@ class SetResultController extends Controller {
     public function destroy($id) {
         //
     }
-
+     public function getPeriodMarket(Request $request) {
+        $getBetMarket = $request->input('marketcode');
+        
+        $getPeriod = 1;
+        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
+        if($getBetMarket == '0'){
+            return response()->json(['period' => null]);
+        }
+        return response()->json(['period' => $getPeriod]);
+    }
 }
