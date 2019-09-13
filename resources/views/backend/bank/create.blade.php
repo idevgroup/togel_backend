@@ -81,10 +81,8 @@
         font-size: 14px;
     }
 </style>
-@endpush @push('javascript') {{--
-
-
-<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
+@endpush @push('javascript') 
+{{--<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>--}}
 
 <script type="text/javascript" src="{{ asset('backend/assets/jquery.furl.js')}}"></script>
 <script type="text/javascript" charset="utf8" src="{{asset('backend/assets/tagsinput/tagsinput.js')}}"></script>
