@@ -42,6 +42,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     Route::post('menustting/create/getsubparent', 'MenuSettingController@getsubparent');
     Route::get('menusettings/catIdCon','MenuSettingController@showSingleCon');
     Route::post('result4ds/getperiod','SetResultController@getPeriodMarket');
+    Route::post('result4ds/calculateresult','SetResultController@CalculateResult');
 //    Route::post('getValidate','BonusRefController@getValidate');
     $ArrMenu = ['dashboards' => 'DashBoardController',
         'useraccounts' => 'UserController',

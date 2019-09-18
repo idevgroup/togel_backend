@@ -40,7 +40,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 @push('style')
 
@@ -51,6 +50,13 @@
     }
     .m-btn--label-danger i{
         color: darkred !important;
+    }
+    ul#note-calc li{
+        text-align: left;
+        color:#990033;
+    }
+    ul#note-calc{
+        margin-top: 10px;
     }
 </style>
 @endpush
@@ -63,7 +69,7 @@
 {!!JsValidator::formRequest('App\Http\Requests\SetGameResultRequest', '#html-form')!!}
 <script>
 var tbladmin = 'admin-tbl-zen';
-var market = {!! json_encode($marketGame)!!}
+        var market = {!! json_encode($marketGame)!!}
 var oldselected = '{{old("cbomarket")}}';
 var html = '@csrf    <input type="hidden" value="" name="currenttime" id="currenttime"/>' +
         '<input type="hidden" value="" name="lock_from" id="lock_from"/>' +
@@ -136,12 +142,11 @@ $('#html-form').submit(function (e) {
         }
     });
 })
-$('body').delegate('.edit-result','click',function(){
-    
+$('body').delegate('.edit-result', 'click', function () {
     $('#html-form').html(html);
     $(".print-error-msg").find("ul").html('');
     $(".print-error-msg").css('display', 'none');
-    var resultId = $(this).data('id'); 
+    var resultId = $(this).data('id');
     var period = $(this).data('period');
     var market = $(this).data('market');
     var result = $(this).data('result');
@@ -149,10 +154,66 @@ $('body').delegate('.edit-result','click',function(){
     $('#market-result').val(result);
     $('#resultid').val(resultId)
     $('#market-period').val(period)
-    $('#html-form').attr('action', "{{url(_ADMIN_PREFIX_URL.'/result4ds')}}/"+resultId);
+    $('#html-form').attr('action', "{{url(_ADMIN_PREFIX_URL.'/result4ds')}}/" + resultId);
     $('#html-form').append('<input name="_method" type="hidden" value="PATCH">');
     $('#m_modal').modal('show');
 })
+$('body').delegate('.calc-result', 'click', function (e) {
+    var Id = $(this).data('id');
+    // var parent = $(this).parent("td").parent("tr");
+    swal({
+        title: 'Are you sure?',
+        html: "Are you sure you want to calculate this result? <br/><strong style='float:left; margin-top:15px'>Note:</strong><br/> <ul id='note-calc'><li>This process cannot be undone.</li><li>You cannot edit this result after the result is calculated.</li><li>This process might take too long to calculate, so do not turn off the broswer or stop the browser when the process is running.</li></ul></div>",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Process it!',
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                var i = 0;
+                var promises = [];
+                for (i; i <= 3; i++) {
+                    promises.push($.ajax({
+                        url: '{{url(_ADMIN_PREFIX_URL."/result4ds/calculateresult")}}',
+                        type: 'POST',
+                        data: {
+                            "_token": $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        dataType: 'json'
+                    }).done(function (response) {
+                        $.notify({
+                            title: 'Calculate ',
+                            icon: 'icon la la-info-circle',
+                            message: response
+                        }, {
+                            type: 'success'
+                        });
+                    }).fail(function () {
+                        swal('Oops...', 'Something went wrong with ajax !', 'error');
+                    })
+                            )
+
+                }
+                Promise.all(promises)
+                        .then(responseList => {
+                            swal({
+                                title: 'Successfully',
+                                html: 'Thanks !!!' + responseList,
+                                type: 'success',
+                                allowOutsideClick: false
+                            });
+                            window.LaravelDataTables[tbladmin].draw(false);
+                          
+                        })
+            });
+        },
+        allowOutsideClick: false
+    });
+    e.preventDefault();
+});
+
 function printErrorMsg(msg) {
     $(".print-error-msg").find("ul").html('');
     $(".print-error-msg").css('display', 'block');

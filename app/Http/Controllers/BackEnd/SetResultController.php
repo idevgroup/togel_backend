@@ -13,7 +13,7 @@ use App\Http\Requests\SetGameResultRequest;
 use App\Models\BackEnd\SiteLock;
 use Carbon\Carbon;
 use Auth;
-
+use Illuminate\Support\Facades\Artisan;
 class SetResultController extends Controller {
 
     use Authorizable;
@@ -33,7 +33,7 @@ class SetResultController extends Controller {
                 $gameResult = GameResult::with('marketName')->where('market', $filter)->orderBy('date', 'DESC');
             }
 
-            $datatables = Datatables::of($gameResult)->editColumn('balance', '<span @if($balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($balance)}}</span>')->addColumn('action', '@can("edit_result4ds") @if($isChecked == "N")<button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-warning btn-sm edit-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-result="{{$result}}"><i class="flaticon-edit-1"></i></button>  <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-danger btn-sm" data-id="{{$result_id}}" data-period="{{$market}}-{{$period}}"><i class="flaticon-interface-5"></i></button> @endif @endcan')->editColumn('period', '{{strtoupper($market)}} - {{$period}}')->rawColumns(['balance', 'action']);
+            $datatables = Datatables::of($gameResult)->editColumn('balance', '<span @if($balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($balance)}}</span>')->addColumn('action', '@can("edit_result4ds") @if($isChecked == "N")<button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-warning btn-sm edit-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-result="{{$result}}"><i class="flaticon-edit-1"></i></button>  <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-danger btn-sm calc-result" data-id="{{$result_id}}" data-period="{{$market}}-{{$period}}"><i class="flaticon-interface-5"></i></button> @endif @endcan')->editColumn('period', '{{strtoupper($market)}} - {{$period}}')->rawColumns(['balance', 'action']);
             return $datatables->make(true);
         }
         $html = $builder->columns([
@@ -171,5 +171,10 @@ class SetResultController extends Controller {
         }
         return response()->json(['period' => $getPeriod, 'sitelock' => $getSiteLock,'time' => Carbon::now()->toTimeString()]);
     }
+    public function CalculateResult(){
+        Artisan::queue('calculate:result',['gamecode' => 'GameCode']);
+        return response()->json(Artisan::output());
+    }
+    
 
 }

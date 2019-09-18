@@ -208,6 +208,7 @@ class MemberController extends Controller {
             $getBetMarket = $request->input('market');
             $getBetPay = $request->input('totalpay');
             $getCodeGame = $request->input('gamecode');
+            $getIpClient = $request->input('ip');
             $request->merge(array(
                 'memberid' => $this->guard()->user()->id,
                 'totalpay' => (float) $getBetPay,
@@ -221,7 +222,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -252,7 +253,7 @@ class MemberController extends Controller {
                 $betTransaction->invoiceId = $playerTransaction->id;
                 $betTransaction->userid = $this->guard()->user()->id;
                 $betTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
-                $betTransaction->ip = $request->getClientIp();
+                $betTransaction->ip = $getIpClient;
                 $betTransaction->save();
             }
 
@@ -295,7 +296,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -371,7 +372,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -467,7 +468,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -565,7 +566,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -684,7 +685,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -756,7 +757,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -827,7 +828,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -899,7 +900,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -971,7 +972,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
@@ -1081,7 +1082,7 @@ class MemberController extends Controller {
                     ], ['totalpay.lte' => "Sorry this amount have insufficient balance, please try again !!!"]);
 
             //Period my market
-            $getPeriod = GameResult::where('market', $getBetMarket)->max('period');
+            $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
             

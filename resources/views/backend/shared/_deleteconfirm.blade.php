@@ -72,7 +72,7 @@
                 }
                 $.notify({
                     title: notifytitle,
-                    // icon: notifyicon,
+                    icon:'icon ' + notifyicon,
                     message: data.message
                 }, {
                     type: notifytype
