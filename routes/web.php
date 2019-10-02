@@ -73,7 +73,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'withdrawtransactions' => 'WithdrawTransactionController',
         'notifications' => 'NotificationsController',
         'menusettings' => 'MenuSettingController',
-        'result4ds' => 'SetResultController'
+        'result4ds' => 'SetResultController',
+        'calculateresults' => 'CalculateResultController'
     ];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

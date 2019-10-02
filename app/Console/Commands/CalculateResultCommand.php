@@ -37,9 +37,9 @@ class CalculateResultCommand extends Command
      */
     public function handle()
     {
-       $getResult = DB::select('select calcProfit(50,80) as result')[0]->result; 
-     
+       $getResult = DB::select('select calcProfit(25,80) as result')[0]->result;     
        $this->info('My Command Working !!! Thanks ='.$getResult );
+       
       
     }
 }

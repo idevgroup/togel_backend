@@ -50,7 +50,7 @@ class RolePermissionController extends Controller {
     public function show($id) {
         $getRole = Role::findOrFail($id);
         $arrRoleId = explode(',', $getRole->menu_access);
-        $getMenuAccess = UserMenu::whereIn('id', $arrRoleId)->where('state', 1)->get();
+        $getMenuAccess = UserMenu::whereIn('id', $arrRoleId)->orWhere('append',1)->Where('state', 1)->get();
         $getAllPermission = new Permission;
         $arrPermission = [];
         foreach ($getMenuAccess as $list) {
@@ -59,6 +59,7 @@ class RolePermissionController extends Controller {
             $getPermission = $getAllPermission->where('name', 'LIKE', '%' . $ltrim)->pluck('name', 'id');
             $arrPermission[trans('menu.' . $list->name)] = $getPermission;
         }
+       
         $viewRender = view('backend.rolepermission.permissionlist', compact('arrPermission', 'getRole'))->render();
         return response()->json(['permisionHtml' => $viewRender]);
     }

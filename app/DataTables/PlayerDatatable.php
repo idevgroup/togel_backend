@@ -42,7 +42,7 @@ class PlayerDatatable extends DataTable {
                     return '<span class="p-name">' . $getname . ' </span><small>Referral: <a href="#"><i>' . $getReferral['reg_name'] . '</i></a></small> <small>Created Date: ' . date('d-m-Y', strtotime($query->reg_date)) . '<small>';
                 })->editColumn('reg_username', '<span class="p-name">{{$reg_username}}</span><small>Loged at:</small><small>IP: {{$reg_ip}}</small>')->rawColumns(['action', 'check', 'reg_name', 'bank', 'reg_username', 'reg_remain_balance'])->setRowClass(function($player) {
                     return $player->status == 1 ? '' : 'text-danger';
-                })->editColumn('reg_remain_balance', '<span @if($reg_remain_balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($reg_remain_balance)}}</span>');
+                })->editColumn('reg_remain_balance', '<span @if($reg_remain_balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($reg_remain_balance)}}</span>')->addIndexColumn();
     }
 
     /**

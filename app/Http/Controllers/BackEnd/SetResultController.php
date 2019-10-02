@@ -71,16 +71,15 @@ class SetResultController extends Controller {
      */
     public function store(SetGameResultRequest $request) {
         $getBetMarket = $request->input('cbomarket');
-        $getReady = GameResult::where('market', $getBetMarket)->where('date', $request->input('txtdate'))->where('isChecked', 'N');
+         $getPeriod = 1;
+        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
+        $getReady = GameResult::where('market', $getBetMarket)->where('period',$getPeriod)->where('isChecked', 'N');
         if ($getReady) {
             return response()->json([
                         'status' => false,
                         'errors' => ['The result have apply this market ready, but not process calculate']
                             ], 200);
-        }
-
-        $getPeriod = 1;
-        $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
+        }       
         $setResult = new GameResult;
         $setResult->period = $getPeriod;
         $setResult->result = $request->input('txtresult');
@@ -173,7 +172,9 @@ class SetResultController extends Controller {
     }
     public function CalculateResult(){
         Artisan::queue('calculate:result',['gamecode' => 'GameCode']);
-        return response()->json(Artisan::output());
+        
+        return response()->json('Last functions');
+        
     }
     
 

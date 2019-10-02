@@ -55,6 +55,6 @@ return [
     'resultdatecurrection' => 'Result Date Correction',
     'betlist' => 'Bet List',
     'report' => 'Reports',
-    'customerreport' => 'Customer Report'
-    
+    'customerreport' => 'Customer Report',
+    'calculateresult' => 'Calculate Result'
 ];
