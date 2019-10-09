@@ -17,7 +17,7 @@
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "kitetail/zttp": "^0.6.0",
         "knplabs/knp-snappy": "^1.1",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "^5.8",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
         "maatwebsite/excel": "^3.1",

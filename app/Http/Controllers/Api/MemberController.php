@@ -72,7 +72,7 @@ class MemberController extends Controller {
 
             $this->validate($request, [
                 'amount' => "required|numeric|max:$getSettingBankLimit->deposit_max|min:$getSettingBankLimit->deposit_min",
-                'recaptcha' => ['required', new Recaptcha],
+                'recaptcha' => 'required',
                     ], [
                 'amount.required' => 'Please input amount,the field is required',
                 'amount.min' => "Deposit Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->deposit_max) . "!",
@@ -127,7 +127,7 @@ class MemberController extends Controller {
             $getBankAccountNumber = $getBankPlayer->reg_account_number;
             $this->validate($request, [
                 'amount' => "required|numeric|max:$getSettingBankLimit->with_max|min:$getSettingBankLimit->with_min|lte:balance",
-                'recaptcha' => ['required', new Recaptcha],
+                'recaptcha' =>'required',
                     ], [
                 'amount.required' => 'Please input amount,the field is required',
                 'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
