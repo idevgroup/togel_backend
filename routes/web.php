@@ -28,10 +28,11 @@ Route::group(array('middleware' => ['auth'], 'namespace' => 'BackEnd'), function
         return redirect(_ADMIN_PREFIX_URL . '/dashboards');
     });
 });
+
 Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
 Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController@upload');
 Auth::routes(['register' => false]);
-Route::get('laravel-logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+Route::get('laravel-logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('auth');
 Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     'middleware' => ['auth'], 'namespace' => 'BackEnd'), function () {
 
