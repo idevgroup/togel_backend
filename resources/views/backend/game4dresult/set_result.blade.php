@@ -68,6 +68,8 @@
 {!! $html->scripts() !!} 
 {!!JsValidator::formRequest('App\Http\Requests\SetGameResultRequest', '#html-form')!!}
 <script>
+var gameKey = {'1': 'XD', '2': '50_50', '3': 'Besar', '4': 'Colok 2D', '5': 'Colok Babas', '6': 'Colok Naga', '7': 'Kembang', '8': 'Kombinasi', '9': 'Shio', '10': 'Silang', '11': 'Colok Jitu', '12': 'Tepi'};
+
 var tbladmin = 'admin-tbl-zen';
         var market = {!! json_encode($marketGame)!!}
 var oldselected = '{{old("cbomarket")}}';
@@ -150,16 +152,20 @@ $('body').delegate('.edit-result', 'click', function () {
     var period = $(this).data('period');
     var market = $(this).data('market');
     var result = $(this).data('result');
+    var date = $(this).data('date');
     $('#cbo-market').val(market).change();
     $('#market-result').val(result);
-    $('#resultid').val(resultId)
-    $('#market-period').val(period)
+    $('#resultid').val(resultId);
+    $('#market-period').val(period);
+    $('#market-date').val(date);
     $('#html-form').attr('action', "{{url(_ADMIN_PREFIX_URL.'/result4ds')}}/" + resultId);
     $('#html-form').append('<input name="_method" type="hidden" value="PATCH">');
     $('#m_modal').modal('show');
 })
 $('body').delegate('.calc-result', 'click', function (e) {
     var Id = $(this).data('id');
+    var period = $(this).data('period');
+    var market = $(this).data('market');
     // var parent = $(this).parent("td").parent("tr");
     swal({
         title: 'Are you sure?',
@@ -172,30 +178,34 @@ $('body').delegate('.calc-result', 'click', function (e) {
         showLoaderOnConfirm: true,
         preConfirm: function () {
             return new Promise(function (resolve) {
-                var i = 0;
                 var promises = [];
-                for (i; i <= 3; i++) {
+                $.each(gameKey, function (key, value) {
                     promises.push($.ajax({
-                        url: '{{url(_ADMIN_PREFIX_URL."/result4ds/calculateresult")}}',
+                        url: '{{url(_ADMIN_PREFIX_URL."/calculateresults")}}',
                         type: 'POST',
                         data: {
                             "_token": $('meta[name="csrf-token"]').attr('content'),
+                            "key": key,
+                            "gamename": value,
+                            "id": Id,
+                            "period": period,
+                            "market": market
                         },
                         dataType: 'json'
                     }).done(function (response) {
                         $.notify({
-                            title: 'Calculate ',
-                            icon: 'icon la la-info-circle',
-                            message: response
+                            title: 'Result ',
+                            icon: response.status?'icon la la-info-circle':'icon la la-close',
+                            message: response.message
                         }, {
-                            type: 'success'
+                            type: response.status?'success':'danger'
                         });
                     }).fail(function () {
-                        swal('Oops...', 'Something went wrong with ajax !', 'error');
+                        swal('Oops...', 'Server Error please contact web master!', 'error');
                     })
-                            )
+                            );
 
-                }
+                });
                 Promise.all(promises)
                         .then(responseList => {
                             swal({
@@ -205,7 +215,7 @@ $('body').delegate('.calc-result', 'click', function (e) {
                                 allowOutsideClick: false
                             });
                             window.LaravelDataTables[tbladmin].draw(false);
-                          
+
                         })
             });
         },
