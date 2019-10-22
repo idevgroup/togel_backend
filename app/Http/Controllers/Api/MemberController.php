@@ -300,7 +300,7 @@ class MemberController extends Controller {
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
-            $playerTransaction->invoiceId = 'Bet Game ' + $request->input('gamecode');
+            $playerTransaction->invoiceId = 'Bet Game '.$request->input('gamecode');
             $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
             $playerTransaction->playerid = $this->guard()->user()->id;
             $playerTransaction->gameName = $request->input('gamecode');
@@ -1024,7 +1024,7 @@ class MemberController extends Controller {
 
     public function transactinPeriod(Request $request) {
         $marketcode = $request->input('marketcode');
-        $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->get();
+        $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->where('isChecked','Y')->get();
         $period = (int) $getPeriod->max('period') + (int) 1;
 
         $periodListOption = [0 => ['key' => "$marketcode-$period", 'value' => strtoupper("$marketcode-$period")]];
@@ -1048,10 +1048,10 @@ class MemberController extends Controller {
             $listGameTransaction[] = [
                 'gameid' => $item->id,
                 'gamename' => $item->name,
-                'sub' => $item->parent,
-                'buy' => $item->listBetTransaction->sum('buy'),
-                'paid' => $item->listBetTransaction->sum('pay'),
-                'win' => $item->listBetTransaction->sum('win'),
+                'sub' => (int)$item->parent,
+                'buy' => (float)$item->listBetTransaction->sum('buy'),
+                'paid' =>(float)$item->listBetTransaction->sum('pay'),
+                'win' => (float)$item->listBetTransaction->sum('win'),
                 'invoicedetail' => $item->listBetTransaction
             ];
         }

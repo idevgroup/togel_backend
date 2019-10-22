@@ -126,3 +126,72 @@ function permute($arg) {
 
     return $result;
 }
+
+function getKombinasiString($index) {
+    switch ($index) {
+        case 1: return "As Ganjil";
+        case 2: return "As Genap";
+        case 3: return "As Besar";
+        case 4: return "As Kecil";
+
+        case 5: return "Kop Ganjil";
+        case 6: return "Kop Genap";
+        case 7: return "Kop Besar";
+        case 8: return "Kop Kecil";
+
+        case 9: return "Kepala Ganjil";
+        case 10: return "Kepala Genap";
+        case 11: return "Kepala Besar";
+        case 12: return "Kepala Kecil";
+
+        case 13: return "Ekor Ganjil";
+        case 14: return "Ekor Genap";
+        case 15: return "Ekor Besar";
+        case 16: return "Ekor Kecil";
+    }
+    return NULL;
+}
+
+function ShioString($item_index, $date = null) {
+    if ($date == null)
+        $date = date("Y-m-d");
+    else
+        $date = date("Y-m-d", strtotime($date));
+    $s = date("Y_m_d", strtotime($date));
+    if ($s == null) {
+        $year = date("Y", strtotime($date));
+        if ($year < 2015)
+            $year = 2015;
+        else if ($year > 2044)
+            $year = 2044;
+        $arYear = array(2015 => "02-19", 2016 => "02-08", 2017 => "01-28", 2018 => "02-16", 2019 => "02-05", 2020 => "01-25", 2021 => "02-12", 2022 => "02-01", 2023 => "02-22",
+            2024 => "02-10", 2025 => "01-29", 2026 => "02-17", 2027 => "02-06", 2028 => "01-26", 2029 => "02-13", 2030 => "02-03", 2031 => "01-23", 2032 => "02-11", 2033 => "01-31",
+            2034 => "02-19", 2035 => "02-08", 2036 => "01-28", 2037 => "02-15", 2038 => "02-04", 2039 => "01-24", 2040 => "02-12", 2041 => "02-01", 2042 => "01-22", 2043 => "02-10", 2044 => "02-30");
+        if (strtotime($date) < strtotime($year . "-" . $arYear[$year])) {
+            $year = $year - 1;
+            if ($year < 2015)
+                $year = 2015;
+            else if ($year > 2044)
+                $year = 2044;
+        }
+
+        $g = array("Kambing", "Kuda", "Ular", "Naga", "Kelinci", "Harimau", "Kerbau", "Tikus", "Babi", "Anjing", "Ayam", "Monyet");
+        $index = ($year - 2015);
+        if ($index > 11)
+            $index = $index % 12;
+
+        $cnt = 12 + $index;
+        for ($i = $cnt - 1; $i > 0; $i--) {
+            if ($i - $index < 0)
+                break;
+            $g[$i] = $g[$i - $index];
+        }
+        for ($i = 12; $i < $cnt; $i++) {
+            $g[$i - 12] = $g[$i];
+            unset($g[$i]);
+        }
+
+        $s = $g;
+    }
+    return $s[$item_index - 1];
+}

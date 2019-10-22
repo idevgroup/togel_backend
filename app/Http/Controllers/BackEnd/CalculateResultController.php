@@ -10,6 +10,9 @@ use App\Models\BackEnd\Authorizable;
 use App\Models\BackEnd\BetTransaction;
 use App\Models\BackEnd\Game;
 use App\Models\BackEnd\GameResult;
+use Carbon\Carbon;
+use App\Models\BackEnd\PlayerTransaction;
+use App\Models\BackEnd\Player;
 
 class CalculateResultController extends Controller {
 
@@ -47,47 +50,48 @@ class CalculateResultController extends Controller {
         $market = $getGameResult->market;
         $result = $getGameResult->result;
         $period = $getGameResult->period;
-        $date = $getGameResult->date;
+        $date = \Carbon\Carbon::now();
         $responce = '';
         switch ($keyGame) {
             case 1:
-                BetTransaction::where('period', $period)->where('market', $market)->update(['isWin' => 0, 'win_termp' => 0]);
-               $responce = self::doResultXD($market, $result, $date, $period);
+                $responce = self::doResultXD($market, $result, $date, $period);
                 break;
             case 2:
-               // return response()->json($game);
+                $responce = self::doResult50_50($market, $result, $date, $period);
                 break;
             case 3:
-                //return response()->json($game);
+                $responce = self::doResultDasar($market, $result, $date, $period);
                 break;
             case 4:
-               // return response()->json($game);
+                $responce = self::doResultColok2D($market, $result, $date, $period);
                 break;
             case 5:
-               // return response()->json($game);
+                $responce = self::doResultColokBebas($market, $result, $date, $period);
                 break;
+
             case 6:
-               // return response()->json($game);
+                $responce = self::doResultColokNaga($market, $result, $date, $period);
                 break;
             case 7:
-               // return response()->json($game);
+                $responce = self::doResultKembang($market, $result, $date, $period);
                 break;
             case 8:
-               // return response()->json($game);
+                $responce = self::doResultKombinasi($market, $result, $date, $period);
                 break;
             case 9:
-               // return response()->json($game);
+                $responce = self::doResultShio($market, $result, $date, $period);
                 break;
             case 10:
-               // return response()->json($game);
+                $responce = self::doResultSilang($market, $result, $date, $period);
                 break;
             case 11:
-               // return response()->json($game);
+                $responce = self::doResultColokJitu($market, $result, $date, $period);
                 break;
             case 12:
-                //return response()->json($game);
+                $responce = self::doResultColoTepiTengah($market, $result, $date, $period);
                 break;
         }
+
         return $responce;
     }
 
@@ -119,7 +123,20 @@ class CalculateResultController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $rowId = $request->input('id');
+        $getGameResult = GameResult::findOrFail($rowId);
+        $market = $getGameResult->market;
+        $period = $getGameResult->period;
+        $date = \Carbon\Carbon::now();
+        $sumWinTermp = BetTransaction::where('period', $period)->where('market', $market)->where('isWin', 1)->where('win_termp', '>', 0)->sum('win_termp');
+        $sumLoss = BetTransaction::where('period', $period)->where('market', $market)->sum('win');
+        $val = (float) $sumWinTermp * (-1) - (float) $sumLoss;
+        $getGameResult->balance_termp = $val;
+        $getGameResult->isCalc = 'Y';
+        $getGameResult->calDate = $date;
+
+        $getGameResult->save();
+        return response()->json(['status' => true, 'message' => $val > 0 ? 'Your Win=' . $val : 'Your Loss=' . $val]);
     }
 
     /**
@@ -132,12 +149,98 @@ class CalculateResultController extends Controller {
         //
     }
 
+    public function approveResult(Request $request) {
+        $rowId = $request->input('id');
+        $getGameResult = GameResult::findOrFail($rowId);
+        $market = $getGameResult->market;
+        $period = $getGameResult->period;
+        BetTransaction::where('period', $period)->where('market', $market)->update(['isCalculated' => 'Y', 'win' => DB::raw("case when isWin = 1 then win_termp else win end ")]);
+
+        $transaction = BetTransaction::groupBy('userid')->where('period', $period)->where('market', $market)->where('isWin', 1)->where('win', '>', 0)->selectRaw('sum(win) as sumwin ,userid')->pluck('sumwin', 'userid');
+
+        foreach ($transaction as $key => $value) {
+            $player = Player::findOrFail($key);
+            $getCurrentBalance = $player->reg_remain_balance;
+            //Save Transaction Bet
+            $playerTransaction = new PlayerTransaction;
+            $playerTransaction->invoiceId = 'Win Game';
+            $playerTransaction->transid = 'CR-' . (int) round(microtime(true) * 1000);
+            $playerTransaction->playerid = $key;
+            $playerTransaction->date = date('Y-m-d H:i:s', strtotime(Carbon::now()));
+            $playerTransaction->debet = 0;
+            $playerTransaction->kredit = $value;
+            $playerTransaction->saldo = (float) $getCurrentBalance + (float) $value;
+            $playerTransaction->save();
+
+            $player->reg_remain_balance = (float) $getCurrentBalance + (float) $value;
+            $player->save();
+        }
+        $getGameResult->balance = $getGameResult->balance_termp;
+        $getGameResult->isChecked = 'Y';
+        $getGameResult->save();
+
+        return response()->json(['status' => true, 'message' => 'Process is completed']);
+    }
+
     public function doResultXD($market, $result, $date, $period) {
-       
+        $getSetting4D = GameSetting::where('market', $market)->where('game_name', '4D')->first();
+        $getGameId4D = Game::where('name', '4D')->first()->id;
+
+        $getSetting3D = GameSetting::where('market', $market)->where('game_name', '3D')->first();
+        $getGameId3D = Game::where('name', '3D')->first()->id;
+
+        $getSetting2D = GameSetting::where('market', $market)->where('game_name', '2D')->first();
+        $getGameId2D = Game::where('name', '2D')->first()->id;
+
+        $getSetting2DD = GameSetting::where('market', $market)->where('game_name', '2D Depan')->first();
+        $getGameId2DD = Game::where('name', '2D Depan')->first()->id;
+
+
+        $getSetting2DT = GameSetting::where('market', $market)->where('game_name', '2D Tengah')->first();
+        $getGameId2DT = Game::where('name', '2D Tengah')->first()->id;
+
+        $r4d = $result;
+        $r3d = $r4d[1] . $r4d[2] . $r4d[3];
+        $r2d = $r4d[2] . $r4d[3];
+        $r2dd = $r4d[0] . $r4d[1];
+        $r2dt = $r4d[1] . $r4d[2];
+
         try {
-            DB::raw("CALL calculateXD($market,$result,$date,$period)");
+//            DB::raw("CALL calculateXD($market,$result,$date,$period)");
+            DB::beginTransaction();
+            BetTransaction::where('period', $period)->where('market', $market)->whereIn('gameId', [$getGameId4D, $getGameId3D, $getGameId2D, $getGameId2DD, $getGameId2DT])->update(['isWin' => 0, 'win_termp' => 0]);
+
+//            $doResult = BetTransaction::whereRaw("(guess = $r4d or guess = $r3d or guess = $r2d or guess = $r2dd or guess = $r2dt ) and period=$period and market='$market' and date < '$date'
+//                                                and (gameId=$getGameId4D or gameId=$getGameId3D or gameId=$getGameId2D or gameId=$getGameId2DD or gameId=$getGameId2DT)")
+//                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" case when length(guess) = 2 then case when gameId = $getGameId2D then buy * $getSetting2D->menang  when gameId = $getGameId2DD then buy * $getSetting2DD->menang when gameId = $getGameId2DT  then buy * $getSetting2DT->menang end
+//                                              when length(guess) = 3 then buy * $getSetting3D->menang
+//                                              when length(guess) = 4 then buy * $getSetting4D->menang
+//                            end ")]);
+            //Do 4D
+
+            BetTransaction::whereRaw(" guess = $r4d and period=$period and market='$market' and date < '$date'
+                                                and gameId=$getGameId4D")
+                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" buy * $getSetting4D->menang  ")]);
+            //Do 3D
+            BetTransaction::whereRaw(" guess = $r3d and period=$period and market='$market' and date < '$date'
+                                                and gameId=$getGameId3D")
+                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" buy * $getSetting3D->menang  ")]);
+            // Do 2D
+             BetTransaction::whereRaw(" guess = $r2d and period=$period and market='$market' and date < '$date'
+                                                and gameId=$getGameId2D")
+                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" buy * $getSetting2D->menang  ")]);
+             //Do 2DD
+              BetTransaction::whereRaw(" guess = $r2dd and period=$period and market='$market' and date < '$date'
+                                                and gameId=$getGameId2DD")
+                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" buy * $getSetting2DD->menang  ")]);
+               //Do 2DT
+              BetTransaction::whereRaw(" guess = $r2dt and period=$period and market='$market' and date < '$date'
+                                                and gameId=$getGameId2DT")
+                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" buy * $getSetting2DT->menang  ")]);
+            DB::commit();
             return response()->json(['status' => true, 'message' => 'Calculated 2D,3D,4D,2D Depan, 2D Tengah is ready']);
         } catch (\Exception $ex) {
+            DB::rollBack();
             \Log::error('Do Result XD');
             \Log::info(\URL::current());
             \Log::error($ex);
@@ -146,6 +249,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultColokBebas($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', 'Colok Bebas')->first();
         $getGameId = Game::where('name', 'Colok Bebas')->first()->id;
         $fd = (string) $result;
@@ -155,6 +259,7 @@ class CalculateResultController extends Controller {
         $m4 = $getSetting->menang_quadruple;
         try {
             DB::beginTransaction();
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
             $doResult = BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)
                     ->whereDate('date', '<', $date)
                     ->orWhere('guess', $fd[0])
@@ -162,9 +267,9 @@ class CalculateResultController extends Controller {
                     ->orWhere('guess', $fd[2])
                     ->orWhere('guess', $fd[3])
                     ->update(['isWin' => 1, 'win_termp' => DB::raw("pay + (case when length($result) - length(REPLACE($result,guess,'')) = 1 then buy * $m when length($result) - length(REPLACE($result,guess,'')) = 2 then buy * $m2 when length($result) - length(REPLACE($result,guess,'')) = 3 then buy * $m3 when length($result) - length(REPLACE($result,guess,'')) = 4 then buy * $m4 end)")]);
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Colok Bebas is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Colok Bebas is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Colok Bebas');
@@ -175,6 +280,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultColok2D($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', 'Colok 2D')->first();
         $getGameId = Game::where('name', 'Colok 2D')->first()->id;
         $r = (string) $result;
@@ -182,10 +288,12 @@ class CalculateResultController extends Controller {
         $b = "%" . $result[1] . "%";
         $c = "%" . $result[2] . "%";
         $d = "%" . $result[3] . "%";
+        $doResult = '';
         try {
             DB::beginTransaction();
-            $getGuess = BetTransaction::whereRaw("date < $date and period=$period and gameId = $getGameId and 
-                 market=$market and (guess like $a or guess like $b or guess like $c or guess like $d)")->get();
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $getGuess = BetTransaction::whereRaw("date < '$date' and period=$period and gameId = $getGameId and 
+                 market='$market' and (guess like '$a' or guess like '$b' or guess like '$c' or guess like '$d')")->get();
             foreach ($getGuess as $row) {
                 $guess = $row->guess;
 
@@ -200,12 +308,12 @@ class CalculateResultController extends Controller {
                     } else if (substr_count($r, $g1) == 3 || substr_count($r, $g2) == 3) {
                         $m = $getSetting->menang_triple;
                     }
-                    $doResult += BetTransaction::whereRaw("guess=$guess and period=$period and market=$market and date < $date and gameId=$getGameId ")->update(['isWin' => 1, 'win_termp' => DB::raw("pay + (buy * $m)")]);
+                    $doResult = BetTransaction::whereRaw("guess=$guess and period=$period and market='$market' and date < '$date' and gameId=$getGameId ")->update(['isWin' => 1, 'win_termp' => DB::raw("pay + (buy * $m)")]);
                 }
             }
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Colok 2D is ready']);
+
+            return response()->json(['status' => true, 'message' => 'Calculated Colok 2D is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Colok 2D');
@@ -216,6 +324,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultColokNaga($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', 'Colok Naga')->first();
         $getGameId = Game::where('name', 'Colok Naga')->first()->id;
         $r = (string) $result;
@@ -223,10 +332,12 @@ class CalculateResultController extends Controller {
         $b = "%" . $result[1] . "%";
         $c = "%" . $result[2] . "%";
         $d = "%" . $result[3] . "%";
+        $doResult = '';
         try {
             DB::beginTransaction();
-            $getGuess = BetTransaction::whereRaw("date < $date and period=$period and gameId = $getGameId and 
-                 market=$market and (guess like $a or guess like $b or guess like $c or guess like $d)")->get();
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $getGuess = BetTransaction::whereRaw("date < '$date' and period=$period and gameId = $getGameId and 
+                 market='$market' and (guess like '$a' or guess like '$b' or guess like '$c' or guess like '$d')")->get();
             foreach ($getGuess as $row) {
                 $guess = $row->guess;
                 $g1 = $guess[0];
@@ -241,9 +352,9 @@ class CalculateResultController extends Controller {
                     $doResult += BetTransaction::whereRaw("guess=$guess and period=$period and market=$market and date < $date and gameId=$getGameId ")->update(['isWin' => 1, 'win_termp' => DB::raw("pay + (buy * $m)")]);
                 }
             }
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Colok Naga is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Colok Naga is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Colok Naga');
@@ -254,6 +365,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultColokJitu($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', 'Colok Jitu')->first();
         $getGameId = Game::where('name', 'Colok Jitu')->first()->id;
         $as = $result[0];
@@ -263,13 +375,14 @@ class CalculateResultController extends Controller {
         $m = $getSetting->menang;
         try {
             DB::beginTransaction();
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId and ((param1=1 and guess=$as) or (param1=2 and guess=$kop) or 
                                       (param1=3 and guess=$kepala) or (param1=4 and guess=$ekor))")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Colok Jitu is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Colok Jitu is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Colok Jitu');
@@ -280,6 +393,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultColoTepiTengah($market, $result, $date, $period) {
+
         $re = $result[2] . $result[3];
         $re = (int) $re;
         if ($re > 24 && $re < 75) {
@@ -292,12 +406,13 @@ class CalculateResultController extends Controller {
         $m = $getSetting->menang;
         try {
             DB::beginTransaction();
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Tengah,Tepi is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Tengah,Tepi is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Tengah,Tepi');
@@ -308,6 +423,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultDasar($market, $result, $date, $period) {
+
         $dsa1 = (int) ($result[2] . $result[3]);
         while ($dsa1 > 9) {
             $dsa1 = (string) $dsa1;
@@ -326,7 +442,8 @@ class CalculateResultController extends Controller {
                 $getGameId = Game::where('name', 'Ganjil')->first()->id;
             }
             $m = $getSetting->menang;
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
@@ -339,13 +456,13 @@ class CalculateResultController extends Controller {
                 $getGameId = Game::where('name', 'Ganjil')->first()->id;
             }
             $m = $getSetting->menang;
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Dasar is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Dasar is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Dasar');
@@ -356,6 +473,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResult50_50($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', '50-50')->first();
         $getGameId = Game::where('name', '50-50')->first()->id;
         $as = $result[0];
@@ -377,14 +495,15 @@ class CalculateResultController extends Controller {
         try {
             DB::beginTransaction();
             $m = $getSetting->menang;
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId and ((param1=1 and guess=$gas) or (param1=2 and guess=$gkop) or 
                                       (param1=3 and guess=$gkepala) or (param1=4 and guess=$gekor) or (param1=5 and guess=$tas) or 
                                       (param1=6 and guess=$tkop) or (param1=7 and guess=$tkepala) or (param1=8 and guess=$tekor))")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
-            DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated 50-50 is ready']);
+
+            DB::rollBack();
+            return response()->json(['status' => true, 'message' => 'Calculated 50-50 is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result 50-50');
@@ -395,6 +514,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultShio($market, $result, $date, $period) {
+
         $getSetting = GameSetting::where('market', $market)->where('game_name', 'Shio')->first();
         $getGameId = Game::where('name', 'Shio')->first()->id;
         $r = $result[2] . $result[3];
@@ -440,12 +560,13 @@ class CalculateResultController extends Controller {
         try {
             DB::beginTransaction();
             $m = $getSetting->menang;
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                       and gameId=$getGameId and guess=$g")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Shio is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Shio is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Shio');
@@ -456,6 +577,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultSilang($market, $result, $date, $period) {
+
         $p1 = (int) $result[0];
         $p2 = (int) $result[1];
         $p3 = (int) $result[2];
@@ -470,7 +592,7 @@ class CalculateResultController extends Controller {
             $tengah = ((($p2 % 2 == 0 && $p3 % 2 == 0) || ($p2 % 2 == 1 && $p3 % 2 == 1)) ? 0 : 2); //($p2 == $p3 ? 0 : 2);
             $belakang = ((($p3 % 2 == 0 && $p4 % 2 == 0) || ($p3 % 2 == 1 && $p4 % 2 == 1)) ? 0 : 3); //($p3 == $p4 ? 0 : 3);
 
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                           and gameId=$getGameId and (guess=$depan or guess=$tengah or guess=$belakang)")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
@@ -483,12 +605,12 @@ class CalculateResultController extends Controller {
             $tengah = ((($p2 % 2 == 0 && $p3 % 2 == 0) || ($p2 % 2 == 1 && $p3 % 2 == 1)) ? 2 : 0); //($p2 == $p3 ? 2 : 0);
             $belakang = ((($p3 % 2 == 0 && $p4 % 2 == 0) || ($p3 % 2 == 1 && $p4 % 2 == 1)) ? 3 : 0); //($p3 == $p4 ? 3 : 0);
 
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                           and gameId=$getGameId and (guess=$depan or guess=$tengah or guess=$belakang)")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Silang is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Silang is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Silang');
@@ -499,6 +621,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultKembang($market, $result, $date, $period) {
+
         $p1 = (int) $result[0];
         $p2 = (int) $result[1];
         $p3 = (int) $result[2];
@@ -512,7 +635,8 @@ class CalculateResultController extends Controller {
             $depan = ($p1 < $p2 ? 1 : 0);
             $tengah = ($p2 < $p3 ? 2 : 0);
             $belakang = ($p3 < $p4 ? 3 : 0);
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                           and gameId=$getGameId and (guess=$depan or guess=$tengah or guess=$belakang)")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
@@ -523,7 +647,8 @@ class CalculateResultController extends Controller {
             $depan = ($p1 > $p2 ? 1 : 0);
             $tengah = ($p2 > $p3 ? 2 : 0);
             $belakang = ($p3 > $p4 ? 3 : 0);
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                           and gameId=$getGameId and (guess=$depan or guess=$tengah or guess=$belakang)")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
@@ -535,13 +660,14 @@ class CalculateResultController extends Controller {
             $depan = ($p1 == $p2 ? 1 : 0);
             $tengah = ($p2 == $p3 ? 2 : 0);
             $belakang = ($p3 == $p4 ? 3 : 0);
-            $doResult = BetTransaction::whereRaw("period=$period and market=$market and date < $date
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+            $doResult = BetTransaction::whereRaw("period=$period and market='$market' and date < '$date'
                                           and gameId=$getGameId and (guess=$depan or guess=$tengah or guess=$belakang)")
                     ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
+
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Kembang is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Kembang is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Kembang');
@@ -552,6 +678,7 @@ class CalculateResultController extends Controller {
     }
 
     public function doResultKombinasi($market, $result, $date, $period) {
+
         $p1 = (int) $result[0];
         $p2 = (int) $result[1];
         $p3 = (int) $result[2];
@@ -590,8 +717,8 @@ class CalculateResultController extends Controller {
             $i = 0;
             foreach ($a as $val) {
                 foreach ($b as $vv) {
-                    $data[":g" . (string) ($i + 1)] = $val;
-                    $data[":p" . (string) ($i + 1)] = $vv;
+                    $data["g" . (string) ($i + 1)] = $val;
+                    $data["p" . (string) ($i + 1)] = $vv;
                     $i++;
                 }
             }
@@ -599,17 +726,18 @@ class CalculateResultController extends Controller {
             $b = array($ekor_b, $ekor_g);
             foreach ($a as $val) {
                 foreach ($b as $vv) {
-                    $data[":g" . (string) ($i + 1)] = $val;
-                    $data[":p" . (string) ($i + 1)] = $vv;
+                    $data["g" . (string) ($i + 1)] = $val;
+                    $data["p" . (string) ($i + 1)] = $vv;
                     $i++;
                 }
             }
-            $doResult = BetTransaction::whereRaw(" period=$period and market=$market and date < $date
-                                          and gameId=$getGameId and ($sSql) ")
-                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")])
-                    ->setBindings($data);
 
+            BetTransaction::where('period', $period)->where('market', $market)->where('gameId', $getGameId)->update(['isWin' => 0, 'win_termp' => 0]);
+//            $doResult = BetTransaction::whereRaw(" period=$period and market='$market' and date < '$date'
+//                                          and gameId=$getGameId and $sSql ",$data,'or')
+//                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
 
+            $doResult = DB::raw("UPDATE tbl_bet_transction SET isWin =1, win_termp =  pay + (buy * $m) WHERE period=$period and market='$market' and date < '$date'  and gameId=$getGameId and ($sSql) ", $data);
             $sSql = "";
             for ($i = 1; $i < 17; $i++)
                 $sSql .= "(guess=:g$i and param1=:p$i) or ";
@@ -621,18 +749,17 @@ class CalculateResultController extends Controller {
             $i = 0;
             foreach ($a as $val) {
                 foreach ($b as $vv) {
-                    $data[":g" . (string) ($i + 1)] = $val;
-                    $data[":p" . (string) ($i + 1)] = $vv;
+                    $data["g" . (string) ($i + 1)] = $val;
+                    $data["p" . (string) ($i + 1)] = $vv;
                     $i++;
                 }
             }
-            $doResult = BetTransaction::whereRaw(" period=$period and market=$market and date < $date
-                                          and gameId=$getGameId and ($sSql) ")
-                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")])
-                    ->setBindings($data);
+//            $doResult = BetTransaction::whereRaw(" period=$period and market='$market' and date < $date
+//                                          and gameId=$getGameId and $sSql ",$data,'or')
+//                    ->update(['isWin' => 1, 'win_termp' => DB::raw(" pay + (buy * $m)")]);
+            $doResult = DB::raw("UPDATE tbl_bet_transction SET isWin =1, win_termp =  pay + (buy * $m) WHERE period=$period and market='$market' and date < '$date'  and gameId=$getGameId and $sSql ", $data);
             DB::commit();
-            if ($doResult)
-                return response()->json(['status' => true, 'message' => 'Calculated Kombinasi is ready']);
+            return response()->json(['status' => true, 'message' => 'Calculated Kombinasi is ready']);
         } catch (\Exception $ex) {
             DB::rollBack();
             \Log::error('Do Result Kombinasi');

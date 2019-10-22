@@ -44,6 +44,7 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
     Route::get('menusettings/catIdCon','MenuSettingController@showSingleCon');
     Route::post('result4ds/getperiod','SetResultController@getPeriodMarket');
     Route::post('result4ds/calculateresult','SetResultController@CalculateResult');
+    Route::post('calculateresults/approveresult','CalculateResultController@approveResult');
 //    Route::post('getValidate','BonusRefController@getValidate');
     $ArrMenu = ['dashboards' => 'DashBoardController',
         'useraccounts' => 'UserController',
@@ -75,7 +76,8 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'notifications' => 'NotificationsController',
         'menusettings' => 'MenuSettingController',
         'result4ds' => 'SetResultController',
-        'calculateresults' => 'CalculateResultController'
+        'calculateresults' => 'CalculateResultController',
+        'betlists' => 'BetListController'
     ];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

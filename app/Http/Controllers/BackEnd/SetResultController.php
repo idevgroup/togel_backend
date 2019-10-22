@@ -33,7 +33,20 @@ class SetResultController extends Controller {
                 $gameResult = GameResult::with('marketName')->where('market', $filter)->orderBy('date', 'DESC');
             }
 
-            $datatables = Datatables::of($gameResult)->editColumn('balance', '<span @if($balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($balance)}}</span>')->addColumn('action', '@can("edit_result4ds") @if($isChecked == "N")<button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-warning btn-sm edit-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-result="{{$result}}" data-date="{{$date}}"><i class="flaticon-edit-1"></i></button>  <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-danger btn-sm calc-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-date="{{$date}}"><i class="flaticon-interface-5"></i></button> @endif @endcan')->editColumn('period', '{{strtoupper($market)}} - {{$period}}')->rawColumns(['balance', 'action']);
+            $datatables = Datatables::of($gameResult)->editColumn('balance', '<span @if($balance < 0 ) class="text-danger" @endif>{{CommonFunction::_CurrencyFormat($balance)}}</span>')->addColumn('action', '@can("edit_result4ds") @if($isChecked == "N" && $isCalc == "N" )<button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-warning btn-sm edit-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-result="{{$result}}" data-date="{{$date}}"><i class="flaticon-edit-1"></i></button>  <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--label-danger btn-sm calc-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-date="{{$date}}"><i class="flaticon-interface-5"></i></button> @elseif($isChecked == "N" && $isCalc == "Y") <span class="dropdown">
+    <a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-portlet__nav-link m-dropdown__toggle  btn-secondary m-btn--pill" data-toggle="dropdown" aria-expanded="true"> 
+        <i class="la la-ellipsis-h"></i>
+    </a>  <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="javascript:void(0);" >
+            <i class="la la-money"></i>Temporary Balance:<span class="balance-temp"> {{CommonFunction::_CurrencyFormat($balance_termp)}}</span></a>
+        <a class="dropdown-item edit-result" href="javascript:void(0);" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-result="{{$result}}" data-date="{{$date}}">
+            <i class="la la-edit"></i> Edit Result</a>
+        <a class="dropdown-item calc-result" data-id="{{$result_id}}" data-period="{{$period}}" data-market="{{$market}}" data-date="{{$date}}" href="javascript:void(0);">
+            <i class="la la-rotate-left"></i>Recalculate
+        </a>
+        <hr/>
+        <a href="javascript:void(0);" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm btn-approve" data-id="{{$result_id}}" style="margin-left: 15px;">Approve</a>
+    </div>  </div>  @endif @endcan')->editColumn('period', '{{strtoupper($market)}} - {{$period}}')->rawColumns(['balance', 'action']);
             return $datatables->make(true);
         }
         $html = $builder->columns([
@@ -73,7 +86,7 @@ class SetResultController extends Controller {
         $getBetMarket = $request->input('cbomarket');
          $getPeriod = 1;
         $getPeriod += GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
-        $getReady = GameResult::where('market', $getBetMarket)->where('period',$getPeriod)->where('isChecked', 'N');
+        $getReady = GameResult::where('market', $getBetMarket)->where('period',$getPeriod)->where('isChecked', 'N')->first();
         if ($getReady) {
             return response()->json([
                         'status' => false,

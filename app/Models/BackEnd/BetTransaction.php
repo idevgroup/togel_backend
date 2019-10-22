@@ -12,4 +12,7 @@ class BetTransaction extends Model
     public function gameName(){
         return $this->hasOne('App\Models\BackEnd\Game','id','gameId');
     }
+    public function player(){
+        return $this->hasOne('App\Models\BackEnd\Player','id','userid');
+    }
 }

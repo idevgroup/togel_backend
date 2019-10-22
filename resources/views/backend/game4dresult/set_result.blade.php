@@ -58,6 +58,15 @@
     ul#note-calc{
         margin-top: 10px;
     }
+    .balance-temp{
+        clear: both;
+    font-size: 16px;
+    display: block;
+    padding: 3px 25px;
+    color: #fd1010;
+    font-weight: 600;
+        
+    }
 </style>
 @endpush
 @push('javascript')
@@ -180,42 +189,68 @@ $('body').delegate('.calc-result', 'click', function (e) {
             return new Promise(function (resolve) {
                 var promises = [];
                 $.each(gameKey, function (key, value) {
-                    promises.push($.ajax({
-                        url: '{{url(_ADMIN_PREFIX_URL."/calculateresults")}}',
-                        type: 'POST',
-                        data: {
-                            "_token": $('meta[name="csrf-token"]').attr('content'),
-                            "key": key,
-                            "gamename": value,
-                            "id": Id,
-                            "period": period,
-                            "market": market
-                        },
-                        dataType: 'json'
-                    }).done(function (response) {
-                        $.notify({
-                            title: 'Result ',
-                            icon: response.status?'icon la la-info-circle':'icon la la-close',
-                            message: response.message
-                        }, {
-                            type: response.status?'success':'danger'
-                        });
-                    }).fail(function () {
-                        swal('Oops...', 'Server Error please contact web master!', 'error');
-                    })
-                            );
+                  
+                        promises.push($.ajax({
+                            url: '{{url(_ADMIN_PREFIX_URL."/calculateresults")}}',
+                            type: 'POST',
+                            data: {
+                                "_token": $('meta[name="csrf-token"]').attr('content'),
+                                "key": key,
+                                "gamename": value,
+                                "id": Id,
+                                "period": period,
+                                "market": market
+                            },
+                            dataType: 'json',
 
+                        }).done(function (response) {
+                            $.notify({
+                                title: 'Result ',
+                                icon: response.status ? 'icon la la-info-circle' : 'icon la la-close',
+                                message: response.message
+                            }, {
+                                type: response.status ? 'success' : 'danger',
+                                delay: 3000 * parseInt(key),
+                                //showProgressbar:true,
+                                allow_dismiss: true
+                            });
+
+                        }).fail(function () {
+                            swal('Oops...', 'Server Error please contact web master!', 'error');
+                        })
+
+                                );
+                   
                 });
                 Promise.all(promises)
-                        .then(responseList => {
+                        .then(() => {                            
+                            $.ajax({
+                            url: '{{url(_ADMIN_PREFIX_URL."/calculateresults/0")}}',
+                            type: 'POST',
+                            data: {
+                                "_token": $('meta[name="csrf-token"]').attr('content'),
+                                "id": Id,
+                                "period": period,
+                                "market": market,
+                                "_method": 'PATCH'
+                            },
+                            dataType: 'json',
+
+                        }).done(function (response) {
+                               
                             swal({
                                 title: 'Successfully',
-                                html: 'Thanks !!!' + responseList,
+                                html:  response.message,
                                 type: 'success',
                                 allowOutsideClick: false
                             });
                             window.LaravelDataTables[tbladmin].draw(false);
 
+                        }).fail(function () {
+                            swal('Oops...', 'Server Error please contact web master!', 'error');
+                        })
+                            
+                 
                         })
             });
         },
@@ -223,7 +258,47 @@ $('body').delegate('.calc-result', 'click', function (e) {
     });
     e.preventDefault();
 });
+$('body').delegate('.btn-approve','click',function(e){
+e.preventDefault();
+     var Id = $(this).data('id');
+     swal({
+        title: 'Are you sure?',
+        html: "Are you sure you want to approve this result? <br/><strong style='float:left; margin-top:15px'>Note:</strong><br/> <ul id='note-calc'><li>This process cannot be undone.</li><li>You cannot edit this result after the result is calculated.</li><li>This process might take too long to calculate, so do not turn off the broswer or stop the browser when the process is running.</li></ul></div>",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Process it!',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                      $.ajax({
+                            url: '{{url(_ADMIN_PREFIX_URL."/calculateresults/approveresult")}}',
+                            type: 'POST',
+                            data: {
+                                "_token": $('meta[name="csrf-token"]').attr('content'),
+                                "id": Id                               
+                            },
+                            dataType: 'json',
 
+                        }).done(function (response) {
+                               
+                            swal({
+                                title: 'Successfully',
+                                html:  response.message,
+                                type: 'success',
+                                allowOutsideClick: false
+                            });
+                            window.LaravelDataTables[tbladmin].draw(false);
+
+                        }).fail(function () {
+                            swal('Oops...', 'Server Error please contact web master!', 'error');
+                        })
+            });
+        }
+    });      
+})
 function printErrorMsg(msg) {
     $(".print-error-msg").find("ul").html('');
     $(".print-error-msg").css('display', 'block');

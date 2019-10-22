@@ -52,6 +52,7 @@ class FrontEndController extends Controller {
             $getMarketGameSetting = MarketGameSetting::where('market', $market)->whereIn('game_name', $game)->orderBy('id','ASC')->get();
         }else{
             $getMarketGameSetting = MarketGameSetting::where('market', $market)->where('game_name', $game)->first();
+            $getMarketGameSetting['bet_times'] = (int)$getMarketGameSetting->bet_times;
         }
         
         return response()->json($getMarketGameSetting->jsonSerialize());
