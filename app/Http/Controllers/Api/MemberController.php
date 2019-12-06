@@ -127,7 +127,7 @@ class MemberController extends Controller {
             $getBankAccountNumber = $getBankPlayer->reg_account_number;
             $this->validate($request, [
                 'amount' => "required|numeric|max:$getSettingBankLimit->with_max|min:$getSettingBankLimit->with_min|lte:balance",
-                'recaptcha' =>'required',
+                'recaptcha' => 'required',
                     ], [
                 'amount.required' => 'Please input amount,the field is required',
                 'amount.min' => "Withdraw Amount cannot less then " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_min) . " or greater than " . \CommonFunction::_CurrencyFormat($getSettingBankLimit->with_max) . "!",
@@ -300,7 +300,7 @@ class MemberController extends Controller {
 
             //Save Transaction Bet
             $playerTransaction = new PlayerTransaction;
-            $playerTransaction->invoiceId = 'Bet Game '.$request->input('gamecode');
+            $playerTransaction->invoiceId = 'Bet Game ' . $request->input('gamecode');
             $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
             $playerTransaction->playerid = $this->guard()->user()->id;
             $playerTransaction->gameName = $request->input('gamecode');
@@ -1024,7 +1024,7 @@ class MemberController extends Controller {
 
     public function transactinPeriod(Request $request) {
         $marketcode = $request->input('marketcode');
-        $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->where('isChecked','Y')->get();
+        $getPeriod = GameResult::where('market', $marketcode)->orderBy('period', 'DESC')->where('isChecked', 'Y')->get();
         $period = (int) $getPeriod->max('period') + (int) 1;
 
         $periodListOption = [0 => ['key' => "$marketcode-$period", 'value' => strtoupper("$marketcode-$period")]];
@@ -1048,10 +1048,10 @@ class MemberController extends Controller {
             $listGameTransaction[] = [
                 'gameid' => $item->id,
                 'gamename' => $item->name,
-                'sub' => (int)$item->parent,
-                'buy' => (float)$item->listBetTransaction->sum('buy'),
-                'paid' =>(float)$item->listBetTransaction->sum('pay'),
-                'win' => (float)$item->listBetTransaction->sum('win'),
+                'sub' => (int) $item->parent,
+                'buy' => (float) $item->listBetTransaction->sum('buy'),
+                'paid' => (float) $item->listBetTransaction->sum('pay'),
+                'win' => (float) $item->listBetTransaction->sum('win'),
                 'invoicedetail' => $item->listBetTransaction
             ];
         }
@@ -1059,7 +1059,7 @@ class MemberController extends Controller {
     }
 
     public function doBetQuickGame(Request $request) {
-        
+
         try {
             DB::beginTransaction();
             $member = Member::findOrFail($this->guard()->user()->id);
@@ -1085,7 +1085,7 @@ class MemberController extends Controller {
             $getPeriod = GameResult::where('market', $getBetMarket)->where('isChecked', 'Y')->max('period');
 
             //Save Transaction Bet
-            
+
             $playerTransaction = new PlayerTransaction;
             $playerTransaction->invoiceId = 'Bet Game quick bet';
             $playerTransaction->transid = 'DE-' . (int) round(microtime(true) * 1000);
@@ -1100,18 +1100,18 @@ class MemberController extends Controller {
             $playerTransaction->save();
 
             //Bet Transaction
-            
+
             foreach ($getBetItem as $item) {
                 $gamecode = '';
-                if(strlen($item['numberXd']) == 4){
+                if (strlen($item['numberXd']) == 4) {
                     $gamecode = '4D';
-                }elseif(strlen($item['numberXd']) == 3){
+                } elseif (strlen($item['numberXd']) == 3) {
                     $gamecode = '3D';
-                }elseif(strlen($item['numberXd']) == 2){
+                } elseif (strlen($item['numberXd']) == 2) {
                     $gamecode = '2D';
                 }
                 $getGame = \App\Models\FrontEnd\Game::where('name', $gamecode)->first()->id;
-                
+
                 $betTransaction = new BetTransaction;
                 $betTransaction->gameId = $getGame;
                 $betTransaction->market = $getBetMarket;
@@ -1187,4 +1187,34 @@ class MemberController extends Controller {
         return response()->json($item);
     }
 
+    public function updateProfile(Request $request) {
+        $memberId = $this->guard()->user()->id;
+        $member = Member::findOrFail($memberId);
+        $member->reg_phone = $request->input('phone');
+        $member->reg_name = $request->input('fullname');
+        $member->save();
+        return response()->json(['status' => true]);
+    }
+
+    public function updatePassword(Request $request) {
+        $memberId = $this->guard()->user()->id;
+        $member = Member::findOrFail($memberId);
+
+        $request->merge(['old_password' => $member->reg_password, 'current_input' => _EncryptPwd($request->input('currentpwd')),'password'=>(string)$request->input('newpassword'),'password_confirmation' => (string)$request->input('confirmation')]);
+        $this->validate($request, ['old_password' => 'required|same:current_input', 
+            'password' => 'required_with:password_confirmation|min:6|same:password_confirmation', 'password_confirmation' => 'min:6']);
+        
+        $member->reg_password = _EncryptPwd($request->input('password'));
+        $member->save();
+        return response()->json(['status' => true]);
+    }
+    
+    public function getReferral(){
+         $memberId = $this->guard()->user()->id;
+         $referralList = Member::where('reg_referral',$memberId)->get();
+         return response()->json(['data' => $referralList]);
+    }
+   public function doReferralCommision(Request $request){
+       
+   } 
 }

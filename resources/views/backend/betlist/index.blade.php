@@ -118,6 +118,8 @@ $('#frm-edit').submit(function (e) {
 });
 $('body').on('click','.member-id',function(){
     var id = $(this).data('id');
+     window.LaravelDataTables[tbladmin].data('id',{name:id})
+     window.LaravelDataTables[tbladmin].draw();
     $('#member-filter').val(id).change();
     
 });

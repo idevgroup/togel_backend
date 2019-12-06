@@ -23,7 +23,6 @@ class BetListController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Builder $builder, Request $request) {
-
         if (request()->ajax()) {
             $marketfilter = $request->input('filtermarket');
             $gamefilter = $request->input('filtegame');
@@ -71,6 +70,8 @@ class BetListController extends Controller {
             'data' => "function(d){
                                   d.filtermarket = $('select[name=market]').val();
                                   d.filtegame = $('select[name=cbogame]').val();
+                                  d.memberid = $('#id').data('id');
+                                  
                             }"
         ]);
         return view('backend.betlist.index', compact('html', 'marketGame', 'game'));

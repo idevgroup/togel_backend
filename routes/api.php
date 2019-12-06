@@ -52,4 +52,7 @@ Route::group(['middleware' => ['auth:api','cors'], 'prefix' => 'v1/member', 'nam
     Route::post('checklimitnumerberbet','FrontEndController@checkLimitNumberBet');
     Route::post('transperiodlist','MemberController@transactinPeriod')->name('get.period.transaction');
     Route::post('transgamelist','MemberController@transactionGameList')->name('get.transaction.game.list');
+    Route::post('updateprofile','MemberController@updateProfile')->name('do.update.profile.member');
+    Route::post('updatepassword','MemberController@updatePassword')->name('do.update.password.member');
+    Route::post('getreferral','MemberController@getReferral')->name('do.get.referral.list');
 });
