@@ -18,6 +18,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function() {
     Route::get('banklist', 'FrontEndController@getBank')->name('get.bank.list');
     Route::post('getsetting', 'FrontEndController@getSetting')->name('get.setting.system');
     Route::post('getperiod','FrontEndController@getPeriodMarket')->name('get.period.market');
+    Route::get('gethome','FrontEndController@getHome')->name('get.home.page');
+    Route::get('article/{slug}','FrontEndController@article')->name('get.artcle.category');
+    Route::get('detail/{slug}','FrontEndController@articleDetail')->name('get.article.detail');
+    Route::get('product/{slug}','FrontEndController@product')->name('get.product.category');
+    Route::get('product-detail/{slug}','FrontEndController@productDetail')->name('get.product.detail');
 });
 Route::group(['middleware' => ['guest:api','cors'], 'prefix' => 'v1/member', 'namespace' => 'Api', 'as' => 'v1.member.'], function () {
     Route::post('login', 'MemberAuthController@login')->name('login');
@@ -35,6 +40,8 @@ Route::group(['middleware' => ['auth:api','cors'], 'prefix' => 'v1/member', 'nam
     Route::post('deposit', 'MemberController@doDeposit')->name('deposit');
     Route::post('withdraw', 'MemberController@doWithdraw')->name('withdraw');
     Route::post('getmemberbank', 'MemberController@getBankMember')->name('getmemberbank');
+    Route::post('getmemberbanklist', 'MemberController@getBankMemberList')->name('getmemberbankList');
+    Route::post('addmemberbank', 'MemberController@addBankMember')->name('addmemberbank');
     Route::post('getdepositbank', 'MemberController@getBankOperator')->name('get.bank.operator');
     Route::post('dobetgame','MemberController@betGameAllDigit')->name('do.bet.game');
     Route::post('dobetgame50','MemberController@doBetGame50')->name('do.bet.game.50');

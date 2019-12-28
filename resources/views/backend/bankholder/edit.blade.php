@@ -1,5 +1,5 @@
 @extends('backend.template.main')
-@push('title',trans('bankholder').'-'.trans('trans.edit'))
+@push('title',trans('menu.bankholder').'-'.trans('trans.edit'))
 @section('content')
     {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankholders/'.$record->id),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true,'method' => 'PATCH'])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">

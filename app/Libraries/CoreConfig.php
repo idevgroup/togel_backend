@@ -9,8 +9,8 @@ define('_UPLOAD_DIRE','uploads/');
 define('_DIRE_IS_MONTH',date('m-Y'));
 
 
-define('_IMG_GENSETLOGO_THUM_W',220);
-define('_IMG_GENSETLOGO_THUM_H',220);
+define('_IMG_GENSETLOGO_THUM_W',275);
+define('_IMG_GENSETLOGO_THUM_H',105);
 
 define('_IMG_GENSETICON_THUM_W',32);
 define('_IMG_GENSETICON_THUM_H',45);

@@ -77,7 +77,9 @@ Route::group(array('prefix' => _ADMIN_PREFIX_URL, 'as' => _ADMIN_PREFIX_URL,
         'menusettings' => 'MenuSettingController',
         'result4ds' => 'SetResultController',
         'calculateresults' => 'CalculateResultController',
-        'betlists' => 'BetListController'
+        'betlists' => 'BetListController',
+        'languages' => 'LanguageController',
+        'bankgroupps' => 'BankGroupController'
     ];
     foreach ($ArrMenu as $key => $value) {
         Route::resource("{$key}", "{$value}");

@@ -90,8 +90,7 @@ class PostController extends Controller
         $post->description = $request->shortdesc;
         $post->status = ($request->has('status') == true) ? 1 : 0;
         $post->meta_key = $request->txtmetakey;
-
-        $post->meta_desc = $request->txtmetadesc;
+        $post->meta_desc = substr(strip_tags($request->txtmetadesc),0,200);
         $post->save();
         if ($request->hasFile('bannerfile')) {
             $post->uploadImage($request->file('bannerfile'));
@@ -148,7 +147,7 @@ class PostController extends Controller
         $post->status = ($request->has('status') == true) ? 1 : 0;
         $post->meta_key = $request->txtmetakey;
 
-        $post->meta_desc = $request->txtmetadesc;
+        $post->meta_desc = substr(strip_tags($request->txtmetadesc),0,200);
         $post->save();
         if ($request->hasFile('bannerfile')) {
             $post->uploadImage($request->file('bannerfile'));

@@ -52,8 +52,10 @@
                             @if ($errors->has('currency'))
                             <p class="form-control-feedback">{{ $errors->first('currency') }}</p> @endif
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row @if ($errors->has('timezone')) has-danger @endif">
+                    </div><div class="form-group m-form__group row @if ($errors->has('lang')) has-danger @endif">
+                        {!!Form::label('lang', trans('labels.languagedefault'),['class' => 'col-sm-3 col-form-label'])!!}
+                        <div class="col-sm-5">{!!Form::select('lang',$language,$generalSetting->lang,['class' =>"form-control "])!!}</div></div>
+                     <div class="form-group m-form__group row @if ($errors->has('timezone')) has-danger @endif">
                         {!!Form::label('timezone', trans('labels.timezone'),['class' => 'col-sm-3 col-form-label'])!!}
                         <div class="col-sm-5">
                             <select class="form-control m-input" name="timezone" id="timezone">

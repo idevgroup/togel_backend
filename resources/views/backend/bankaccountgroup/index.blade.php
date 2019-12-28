@@ -1,5 +1,5 @@
 @extends('backend.template.main')
-@push('title',trans('bankaccountgroup'))
+@push('title',trans('menu.bankaccountgroup'))
 @section('content')
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile"  id="main_portlet">
         <div class="m-portlet__head">
@@ -22,7 +22,6 @@
 @endsection
 
 @push('style')
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
 @endpush
 @push('javascript')

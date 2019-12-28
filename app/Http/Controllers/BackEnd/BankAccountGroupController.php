@@ -12,7 +12,7 @@ use Illuminate\Validation\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Builder;
 use Illuminate\Validation\Rule;
-
+use App\Models\BackEnd\BankGroup;
 class BankAccountGroupController extends Controller
 {
     use Authorizable;
@@ -87,7 +87,8 @@ class BankAccountGroupController extends Controller
         $bank_id = Banks::where('status', 1)->pluck('bk_name', 'id')->prepend('Select One', '')->all();
 //        $bank_id = Banks::where('status', 1)->get();
         $bank_holder_id = BankHolder::where('status', 1)->pluck('name', 'id')->prepend('Select One', '')->all();
-        return view('backend.bankaccountgroup.create')->with('bank_id', $bank_id)->with('bank_holder_id', $bank_holder_id);
+        $bank_group = BankGroup::where([['status',1],['is_trashed',0]])->pluck('name','id')->prepend('Select One', '')->all();
+        return view('backend.bankaccountgroup.create')->with('bank_id', $bank_id)->with('bank_holder_id', $bank_holder_id)->with('bank_group',$bank_group);
     }
 
     /**
@@ -103,7 +104,8 @@ class BankAccountGroupController extends Controller
         $this->validate($request, [
             'name' => 'required|min:2',
             'bank_id' => 'required|unique:bank_account_group,bank_id,NULL,NULL,bank_holder_id,' . $request->input('bank_holder_id'),
-            'bank_holder_id' => 'required'
+            'bank_holder_id' => 'required',
+            'bank_group' => 'required'
         ], [
             'name.required' => 'Please Input Name Account Group',
             'name.min' => 'Name is Minimum 2 character',
@@ -115,6 +117,7 @@ class BankAccountGroupController extends Controller
         $bankaccgroup = new BankAccountGroup;
         $bankaccgroup->name = $request->name;
         $bankaccgroup->bank_holder_id = $bank_holder_id;
+       $bankaccgroup->bank_group_id = $request->input('bank_group');
         $bankaccgroup->deposit_min = $request->deposit_min;
         $bankaccgroup->deposit_max = $request->deposit_max;
         $bankaccgroup->withdraw_min = $request->withdraw_min;
@@ -156,10 +159,12 @@ class BankAccountGroupController extends Controller
         $record = BankAccountGroup::find($id);
         $bank_holder_id = BankHolder::where('status', 1)->pluck('name', 'id')->prepend('Select One', '')->all();
         $bank_id = Banks::where('status', 1)->pluck('bk_name', 'id')->prepend('Select One', '')->all();
+         $bank_group = BankGroup::where([['status',1],['is_trashed',0]])->pluck('name','id')->prepend('Select One', '')->all();
         return view('backend.bankaccountgroup.edit')
             ->with('record', $record)
             ->with('bank_holder_id', $bank_holder_id)
-            ->with('bank_id', $bank_id);
+            ->with('bank_id', $bank_id)
+                ->with('bank_group',$bank_group);
     }
 
     /**
@@ -176,7 +181,8 @@ class BankAccountGroupController extends Controller
         $this->validate($request, [
             'name' => 'required|min:2',
             'bank_id' => 'required|unique:bank_account_group,bank_id,' . $id . ',id,bank_holder_id,' . $request->input('bank_holder_id'),
-            'bank_holder_id' => 'required'
+            'bank_holder_id' => 'required',
+             'bank_group' => 'required'
         ], [
             'name.required' => 'Please Input Name Account Group',
             'name.min' => 'Name is Minimum 2 character',
@@ -186,6 +192,7 @@ class BankAccountGroupController extends Controller
         $bank_id = $request->bank_id;
         $bankaccgroup = BankAccountGroup::find($id);
         $bankaccgroup->name = $request->name;
+        $bankaccgroup->bank_group_id = $request->input('bank_group');
         $bankaccgroup->bank_holder_id = $bank_holder_id;
         $bankaccgroup->deposit_min = $request->deposit_min;
         $bankaccgroup->deposit_max = $request->deposit_max;

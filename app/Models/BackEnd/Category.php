@@ -16,14 +16,14 @@ class Category extends Model
     }
     
     public function posts(){
-        return $this->hasMany('App\Models\BackEnd\Post', 'category_id', 'id');
+        return $this->hasMany('App\Models\BackEnd\Post', 'category_id', 'id')->where([['status',1],['is_trashed',0]]);
     }
   
     public function products(){
-        return $this->hasMany('App\Models\BackEnd\Product', 'category_id', 'id');
+        return $this->hasMany('App\Models\BackEnd\Product', 'category_id', 'id')->where([['status',1],['is_trashed',0]]);
     }
     public function dreambooks(){
-        return $this->hasMany('App\Models\BackEnd\DreamBooks', 'category_id', 'id');
+        return $this->hasMany('App\Models\BackEnd\DreamBooks', 'category_id', 'id')->where([['status',1],['is_trashed',0]]);
     }
     protected static $imageFields = [
         'banner' => [

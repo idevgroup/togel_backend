@@ -1,5 +1,5 @@
 @extends('backend.template.main')
-@push('title',trans('bankaccountgroup').'-'.trans('trans.create'))
+@push('title',trans('menu.bankaccountgroup').'-'.trans('trans.create'))
 @section('content')
     {!!Form::open(['url' =>url(_ADMIN_PREFIX_URL.'/bankaccountgroups'),'class' =>' m-form--state m-form m-form--fit m-form--label-align-right','id'=>'idev-form','files'=>true])!!}
     <div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile" id="main_portlet">
@@ -19,6 +19,13 @@
             </div>
         </div>
         <div class="m-portlet__body">
+              <div class="form-group m-form__group row @if ($errors->has('bank_group')) has-danger @endif">
+                {!!Form::label('bank_group',trans('labels.bankgroup'),['class' => 'col-sm-3 col-form-label required'])!!}
+                <div class="col-sm-5">
+                    {!!Form::select('bank_group',$bank_group,old('bank_group'),['class'=>'form-control m-input'])!!}
+                     @if ($errors->has('bank_group')) <p class="form-control-feedback">{{ $errors->first('bank_group') }}</p> @endif
+                </div>
+            </div>
             <div class="form-group m-form__group row @if ($errors->has('name')) has-danger @endif">
                 {!!Form::label('name',trans('labels.bankaccountgroupname'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
@@ -30,6 +37,7 @@
                 {!!Form::label('bank_holder_id',trans('labels.bankholdername'),['class' => 'col-sm-3 col-form-label required'])!!}
                 <div class="col-sm-5">
                     {!!Form::select('bank_holder_id',$bank_holder_id,old('bank_holder_id'),['class'=>'form-control m-input'])!!}
+                     @if ($errors->has('bank_holder_id')) <p class="form-control-feedback">{{ $errors->first('bank_holder_id') }}</p> @endif
                 </div>
             </div>
             <div class="form-group m-form__group row @if ($errors->has('bank_id')) has-danger @endif">

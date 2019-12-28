@@ -19,7 +19,7 @@ use App\Models\FrontEnd\BetTransaction;
 use App\Models\FrontEnd\GameResult;
 use App\Models\FrontEnd\Game;
 use DB;
-
+use App\Http\Requests\MemberBankRequest;
 class MemberController extends Controller {
 
     public function __construct(JWTAuth $auth) {
@@ -181,8 +181,37 @@ class MemberController extends Controller {
         }
         return response()->json($memberBankList);
     }
+  public function getBankMemberList(Request $request) {
+        $memberId = $this->guard()->user()->id;
+        try {
+            $query = PlayerBank::where('reg_id', $memberId)->with(['getBank'])->get();
+        } catch (\Exception $e) {
+            \Log::error('Get Member Bank List');
+            \Log::info(\URL::current());
+            \Log::error($e);
+        }
+        return response()->json($query);
+    }
+   public function addBankMember(MemberBankRequest $request){
+        $memberId = $this->guard()->user()->id;
+        try {
+           $bank = new PlayerBank;
+           $bank->reg_id = $memberId;
+           $bank->reg_bk_id = $request->input('bank');
+           $bank->reg_account_name = $request->input('accountname');
+           $bank->reg_account_number = $request->input('accountid');
+           $bank->save();
+           $success = true;
+        } catch (\Exception $e) {
+            \Log::error('Add Member Bank');
+            \Log::info(\URL::current());
+            \Log::error($e);
+            $success = false;
+        }
+         return response()->json($success);
+   }
 
-    public function getBankOperator(Request $request) {
+   public function getBankOperator(Request $request) {
         $memberBankId = $request->input('memberBankId');
         $bankOperator = array(['id' => null, 'bank' => 'Select One']);
         try {

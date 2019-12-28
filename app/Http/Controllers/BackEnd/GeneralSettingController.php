@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BackEnd\GeneralSetting;
 use function Opis\Closure\serialize;
 use App\Models\BackEnd\MailConfig;
-
+use App\Models\Backend\Language;
 class GeneralSettingController extends Controller
 {
     /**
@@ -19,9 +19,11 @@ class GeneralSettingController extends Controller
     {
         $generalSetting = GeneralSetting::first();
         $mailConfig = MailConfig::first();
+        $language  = Language::where('status',1)->pluck('name','id')->all();
         return view('backend.systemsetting.generalsetting.create')
         ->with('generalSetting', $generalSetting)
-        ->with('mailConfig', $mailConfig);
+        ->with('mailConfig', $mailConfig)
+        ->with('language',$language);
     }
 
     /**
@@ -76,43 +78,7 @@ class GeneralSettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*
-       \Log::info($request->all());
-        // dd($request->input('id'),$request->input('currency'));
-        if (request()->ajax()) {
-            // dd($request->all());
-             $id = $request->input('id');
-           
-             if($id){
-                $generalSetting = GeneralSetting::find($id);
-                $generalSetting->currency = $request->input('currency');
-                $generalSetting->timezone = $request->input('timezone');
-                if($request->hasFile('logo')){
-                    $generalSetting->uploadImage($request->file('logo'));
-                }
-                if ($request->hasFile('icon')) {
-                    $generalSetting->uploadImage($request->file('icon'));
-                }
-                // dd($request->input('logo'));
-                $generalSetting->save();
-                return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
-             }
-             else{
-                $generalSetting = new GeneralSetting;
-                $generalSetting->currency = $request->input('currency');
-                $generalSetting->timezone = $request->input('timezone');
-                if($request->hasFile('logo')){
-                    $generalSetting->uploadImage($request->file('logo'));
-                }
-                if ($request->hasFile('icon')) {
-                    $generalSetting->uploadImage($request->file('icon'));
-                }
-                // dd($request->input('logo'));
-                $generalSetting->save();
-                return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
-             }
-        }
-        */
+       
         $general_id = $request->input('general_id');
         if($general_id){
             //$test = $request->file('logo');
@@ -121,6 +87,7 @@ class GeneralSettingController extends Controller
             $generalSetting = GeneralSetting::find($general_id);
             $generalSetting->currency = $request->input('currency');
             $generalSetting->timezone = $request->input('timezone');
+            $generalSetting->lang = $request->input('lang');
             if ($request->hasFile('logo')) {
                 $generalSetting->uploadImage($request->file('logo'));
             }
@@ -133,36 +100,6 @@ class GeneralSettingController extends Controller
                 return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
             } 
         }
-        /*
-        else{
-            $generalSetting = new GeneralSetting;
-            $generalSetting->currency = $request->input('currency');
-            $generalSetting->timezone = $request->input('timezone');
-            if ($request->hasFile('logo')) {
-                $generalSetting->uploadImage($request->file('logo'));
-            }
-            if ($request->hasFile('icon')) {
-                $generalSetting->uploadImage($request->file('icon'));
-            }
-            $generalSetting->save();
-            \Alert::success(trans('menu.generalsetting') . trans('trans.messageupdatesuccess'), trans('trans.success'));
-            if ($request->has('btnsaveclose')) {
-                return redirect(_ADMIN_PREFIX_URL . '/generalsettings');
-            } 
-        }
-        // dd($request->all());
-        
-         "mailFromName" => "lyhuoth"
-        "mailFromAddress" => "kov.lyhuoth@outlook.com"
-        "smtp" => "POP3"
-        "mailHost" => "smtp.mailtrap.io"
-        "mailPort" => "2525"
-        "mailUserName" => "lyhuoth"
-        "mailPassword" => "lyhuoth123456789"
-        "timezone" => "tls"
-        "btnsavecloseGeneral" => null
-        */
-        // dd($request->mailConfig_id);
         $mailConfig_id = $request->input('mailConfig_id');
         if($mailConfig_id){
             $mailconfig = MailConfig::find($mailConfig_id);

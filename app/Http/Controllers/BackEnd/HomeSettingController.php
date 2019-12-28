@@ -109,6 +109,7 @@ class HomeSettingController extends Controller
                 $homesetting->sc_description = $request->input('description');
                 $homesetting->sc_ipfilter_alias_exception = $request->input('ipfilter_alias_exception');
                 $homesetting->currency = $request->input('currency');
+                $homesetting->desc_bottom = $request->input('desc_bottom');
                 $homesetting->save();
                 // return response()->json(['title' => trans('trans.success'), 'message' => trans('trans.messageupdatesuccess'), 'status' => 'success']);
                 \Alert::success(trans('menu.setting') . trans('trans.messageupdatesuccess'), trans('trans.success'));

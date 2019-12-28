@@ -1,8 +1,7 @@
 <script type="text/javascript">
     $(document).on('click', '.delete_action', function (e) {
 
-        var Id = {!! $vid !!}
-        ;
+        var Id = {!! $vid !!};
         // var parent = $(this).parent("td").parent("tr");
         swal({
             title: 'Are you sure?',

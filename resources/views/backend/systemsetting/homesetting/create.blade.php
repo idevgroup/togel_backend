@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div class="form-group m-form__group row @if ($errors->has('currency')) has-danger @endif">
+        <div class="form-group m-form__group row @if ($errors->has('currency')) has-danger @endif d-none">
             {!!Form::label('currency', trans('labels.currency'),['class' => 'col-sm-3 col-form-label'])!!}
             <div class="col-sm-7">
                 <select class="form-control m-input" name="currency" id="currency">
@@ -184,7 +184,7 @@
                 <p class="form-control-feedback">{{ $errors->first('currency') }}</p> @endif
             </div>
         </div>
-        <div class="form-group m-form__group row @if ($errors->has('ipfilter_alias_exception')) has-danger @endif">
+        <div class="form-group m-form__group row @if ($errors->has('ipfilter_alias_exception')) has-danger @endif d-none">
             {!!Form::label('ipfilter_alias_exception', trans('labels.exception_keyword'),['class' => 'col-sm-3 col-form-label required'])!!}
             <div class="col-sm-7">
 
@@ -193,7 +193,13 @@
 
             </div>
         </div>
-        
+          <div class="form-group m-form__group row">
+                {!!Form::label('desc_bottom',trans('labels.description').' Bottom',['class' => 'col-sm-3 col-form-label'])!!}
+                <div class="col-sm-7">
+                    {!!Form::textarea('desc_bottom',old('desc_bottom',$record->desc_bottom),['rows' => 8,'class' => 'form-control m-input cms-editor'])!!}
+                </div>
+          </div>
+
     </div>
 </div>
 {!!Form::close()!!} @endsection @push('style')
